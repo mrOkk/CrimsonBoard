@@ -1,0 +1,38 @@
+using System.Collections.Generic;
+
+namespace CrimsonBoard
+{
+    /// <summary>
+    /// Owns and drives a list of IGameSystem objects.
+    /// Called by GameplayState each frame.
+    /// Add systems via RegisterSystem() before Initialize().
+    /// </summary>
+    public class GameplaySystemRunner
+    {
+        private readonly List<IGameSystem> _systems = new List<IGameSystem>();
+
+        public void RegisterSystem(IGameSystem system)
+        {
+            _systems.Add(system);
+        }
+
+        public void Initialize()
+        {
+            foreach (var system in _systems)
+                system.Initialize();
+        }
+
+        public void Tick(float deltaTime)
+        {
+            foreach (var system in _systems)
+                system.Tick(deltaTime);
+        }
+
+        public void Dispose()
+        {
+            foreach (var system in _systems)
+                system.Dispose();
+            _systems.Clear();
+        }
+    }
+}
