@@ -24,3 +24,7 @@ Helper scripts: `tools/worklog.py` (phase transitions), `tools/git_branch.py` (b
 ---
 
 See [`docs/project-structure.md`](../docs/project-structure.md) for Unity version, rendering pipeline, packages, conventions, and repo layout.
+
+## Git Conventions
+
+- **Do not** add `Co-authored-by:` trailers to commit messages.
