@@ -43,5 +43,5 @@
 3. Commit all new files.
 
 ## Implementation
-
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** Created EntryPoint.cs MonoBehaviour; Awake creates GameContext and GameStateMachine then enters InitState; Update ticks the FSM each frame.

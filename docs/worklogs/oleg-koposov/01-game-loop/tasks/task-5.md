@@ -171,5 +171,5 @@
 7. Commit all new files.
 
 ## Implementation
-
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** Created all five state stubs (InitState, TapToStartState, GameplayState, PauseState, GameOverState) each implementing IGameState with constructor injection of GameContext and GameStateMachine; GameplayState owns a GameplaySystemRunner.

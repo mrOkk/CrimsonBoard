@@ -63,5 +63,5 @@
 3. Commit all new files.
 
 ## Implementation
-
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** Created GameStateMachine.cs with ChangeState, RequestPause, ResumePreviousState, and Tick; tracks current and previous states.

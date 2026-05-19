@@ -32,5 +32,5 @@
 3. Commit all new files.
 
 ## Implementation
-
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** Created Core/, States/, and Gameplay/ subdirectories under Assets/Scripts/ with paired Unity .meta folder assets.
