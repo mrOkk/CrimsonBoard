@@ -6,7 +6,6 @@ namespace CrimsonBoard
     public class PlayerConfig
     {
         public Mesh mesh;
-        public GameObject prefab;
         public int health;
         public int movesPerBeat;
     }
