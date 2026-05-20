@@ -37,5 +37,5 @@
 3. Проверить, что `InitState` и другие состояния, которые принимают `GameContext`, компилируются без изменений (конструктор GameContext теперь требует аргумент).
 
 ## Implementation
-
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** `GameContext` получил публичное свойство `Config` и конструктор с параметром `GameConfig config`. `EntryPoint` получил `[SerializeField] private GameConfig _config` и передаёт конфиг в конструктор контекста.

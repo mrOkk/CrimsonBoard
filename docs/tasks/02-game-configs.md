@@ -41,3 +41,5 @@
 **[Copilot, 2026-05-19]:** Добавлена заготовка задачи `game-configs` с полным списком требуемых данных для будущей реализации ScriptableObject-конфигов.
 
 **[Copilot, 2026-05-20]:** Discovery complete. Approach: один `GameConfig : ScriptableObject` с 4 вложенными `[Serializable]`-классами (PlayerConfig, EnemyConfig, WeaponConfig, TimingConfig), интегрированный в GameContext и EntryPoint через сериализованное поле. Scope: только C#-скрипты; .asset создаётся вручную в редакторе.
+
+**[Copilot, 2026-05-20]:** Implementation complete. Создан `GameConfig : ScriptableObject` с четырьмя `[Serializable]`-структурами данных (игрок, враг, оружие, тайминги) и прямыми ссылками на префабы павер-апа и проджектайла. `GameContext` и `EntryPoint` обновлены для передачи конфига через конструктор и инспектор соответственно.

@@ -87,5 +87,5 @@
 7. Убедиться, что у всех `.cs`-файлов в папке `Configs/` пространство имён `CrimsonBoard` и все `using UnityEngine;` проставлены.
 
 ## Implementation
-
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** Создана папка `Core/Configs/` с пятью файлами: `PlayerConfig`, `EnemyConfig`, `WeaponConfig`, `TimingConfig` и `GameConfig : ScriptableObject`. Все структуры в пространстве имён `CrimsonBoard` с атрибутом `[System.Serializable]`; `GameConfig` имеет `[CreateAssetMenu]` для создания ассета через меню Unity.

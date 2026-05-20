@@ -8,14 +8,15 @@
 | `branch` | `feature/02-game-configs` |
 | `user_key` | `oleg-koposov` |
 | `current_phase` | `3`|
-| `status` | `active` |
+| `status` | `done`|
 | `created_at` | `2026-05-20T05:18:57Z` |
-| `updated_at` | `2026-05-20T05:33:54Z`|
+| `updated_at` | `2026-05-20T05:36:08Z`|
 
 ## Phase History
 
 | When | From → To | Note |
 |---|---|---|
+| 2026-05-20T05:36:08Z | active → done | Implemented by wf-implement |
 | 2026-05-20T05:33:54Z | 2 → 3 | Plan signed off |
 | 2026-05-20T05:31:30Z | 1 → 2 | Discovery signed off |
 | 2026-05-20T05:18:57Z | — → 1 | Created by wf-start |
@@ -74,9 +75,21 @@
 | `CB-client/Assets/Scripts/Core/GameContext.cs` | Modify | Добавить поле `Config` |
 | `CB-client/Assets/Scripts/Core/EntryPoint.cs` | Modify | Добавить [SerializeField] и прокинуть в контекст |
 
-- [ ] [Task 1: Config scripts](tasks/task-1.md)
-- [ ] [Task 2: Wire into GameContext and EntryPoint](tasks/task-2.md)
+- [x] [Task 1: Config scripts](tasks/task-1.md)
+- [x] [Task 2: Wire into GameContext and EntryPoint](tasks/task-2.md)
 
 ## What we did
 
-<!-- Filled manually or by wf-implement at phase end. -->
+Добавлен ScriptableObject-конфиг `GameConfig`, доступный через меню *Create → CrimsonBoard → GameConfig* в Unity.
+Конфиг содержит данные четырёх сущностей:
+- **Игрок** — ссылка на меш, префаб, здоровье, количество движений в такт.
+- **Враг** — набор вариантов мешей, префаб, здоровье, урон, движения в такт.
+- **Оружие** — набор вариантов мешей, префаб, урон, скорострельность (выстрелов в такт), разброс, скорость поворота, коэффициент скорости движения.
+- **Тайминги** — длительность такта и фазы.
+
+Также хранит прямые ссылки на префабы павер-апа и проджектайла.
+
+`GameContext` теперь принимает конфиг через конструктор и хранит его как публичное свойство.
+`EntryPoint` получает ассет конфига через инспектор (перетащить `.asset`-файл в поле) и передаёт его в контекст при старте.
+
+
