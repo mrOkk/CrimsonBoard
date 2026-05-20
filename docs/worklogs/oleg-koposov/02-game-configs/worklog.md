@@ -7,15 +7,16 @@
 | `task_file` | `docs/tasks/02-game-configs.md` |
 | `branch` | `feature/02-game-configs` |
 | `user_key` | `oleg-koposov` |
-| `current_phase` | `2`|
+| `current_phase` | `3`|
 | `status` | `active` |
 | `created_at` | `2026-05-20T05:18:57Z` |
-| `updated_at` | `2026-05-20T05:31:30Z`|
+| `updated_at` | `2026-05-20T05:33:54Z`|
 
 ## Phase History
 
 | When | From → To | Note |
 |---|---|---|
+| 2026-05-20T05:33:54Z | 2 → 3 | Plan signed off |
 | 2026-05-20T05:31:30Z | 1 → 2 | Discovery signed off |
 | 2026-05-20T05:18:57Z | — → 1 | Created by wf-start |
 
@@ -58,8 +59,23 @@
 
 ## Tasks
 
-<!-- Filled by wf-plan: cross-cutting Goal/Architecture/File-structure headers
-     + checkbox list of Tasks linking to tasks/task-<N>.md. -->
+**Goal:** Создать скаффолд ScriptableObject-конфига для всех ключевых сущностей игры (игрок, враг, оружие, павер-ап, проджектайл, тайминги) и подключить его к `GameContext` через `EntryPoint`.
+
+**Architecture:** Один `GameConfig : ScriptableObject` агрегирует четыре `[Serializable]`-структуры (`PlayerConfig`, `EnemyConfig`, `WeaponConfig`, `TimingConfig`) и два прямых поля-префаба для павер-апа и проджектайла. `GameContext` хранит `GameConfig` как публичное свойство, `EntryPoint` получает его через `[SerializeField]` и передаёт в конструктор контекста.
+
+**File structure:**
+| Path | Type | Purpose |
+|---|---|---|
+| `CB-client/Assets/Scripts/Core/Configs/PlayerConfig.cs` | Create | [Serializable] данные игрока |
+| `CB-client/Assets/Scripts/Core/Configs/EnemyConfig.cs` | Create | [Serializable] данные врага |
+| `CB-client/Assets/Scripts/Core/Configs/WeaponConfig.cs` | Create | [Serializable] данные оружия |
+| `CB-client/Assets/Scripts/Core/Configs/TimingConfig.cs` | Create | [Serializable] тайминги такта/фазы |
+| `CB-client/Assets/Scripts/Core/Configs/GameConfig.cs` | Create | ScriptableObject-контейнер всех конфигов |
+| `CB-client/Assets/Scripts/Core/GameContext.cs` | Modify | Добавить поле `Config` |
+| `CB-client/Assets/Scripts/Core/EntryPoint.cs` | Modify | Добавить [SerializeField] и прокинуть в контекст |
+
+- [ ] [Task 1: Config scripts](tasks/task-1.md)
+- [ ] [Task 2: Wire into GameContext and EntryPoint](tasks/task-2.md)
 
 ## What we did
 
