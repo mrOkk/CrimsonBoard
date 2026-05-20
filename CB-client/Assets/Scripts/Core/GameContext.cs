@@ -8,9 +8,12 @@ namespace CrimsonBoard
     {
         public static GameContext Instance { get; private set; }
 
-        public GameContext()
+        public GameConfig Config { get; }
+
+        public GameContext(GameConfig config)
         {
             Instance = this;
+            Config = config;
         }
     }
 }

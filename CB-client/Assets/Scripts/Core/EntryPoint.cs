@@ -8,11 +8,13 @@ namespace CrimsonBoard
     /// </summary>
     public class EntryPoint : MonoBehaviour
     {
+        [SerializeField] private GameConfig _config;
+
         private GameStateMachine _fsm;
 
         private void Awake()
         {
-            var context = new GameContext();
+            var context = new GameContext(_config);
             _fsm = new GameStateMachine();
             _fsm.ChangeState(new InitState(context, _fsm));
         }
