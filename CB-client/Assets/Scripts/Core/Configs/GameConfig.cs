@@ -9,6 +9,7 @@ namespace CrimsonBoard
         public EnemyConfig enemy;
         public WeaponConfig weapon;
         public TimingConfig timing;
+        public BoardConfig board;
         public PrefabsConfig prefabs;
     }
 }

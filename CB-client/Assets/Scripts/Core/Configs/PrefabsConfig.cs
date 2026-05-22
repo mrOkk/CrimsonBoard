@@ -10,5 +10,6 @@ namespace CrimsonBoard
         public GameObject weaponPrefab;
         public GameObject powerUpPrefab;
         public GameObject projectilePrefab;
+        public GameObject tilePrefab;
     }
 }
