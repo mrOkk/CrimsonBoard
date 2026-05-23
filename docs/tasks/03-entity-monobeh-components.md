@@ -3,10 +3,11 @@
 ## Description
 
 Подготовить задачу на базовые MonoBehaviour-компоненты игровых сущностей и их специализированные варианты.
+Заменить GameObject в конфиге префабов.
 
 Требования по сущностям:
 - Общий класс игровой сущности (база для игрока и врага):
-  - `MeshRenderer`;
+  - `MeshFilter`;
   - `Rigidbody`;
   - `Collider`.
 - Игрок:
@@ -20,6 +21,9 @@
 - Павер-ап:
   - `SpriteRenderer`;
   - `Collider`.
+- Тайл доски
+  - `MeshFilter`
+  
 
 Ожидаемый результат:
 - заготовки компонентов и/или префабов для перечисленных типов объектов;
@@ -28,3 +32,5 @@
 ## Comments
 
 **[Copilot, 2026-05-19]:** Добавлена заготовка задачи на MonoBehaviour-компоненты для базовой сущности, игрока, врага, оружия и павер-апов.
+
+**[Copilot, 2026-05-23]:** Implementation complete. Созданы 6 MonoBehaviour-заготовок (EntityView, PlayerView, EnemyView, WeaponView, PowerUpView, BoardTileView) в Scripts/Entities/; PrefabsConfig обновлён с GameObject на типизированные ссылки.
