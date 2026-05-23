@@ -33,4 +33,4 @@
 
 **[Copilot, 2026-05-19]:** Добавлена заготовка задачи на MonoBehaviour-компоненты для базовой сущности, игрока, врага, оружия и павер-апов.
 
-**[Copilot, 2026-05-23]:** Discovery complete. Approach: иерархия наследования MonoBehaviour (EntityView → PlayerView/EnemyView) + типизированные ссылки в PrefabsConfig. Scope in: 6 новых C#-классов в Scripts/Entities/, правка PrefabsConfig. Scope out: .prefab-файлы, projectilePrefab, логика поведения.
+**[Copilot, 2026-05-23]:** Implementation complete. Созданы 6 MonoBehaviour-заготовок (EntityView, PlayerView, EnemyView, WeaponView, PowerUpView, BoardTileView) в Scripts/Entities/; PrefabsConfig обновлён с GameObject на типизированные ссылки.

@@ -32,5 +32,5 @@
    `projectilePrefab` остаётся `GameObject` — вне скопа этой задачи.
 
 ## Implementation
-
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** В `PrefabsConfig.cs` заменены 5 полей с `GameObject` на `PlayerView`, `EnemyView`, `WeaponView`, `PowerUpView`, `BoardTileView`. `projectilePrefab` оставлен `GameObject` согласно скопу.

@@ -75,9 +75,9 @@
 | `CB-client/Assets/Scripts/Entities/BoardTileView.cs` | Create | Тайл: RequireComponent(MeshFilter) |
 | `CB-client/Assets/Scripts/Core/Configs/PrefabsConfig.cs` | Modify | Замена GameObject → типизированных MonoBehaviour для 5 полей |
 
-- [ ] [Task 1: Entity view scripts](tasks/task-1.md)
-- [ ] [Task 2: Update PrefabsConfig](tasks/task-2.md)
+- [x] [Task 1: Entity view scripts](tasks/task-1.md)
+- [x] [Task 2: Update PrefabsConfig](tasks/task-2.md)
 
 ## What we did
 
-<!-- Filled manually or by wf-implement at phase end. -->
+Добавлена иерархия MonoBehaviour-компонентов для всех типов игровых сущностей. Базовый компонент содержит ссылки на физические и визуальные Unity-компоненты (меш, коллайдер, rigidbody). Компонент игрока расширяет базовый локатором для крепления оружия. Компонент врага выделен в отдельный тип без дополнительных полей. Оружие, павер-ап и тайл доски реализованы как самостоятельные компоненты с соответствующими сериализованными ссылками. Конфиг префабов переведён с нетипизированных `GameObject` на конкретные компоненты — это позволяет безопасно получать нужный тип без лишних вызовов `GetComponent` при инстанцировании.

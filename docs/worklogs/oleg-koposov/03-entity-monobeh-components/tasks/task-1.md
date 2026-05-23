@@ -114,5 +114,5 @@
    ```
 
 ## Implementation
-
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** Создано 6 файлов в `Scripts/Entities/`: EntityView (поля MeshFilter/Rigidbody/Collider), PlayerView (+ WeaponLocator), EnemyView (пустой), WeaponView (MeshFilter/PlayerAttachPoint/MuzzlePoint), PowerUpView (SpriteRenderer/Collider), BoardTileView (MeshFilter). Отклонений от плана нет.
