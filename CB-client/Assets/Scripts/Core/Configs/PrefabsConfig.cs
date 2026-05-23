@@ -5,11 +5,11 @@ namespace CrimsonBoard
     [System.Serializable]
     public class PrefabsConfig
     {
-        public GameObject playerPrefab;
-        public GameObject enemyPrefab;
-        public GameObject weaponPrefab;
-        public GameObject powerUpPrefab;
+        public PlayerView playerPrefab;
+        public EnemyView enemyPrefab;
+        public WeaponView weaponPrefab;
+        public PowerUpView powerUpPrefab;
         public GameObject projectilePrefab;
-        public GameObject tilePrefab;
+        public BoardTileView tilePrefab;
     }
 }
