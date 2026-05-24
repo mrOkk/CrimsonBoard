@@ -8,17 +8,20 @@ namespace CrimsonBoard
         private readonly T _prefab;
         private readonly Transform _container;
         private readonly Queue<T> _available = new Queue<T>();
+        private readonly System.Action<T> _onCreate;
 
-        public ObjectPool(T prefab, int prewarmCount)
+        public ObjectPool(T prefab, int prewarmCount, System.Action<T> onCreate = null)
         {
             _prefab = prefab;
             _container = new GameObject($"[Pool] {typeof(T).Name}").transform;
+            _onCreate = onCreate;
             Prewarm(prewarmCount);
         }
 
         private T Create()
         {
             var instance = Object.Instantiate(_prefab, _container);
+            _onCreate?.Invoke(instance);
             instance.gameObject.SetActive(false);
             return instance;
         }
