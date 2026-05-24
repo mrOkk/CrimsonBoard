@@ -14,6 +14,7 @@ namespace CrimsonBoard
             _fsm = fsm;
             _systemRunner = new GameplaySystemRunner();
             _systemRunner.RegisterSystem(new GameFieldSystem(context));
+            _systemRunner.RegisterSystem(new PlayerSpawnSystem(context));
         }
 
         public void Enter()

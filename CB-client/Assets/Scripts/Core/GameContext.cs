@@ -10,6 +10,7 @@ namespace CrimsonBoard
 
         public GameConfig Config { get; }
         public GamePools Pools { get; set; }
+        public PlayerView Player { get; set; }
 
         public GameContext(GameConfig config)
         {
