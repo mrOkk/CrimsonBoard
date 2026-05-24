@@ -27,4 +27,4 @@
 
 ## Comments
 
-**[Copilot, 2026-05-19]:** Добавлена заготовка задачи на пулы объектов (враги, оружие, усиления) с созданием в фазе инициализации.
+**[Copilot, 2026-05-24]:** Discovery complete. Approach: generic `ObjectPool<T>` (pre-warm + grow) + `GamePools`-агрегатор в `GameContext`, инициализация в `InitState`. Scope: in — пулы, `ProjectileView`-stub, обновление `PrefabsConfig` и `GameContext`; out — логика спауна, назначение мешей, поведение снарядов.
