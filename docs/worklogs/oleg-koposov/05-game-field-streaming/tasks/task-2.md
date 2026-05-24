@@ -36,4 +36,5 @@
      - `return new Vector3(coord.x * chunkWorldSize_x, 0f, coord.y * chunkWorldSize_z);`
 
 ## Implementation
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** Создан `ChunkView` с `Initialize`/`Setup`/`Clear` — динамически создаёт тайлы как дочерние объекты при первом вызове, расставляет их по сетке с чередованием мешей в `Setup`. Создан `ChunkCoordConverter` со статическими методами `WorldToChunk` и `ChunkToWorld`.
