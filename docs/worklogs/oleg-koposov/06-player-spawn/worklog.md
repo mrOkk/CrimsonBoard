@@ -8,14 +8,15 @@
 | `branch` | `feature/06-player-spawn` |
 | `user_key` | `oleg-koposov` |
 | `current_phase` | `3`|
-| `status` | `active` |
+| `status` | `done`|
 | `created_at` | `2026-05-24T18:01:32Z` |
-| `updated_at` | `2026-05-24T18:34:00Z`|
+| `updated_at` | `2026-05-24T18:35:14Z`|
 
 ## Phase History
 
 | When | From → To | Note |
 |---|---|---|
+| 2026-05-24T18:35:14Z | active → done | Implemented by wf-implement |
 | 2026-05-24T18:34:00Z | 2 → 3 | Plan signed off |
 | 2026-05-24T18:31:48Z | 1 → 2 | Discovery signed off |
 | 2026-05-24T18:01:32Z | — → 1 | Created by wf-start |
@@ -70,4 +71,8 @@
 
 ## What we did
 
-<!-- Filled manually or by wf-implement at phase end. -->
+Реализован спавн игрока при старте геймплея.
+
+- При первом входе в игровой режим создаётся объект игрока из префаба конфига, ему назначается меш из настроек, и он размещается в центре стартовой области поля.
+- При повторном старте раунда существующий объект игрока перемещается в стартовую позицию без пересоздания.
+- Ссылка на активного игрока доступна через общий контекст для всех будущих систем.

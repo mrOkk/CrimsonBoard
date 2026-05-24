@@ -26,4 +26,4 @@
 
 ## Comments
 
-**[Copilot, 2026-05-24]:** Discovery complete. Approach: `PlayerSpawnSystem : IGameSystem` — первый спавн через `Instantiate`, ре-спавн через reposition; позиция = центр чанка (0,0); ссылка хранится в `GameContext.Player`. Scope: in — система спавна, `GameContext.Player`, регистрация в `GameplayState`; out — движение, урон, события смерти.
+**[Copilot, 2026-05-24]:** Implementation complete. Создан `PlayerSpawnSystem`: при первом старте размещает игрока в центре стартового чанка, при ре-спавне — перемещает существующий объект; ссылка на игрока хранится в `GameContext.Player`.
