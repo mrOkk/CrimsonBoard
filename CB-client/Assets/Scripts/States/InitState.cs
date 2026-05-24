@@ -16,7 +16,8 @@ namespace CrimsonBoard
         public void Enter()
         {
             Debug.Log("[InitState] Enter");
-            // TODO: load resources, init UI, load configs
+            _context.Pools = new GamePools(_context.Config.prefabs);
+            Debug.Log("[InitState] Pools initialized.");
             _fsm.ChangeState(new TapToStartState(_context, _fsm));
         }
 
