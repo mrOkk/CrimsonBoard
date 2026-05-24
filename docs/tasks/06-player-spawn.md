@@ -26,4 +26,4 @@
 
 ## Comments
 
-**[Copilot, 2026-05-19]:** Добавлена заготовка задачи на спавн игрока с учетом интеграции в цикл игры, поле и компоненты сущностей.
+**[Copilot, 2026-05-24]:** Discovery complete. Approach: `PlayerSpawnSystem : IGameSystem` — первый спавн через `Instantiate`, ре-спавн через reposition; позиция = центр чанка (0,0); ссылка хранится в `GameContext.Player`. Scope: in — система спавна, `GameContext.Player`, регистрация в `GameplayState`; out — движение, урон, события смерти.
