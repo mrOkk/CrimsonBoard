@@ -7,15 +7,16 @@
 | `task_file` | `docs/tasks/08-grid-movement.md` |
 | `branch` | `feature/08-grid-movement` |
 | `user_key` | `oleg-koposov` |
-| `current_phase` | `2`|
+| `current_phase` | `3`|
 | `status` | `active` |
 | `created_at` | `2026-05-24T19:14:08Z` |
-| `updated_at` | `2026-05-24T19:24:34Z`|
+| `updated_at` | `2026-05-24T19:26:19Z`|
 
 ## Phase History
 
 | When | From → To | Note |
 |---|---|---|
+| 2026-05-24T19:26:19Z | 2 → 3 | Plan signed off |
 | 2026-05-24T19:24:34Z | 1 → 2 | Discovery signed off |
 | 2026-05-24T19:14:08Z | — → 1 | Created by wf-start |
 
@@ -54,8 +55,27 @@
 
 ## Tasks
 
-<!-- Filled by wf-plan: cross-cutting Goal/Architecture/File-structure headers
-     + checkbox list of Tasks linking to tasks/task-<N>.md. -->
+**Goal:** Реализовать клеточное движение для игрока: центральный `GridMovementSystem` проверяет занятость клеток и разрешает конфликты с HealthSystem, `PlayerMovementSystem` читает WASD/стик через InputSystem_Actions, поддерживает 8 направлений с задержкой по конфигу, поворачивает стрелочный индикатор направления.
+
+**Architecture:** `GridMovementSystem.TryMove` — единственная точка входа для логического перемещения любой сущности; обновляет OccupancyMap, transform и CurrentCell, при столкновении вызывает HealthSystem. `PlayerMovementSystem` реализует ввод + кулдаун и делегирует TryMove. Tile-координаты (не chunk-уровень) добавляются в ChunkCoordConverter.
+
+**File structure:**
+| Path | Type | Purpose |
+|---|---|---|
+| `Core/GameField/ChunkCoordConverter.cs` | Modify | добавить WorldToTile/TileToWorld |
+| `Entities/EntityView.cs` | Modify | добавить CurrentCell |
+| `Entities/PlayerView.cs` | Modify | добавить DirectionIndicator |
+| `Core/Systems/MoveResult.cs` | Create | enum Moved/Blocked/Combat |
+| `Core/Systems/GridMovementSystem.cs` | Create | TryMove + OccupancyMap + HealthSystem |
+| `Core/Systems/PlayerMovementSystem.cs` | Create | InputSystem_Actions, 8 dir, cooldown, indicator |
+| `Core/Systems/PlayerSpawnSystem.cs` | Modify | OccupancyMap.Register + CurrentCell при спавне |
+| `Core/Systems/HealthSystem.cs` | Modify | реальный move transform через TileToWorld |
+| `States/GameplayState.cs` | Modify | регистрация GridMovementSystem + PlayerMovementSystem |
+
+- [ ] [Task 1: Foundation — tile coords, EntityView.CurrentCell, PlayerView.DirectionIndicator](tasks/task-1.md)
+- [ ] [Task 2: GridMovementSystem — MoveResult, TryMove, OccupancyMap, HealthSystem](tasks/task-2.md)
+- [ ] [Task 3: PlayerMovementSystem — input, cooldown, 8-dir, direction indicator](tasks/task-3.md)
+- [ ] [Task 4: Wiring — PlayerSpawnSystem, HealthSystem knockback, GameplayState](tasks/task-4.md)
 
 ## What we did
 
