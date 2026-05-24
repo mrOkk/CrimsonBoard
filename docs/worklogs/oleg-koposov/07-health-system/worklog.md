@@ -74,7 +74,7 @@
 
 - [x] [Task 1: Data layer — configs, HealthComponent, View wiring](tasks/task-1.md)
 - [x] [Task 2: OccupancyMap, GameContext, KnockbackResolver](tasks/task-2.md)
-- [ ] [Task 3: HealthSystem and GameplayState wiring](tasks/task-3.md)
+- [x] [Task 3: HealthSystem and GameplayState wiring](tasks/task-3.md)
 
 ## What we did
 

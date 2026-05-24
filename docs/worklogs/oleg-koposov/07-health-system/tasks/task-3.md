@@ -88,4 +88,5 @@
    Добавить публичное свойство `public HealthSystem HealthSystem => _healthSystem;` чтобы другие системы могли вызывать `ApplyDamageToPlayer`.
 
 ## Implementation
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** Создан `HealthSystem` (IGameSystem) с публичными методами `ApplyDamageToPlayer` (урон + knockback через KnockbackResolver, переход в GameOverState при смерти) и `OnEnemyDeath` (Unregister + return в пул). `GameplayState` регистрирует `HealthSystem` и экспонирует его через публичное свойство `HealthSystem`.
