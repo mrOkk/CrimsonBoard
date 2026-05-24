@@ -78,7 +78,7 @@
 | `CB-client/Assets/Scripts/Core/GameContext.cs` | Modify | Добавить свойство Pools |
 | `CB-client/Assets/Scripts/States/InitState.cs` | Modify | Создать GamePools и прогреть |
 
-- [ ] [Task 1: Core pool infrastructure](tasks/task-1.md)
+- [x] [Task 1: Core pool infrastructure](tasks/task-1.md)
 - [ ] [Task 2: Wire pools into GameContext and InitState](tasks/task-2.md)
 
 ## What we did

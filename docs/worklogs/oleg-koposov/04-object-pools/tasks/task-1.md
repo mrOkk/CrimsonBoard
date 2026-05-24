@@ -54,4 +54,5 @@
    Конструктор инициализирует каждый пул с соответствующим префабом и константой из `PoolConstants`.
 
 ## Implementation
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** Созданы `ObjectPool<T>`, `PoolConstants`, `GamePools`, `ProjectileView`. `PrefabsConfig.projectilePrefab` изменён с `GameObject` на `ProjectileView`.
