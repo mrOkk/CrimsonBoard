@@ -7,15 +7,16 @@
 | `task_file` | `docs/tasks/06-player-spawn.md` |
 | `branch` | `feature/06-player-spawn` |
 | `user_key` | `oleg-koposov` |
-| `current_phase` | `2`|
+| `current_phase` | `3`|
 | `status` | `active` |
 | `created_at` | `2026-05-24T18:01:32Z` |
-| `updated_at` | `2026-05-24T18:31:48Z`|
+| `updated_at` | `2026-05-24T18:34:00Z`|
 
 ## Phase History
 
 | When | From → To | Note |
 |---|---|---|
+| 2026-05-24T18:34:00Z | 2 → 3 | Plan signed off |
 | 2026-05-24T18:31:48Z | 1 → 2 | Discovery signed off |
 | 2026-05-24T18:01:32Z | — → 1 | Created by wf-start |
 
@@ -54,8 +55,18 @@
 
 ## Tasks
 
-<!-- Filled by wf-plan: cross-cutting Goal/Architecture/File-structure headers
-     + checkbox list of Tasks linking to tasks/task-<N>.md. -->
+**Goal:** Создать систему спавна игрока, которая при старте геймплея размещает игрока в центре стартового чанка и сохраняет ссылку на него в контексте. При ре-спавне существующий объект перемещается в стартовую позицию без пересоздания.
+
+**Architecture:** `PlayerSpawnSystem : IGameSystem` в `Core/Systems/` обрабатывает оба сценария — первичный спавн (`Instantiate`) и ре-спавн (reposition). Позиция вычисляется как центр чанка (0,0) из параметров `BoardConfig`. `GameContext.Player` хранит ссылку на активного игрока. Система регистрируется в `GameplayState` после `GameFieldSystem`.
+
+**File structure:**
+| Path | Type | Purpose |
+|---|---|---|
+| `CB-client/Assets/Scripts/Core/Systems/PlayerSpawnSystem.cs` | Create | IGameSystem: первый спавн и ре-спавн игрока |
+| `CB-client/Assets/Scripts/Core/GameContext.cs` | Modify | Добавить PlayerView Player { get; set; } |
+| `CB-client/Assets/Scripts/States/GameplayState.cs` | Modify | Зарегистрировать PlayerSpawnSystem |
+
+- [ ] [Task 1: PlayerSpawnSystem, GameContext and GameplayState](tasks/task-1.md)
 
 ## What we did
 
