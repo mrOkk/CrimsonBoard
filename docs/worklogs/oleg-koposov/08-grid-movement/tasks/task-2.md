@@ -77,4 +77,5 @@
    ```
 
 ## Implementation
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** Создан `MoveResult` enum (Moved/Blocked/Combat) и `GridMovementSystem` с методом `TryMove`: проверяет OccupancyMap, при враг→игрок вызывает `HealthSystem.ApplyDamageToPlayer`, при свободной клетке обновляет OccupancyMap + transform + CurrentCell.
