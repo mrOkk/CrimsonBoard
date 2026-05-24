@@ -47,7 +47,8 @@ namespace CrimsonBoard
             if (targetCell.HasValue)
             {
                 _context.OccupancyMap.Unregister(playerCell);
-                // TODO: move player transform to world position of targetCell (needs ChunkCoordConverter + tileSize)
+                _context.Player.CurrentCell = targetCell.Value;
+                _context.Player.transform.position = ChunkCoordConverter.TileToWorld(targetCell.Value, _context.Config.board);
                 _context.OccupancyMap.Register(targetCell.Value, _context.Player);
             }
             // else: all cells occupied — only damage applied, player stays
