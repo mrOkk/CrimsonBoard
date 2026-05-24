@@ -85,4 +85,5 @@
    ```
 
 ## Implementation
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** Создан `PlayerMovementSystem`: читает `Move` из InputSystem_Actions, снэппит в 8-directional dir через `RoundToGridDir`, применяет кулдаун `beatDuration/movesPerBeat`, при успешном ходе поворачивает `DirectionIndicator`.
