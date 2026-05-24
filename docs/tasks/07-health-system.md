@@ -33,4 +33,4 @@
 
 ## Comments
 
-**[Copilot, 2026-05-19]:** Добавлена заготовка задачи на систему здоровья: `float HP` для игрока и врагов, урон игроку при контакте с врагом по клетке, а также правило отбрасывания с fallback в ближайшую свободную клетку.
+**[Copilot, 2026-05-24]:** Discovery complete. Approach: HealthComponent (MonoBehaviour) на View-объектах, OccupancyMap в GameContext, KnockbackResolver (static, детерминированный fallback), HealthSystem : IGameSystem с триггером GameOver; всё как scaffold с TODO-комментариями для интеграции с движением врагов. Scope: in — HealthComponent/OccupancyMap/KnockbackResolver/HealthSystem/обновление конфигов и View; out — движение врагов, UI, звук.
