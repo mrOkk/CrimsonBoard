@@ -77,7 +77,7 @@
 | `CB-client/Assets/Scripts/Core/GameField/GameFieldSystem.cs` | Create | IGameSystem со скользящим окном чанков |
 | `CB-client/Assets/Scripts/States/GameplayState.cs` | Modify | Создать и зарегистрировать GameFieldSystem |
 
-- [ ] [Task 1: Extend configs and ObjectPool](tasks/task-1.md)
+- [x] [Task 1: Extend configs and ObjectPool](tasks/task-1.md)
 - [ ] [Task 2: ChunkView and ChunkCoordConverter](tasks/task-2.md)
 - [ ] [Task 3: GameFieldSystem and GameplayState wiring](tasks/task-3.md)
 

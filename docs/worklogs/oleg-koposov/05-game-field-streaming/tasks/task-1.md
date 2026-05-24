@@ -29,4 +29,5 @@
    - В методе `Create()` после `Object.Instantiate` вызывать `_onCreate?.Invoke(instance)` перед `SetActive(false)`
 
 ## Implementation
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** Добавлены `chunkSize` и `windowRadius` в `BoardConfig`, `chunkPrefab` в `PrefabsConfig`, опциональный `onCreate` callback в `ObjectPool<T>` — вызывается после `Instantiate`, до `SetActive(false)`.
