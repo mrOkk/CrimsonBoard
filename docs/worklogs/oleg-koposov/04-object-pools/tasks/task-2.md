@@ -21,4 +21,5 @@
    Убрать комментарий `// TODO: load resources, init UI, load configs` и заменить на реальные действия.
 
 ## Implementation
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** `GameContext` получил свойство `Pools`. `InitState.Enter()` создаёт `GamePools` с префабами из конфига и присваивает `context.Pools` до перехода в `TapToStartState`.
