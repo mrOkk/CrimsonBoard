@@ -7,6 +7,9 @@ namespace CrimsonBoard
         private readonly GameContext _context;
         private readonly GameStateMachine _fsm;
         private readonly GameplaySystemRunner _systemRunner;
+        private HealthSystem _healthSystem;
+
+        public HealthSystem HealthSystem => _healthSystem;
 
         public GameplayState(GameContext context, GameStateMachine fsm)
         {
@@ -15,6 +18,8 @@ namespace CrimsonBoard
             _systemRunner = new GameplaySystemRunner();
             _systemRunner.RegisterSystem(new GameFieldSystem(context));
             _systemRunner.RegisterSystem(new PlayerSpawnSystem(context));
+            _healthSystem = new HealthSystem(context, fsm);
+            _systemRunner.RegisterSystem(_healthSystem);
         }
 
         public void Enter()

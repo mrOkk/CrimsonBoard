@@ -7,8 +7,8 @@ namespace CrimsonBoard
     {
         public int id;
         public Mesh mesh;
-        public int health;
-        public int damage;
+        public float health;
+        public float damage;
         public int movesPerBeat;
     }
 }

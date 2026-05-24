@@ -11,11 +11,13 @@ namespace CrimsonBoard
         public GameConfig Config { get; }
         public GamePools Pools { get; set; }
         public PlayerView Player { get; set; }
+        public OccupancyMap OccupancyMap { get; }
 
         public GameContext(GameConfig config)
         {
             Instance = this;
             Config = config;
+            OccupancyMap = new OccupancyMap();
         }
     }
 }
