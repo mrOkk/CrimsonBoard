@@ -92,4 +92,5 @@
    ```
 
 ## Implementation
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** Создан `OccupancyMap` (Dictionary<Vector2Int, EntityView> с Register/Unregister/IsOccupied/GetEntity). `GameContext` получил `OccupancyMap` property, инициализируемый в конструкторе. Создан `KnockbackResolver` (static class) с детерминированным fallback (primary: opposite, затем N/S/E/W).
