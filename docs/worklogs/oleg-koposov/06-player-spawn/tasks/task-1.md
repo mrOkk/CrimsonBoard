@@ -59,4 +59,5 @@
    ```
 
 ## Implementation
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** Создан `PlayerSpawnSystem`: первый спавн через `Instantiate` с назначением меша, ре-спавн через reposition. `GameContext.Player` добавлен, `GameplayState` регистрирует систему после `GameFieldSystem`.

@@ -66,7 +66,7 @@
 | `CB-client/Assets/Scripts/Core/GameContext.cs` | Modify | Добавить PlayerView Player { get; set; } |
 | `CB-client/Assets/Scripts/States/GameplayState.cs` | Modify | Зарегистрировать PlayerSpawnSystem |
 
-- [ ] [Task 1: PlayerSpawnSystem, GameContext and GameplayState](tasks/task-1.md)
+- [x] [Task 1: PlayerSpawnSystem, GameContext and GameplayState](tasks/task-1.md)
 
 ## What we did
 
