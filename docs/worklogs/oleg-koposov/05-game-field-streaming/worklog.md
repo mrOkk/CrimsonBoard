@@ -7,15 +7,16 @@
 | `task_file` | `docs/tasks/05-game-field-streaming.md` |
 | `branch` | `feature/05-game-field-streaming` |
 | `user_key` | `oleg-koposov` |
-| `current_phase` | `2`|
+| `current_phase` | `3`|
 | `status` | `active` |
 | `created_at` | `2026-05-24T17:44:57Z` |
-| `updated_at` | `2026-05-24T17:53:13Z`|
+| `updated_at` | `2026-05-24T17:55:02Z`|
 
 ## Phase History
 
 | When | From → To | Note |
 |---|---|---|
+| 2026-05-24T17:55:02Z | 2 → 3 | Plan signed off |
 | 2026-05-24T17:53:13Z | 1 → 2 | Discovery signed off |
 | 2026-05-24T17:44:57Z | — → 1 | Created by wf-start |
 
@@ -61,8 +62,24 @@
 
 ## Tasks
 
-<!-- Filled by wf-plan: cross-cutting Goal/Architecture/File-structure headers
-     + checkbox list of Tasks linking to tasks/task-<N>.md. -->
+**Goal:** Создать систему бесконечного игрового поля на основе скользящего окна чанков. Чанки — матрицы тайлов с логическими координатами `Vector2Int`; при смене чанка игрока окно сдвигается, выбывшие чанки очищаются и переиспользуются через пул. Интеграция с движением игрока и спауном сущностей — за пределами этой задачи.
+
+**Architecture:** `GameFieldSystem : IGameSystem` хранит `Dictionary<Vector2Int, ChunkView>` и внутренний `ObjectPool<ChunkView>`. Конфиг (размер чанка, радиус окна) читается из `BoardConfig`. `ChunkView` создаёт тайлы `BoardTileView` динамически при первой инициализации через `onCreate`-callback пула. `GameplayState` создаёт и регистрирует систему.
+
+**File structure:**
+| Path | Type | Purpose |
+|---|---|---|
+| `CB-client/Assets/Scripts/Core/Configs/BoardConfig.cs` | Modify | Добавить chunkSize и windowRadius |
+| `CB-client/Assets/Scripts/Core/Configs/PrefabsConfig.cs` | Modify | Добавить ChunkView chunkPrefab |
+| `CB-client/Assets/Scripts/Core/Pools/ObjectPool.cs` | Modify | Добавить опциональный onCreate callback |
+| `CB-client/Assets/Scripts/Entities/ChunkView.cs` | Create | MonoBehaviour чанка: Initialize/Setup/Clear |
+| `CB-client/Assets/Scripts/Core/GameField/ChunkCoordConverter.cs` | Create | Статический хелпер world ↔ chunk coords |
+| `CB-client/Assets/Scripts/Core/GameField/GameFieldSystem.cs` | Create | IGameSystem со скользящим окном чанков |
+| `CB-client/Assets/Scripts/States/GameplayState.cs` | Modify | Создать и зарегистрировать GameFieldSystem |
+
+- [ ] [Task 1: Extend configs and ObjectPool](tasks/task-1.md)
+- [ ] [Task 2: ChunkView and ChunkCoordConverter](tasks/task-2.md)
+- [ ] [Task 3: GameFieldSystem and GameplayState wiring](tasks/task-3.md)
 
 ## What we did
 
