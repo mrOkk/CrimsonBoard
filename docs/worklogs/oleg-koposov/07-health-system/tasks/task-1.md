@@ -71,4 +71,5 @@
    ```
 
 ## Implementation
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** `int health` → `float health` в PlayerConfig/EnemyConfig, `int damage` → `float damage` в EnemyConfig. Создан `HealthComponent` (MonoBehaviour). `PlayerView` получил `Health` property; `EnemyView` получил `Health` property и `Setup(EnemyConfig)` с инициализацией HP.
