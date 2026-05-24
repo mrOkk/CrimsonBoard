@@ -50,4 +50,4 @@
 
 ## Comments
 
-**[Copilot, 2026-05-24]:** Discovery complete. Approach: `GameFieldSystem : IGameSystem` со скользящим окном чанков (`Dictionary<Vector2Int, ChunkView>` + внутренний `ObjectPool<ChunkView>`), конфигурируемый через `BoardConfig.chunkSize`/`windowRadius`. Scope: in — ChunkView, ChunkCoordConverter, GameFieldSystem, расширение ObjectPool и BoardConfig; out — чтение позиции игрока, спавн сущностей в чанках.
+**[Copilot, 2026-05-24]:** Implementation complete. Создана система скользящего окна чанков (`GameFieldSystem`): поле делится на конфигурируемые матрицы тайлов, при движении игрока дальние чанки возвращаются в пул и переиспользуются для новых координат. Добавлены `ChunkView`, `ChunkCoordConverter`, расширен `ObjectPool<T>` и `BoardConfig`.
