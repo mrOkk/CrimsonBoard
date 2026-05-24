@@ -25,4 +25,4 @@
 
 ## Comments
 
-**[Copilot, 2026-05-24]:** Discovery complete. Approach: `GridMovementSystem` (TryMove + OccupancyMap/HealthSystem интеграция) + `PlayerMovementSystem` (InputSystem_Actions, 8 направлений, задержка beatDuration/movesPerBeat, indicator). Scope: in — оба системы, EntityView.CurrentCell, PlayerView.DirectionIndicator, ChunkCoordConverter tile methods, PlayerSpawnSystem OccupancyMap wiring, HealthSystem knockback transform fix; out — AI врагов, визуальная интерполяция, beat system.
+**[Copilot, 2026-05-24]:** Implementation complete. Реализованы `GridMovementSystem` (TryMove + OccupancyMap + HealthSystem) и `PlayerMovementSystem` (InputSystem_Actions, WASD/стик, 8 направлений, кулдаун по конфигу, поворот DirectionIndicator); добавлены tile-конверторы, `CurrentCell` на сущностях, регистрация игрока в OccupancyMap при спавне, реальный knockback transform в HealthSystem.
