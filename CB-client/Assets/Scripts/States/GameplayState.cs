@@ -13,6 +13,7 @@ namespace CrimsonBoard
             _context = context;
             _fsm = fsm;
             _systemRunner = new GameplaySystemRunner();
+            _systemRunner.RegisterSystem(new GameFieldSystem(context));
         }
 
         public void Enter()
