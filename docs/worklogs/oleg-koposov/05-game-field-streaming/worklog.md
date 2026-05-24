@@ -79,7 +79,7 @@
 
 - [x] [Task 1: Extend configs and ObjectPool](tasks/task-1.md)
 - [x] [Task 2: ChunkView and ChunkCoordConverter](tasks/task-2.md)
-- [ ] [Task 3: GameFieldSystem and GameplayState wiring](tasks/task-3.md)
+- [x] [Task 3: GameFieldSystem and GameplayState wiring](tasks/task-3.md)
 
 ## What we did
 

@@ -66,4 +66,5 @@
    Добавить `using`-директиву если нужна (namespace тот же — `CrimsonBoard`).
 
 ## Implementation
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** Создан `GameFieldSystem : IGameSystem` с внутренним пулом чанков, `LoadWindow`/`UpdateWindow` логикой и точкой интеграции `OnPlayerChunkChanged`. `GameplayState` регистрирует систему в конструкторе.
