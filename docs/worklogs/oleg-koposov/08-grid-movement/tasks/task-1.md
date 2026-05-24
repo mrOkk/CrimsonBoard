@@ -41,4 +41,5 @@
 3. В `PlayerView.cs` добавить `[SerializeField] private Transform _directionIndicator;` и свойство `public Transform DirectionIndicator => _directionIndicator;`.
 
 ## Implementation
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** Добавлены `WorldToTile`/`TileToWorld` в ChunkCoordConverter, `CurrentCell` property в EntityView, `_directionIndicator` SerializeField + accessor в PlayerView.

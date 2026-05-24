@@ -72,7 +72,7 @@
 | `Core/Systems/HealthSystem.cs` | Modify | реальный move transform через TileToWorld |
 | `States/GameplayState.cs` | Modify | регистрация GridMovementSystem + PlayerMovementSystem |
 
-- [ ] [Task 1: Foundation — tile coords, EntityView.CurrentCell, PlayerView.DirectionIndicator](tasks/task-1.md)
+- [x] [Task 1: Foundation — tile coords, EntityView.CurrentCell, PlayerView.DirectionIndicator](tasks/task-1.md)
 - [ ] [Task 2: GridMovementSystem — MoveResult, TryMove, OccupancyMap, HealthSystem](tasks/task-2.md)
 - [ ] [Task 3: PlayerMovementSystem — input, cooldown, 8-dir, direction indicator](tasks/task-3.md)
 - [ ] [Task 4: Wiring — PlayerSpawnSystem, HealthSystem knockback, GameplayState](tasks/task-4.md)
