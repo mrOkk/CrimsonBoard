@@ -25,4 +25,4 @@
 
 ## Comments
 
-**[Copilot, 2026-05-19]:** Добавлена заготовка задачи на клеточное передвижение игрока и врагов без визуальных интерполяций: только логический переход из клетки A в клетку B.
+**[Copilot, 2026-05-24]:** Discovery complete. Approach: `GridMovementSystem` (TryMove + OccupancyMap/HealthSystem интеграция) + `PlayerMovementSystem` (InputSystem_Actions, 8 направлений, задержка beatDuration/movesPerBeat, indicator). Scope: in — оба системы, EntityView.CurrentCell, PlayerView.DirectionIndicator, ChunkCoordConverter tile methods, PlayerSpawnSystem OccupancyMap wiring, HealthSystem knockback transform fix; out — AI врагов, визуальная интерполяция, beat system.
