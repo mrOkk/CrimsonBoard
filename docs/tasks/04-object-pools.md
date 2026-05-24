@@ -27,4 +27,4 @@
 
 ## Comments
 
-**[Copilot, 2026-05-24]:** Discovery complete. Approach: generic `ObjectPool<T>` (pre-warm + grow) + `GamePools`-агрегатор в `GameContext`, инициализация в `InitState`. Scope: in — пулы, `ProjectileView`-stub, обновление `PrefabsConfig` и `GameContext`; out — логика спауна, назначение мешей, поведение снарядов.
+**[Copilot, 2026-05-24]:** Implementation complete. Создана generic система пулов с pre-warm и grow, агрегированная в `GamePools` и инициализируемая в `InitState`. Добавлен `ProjectileView`-stub, все четыре пула доступны через `GameContext.Pools`.
