@@ -50,4 +50,4 @@
 
 ## Comments
 
-**[Copilot, 2026-05-19]:** Добавлена задача на бесконечное поле с оспариванием исходного варианта: сохранено переиспользование чанков, но предложено устойчивое решение через скользящее окно активных чанков и пул `ChunkView`.
+**[Copilot, 2026-05-24]:** Discovery complete. Approach: `GameFieldSystem : IGameSystem` со скользящим окном чанков (`Dictionary<Vector2Int, ChunkView>` + внутренний `ObjectPool<ChunkView>`), конфигурируемый через `BoardConfig.chunkSize`/`windowRadius`. Scope: in — ChunkView, ChunkCoordConverter, GameFieldSystem, расширение ObjectPool и BoardConfig; out — чтение позиции игрока, спавн сущностей в чанках.
