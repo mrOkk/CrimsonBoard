@@ -6,7 +6,7 @@ namespace CrimsonBoard
     public class WeaponConfig
     {
         public int id;
-        public Mesh[] meshVariants;
+        public Mesh mesh;
         public int damage;
         public float shotsPerBeat;
         public float spread;

@@ -6,7 +6,7 @@ namespace CrimsonBoard
     public class EnemyConfig
     {
         public int id;
-        public Mesh[] meshVariants;
+        public Mesh mesh;
         public int health;
         public int damage;
         public int movesPerBeat;

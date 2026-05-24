@@ -6,8 +6,8 @@ namespace CrimsonBoard
     public class GameConfig : ScriptableObject
     {
         public PlayerConfig player;
-        public EnemyConfig enemy;
-        public WeaponConfig weapon;
+        public EnemyConfig[] enemies;
+        public WeaponConfig[] weapons;
         public TimingConfig timing;
         public BoardConfig board;
         public PrefabsConfig prefabs;
