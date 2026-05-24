@@ -46,4 +46,5 @@
    - Добавить публичное свойство `public GridMovementSystem GridMovementSystem => _gridMovementSystem;`.
 
 ## Implementation
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** `PlayerSpawnSystem` теперь регистрирует/перерегистрирует игрока в OccupancyMap и выставляет `CurrentCell`. HealthSystem knockback TODO заменён на реальный move transform через TileToWorld. `GameplayState` регистрирует `GridMovementSystem` и `PlayerMovementSystem`; `HealthSystem` инжектируется в `GridMovementSystem` после создания обоих.
