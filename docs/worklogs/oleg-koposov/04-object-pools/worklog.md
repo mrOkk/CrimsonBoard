@@ -7,15 +7,16 @@
 | `task_file` | `docs/tasks/04-object-pools.md` |
 | `branch` | `feature/04-object-pools` |
 | `user_key` | `oleg-koposov` |
-| `current_phase` | `2`|
+| `current_phase` | `3`|
 | `status` | `active` |
 | `created_at` | `2026-05-24T16:42:09Z` |
-| `updated_at` | `2026-05-24T16:51:24Z`|
+| `updated_at` | `2026-05-24T17:28:53Z`|
 
 ## Phase History
 
 | When | From → To | Note |
 |---|---|---|
+| 2026-05-24T17:28:53Z | 2 → 3 | Plan signed off |
 | 2026-05-24T16:51:24Z | 1 → 2 | Discovery signed off |
 | 2026-05-24T16:42:09Z | — → 1 | Created by wf-start |
 
@@ -62,8 +63,23 @@
 
 ## Tasks
 
-<!-- Filled by wf-plan: cross-cutting Goal/Architecture/File-structure headers
-     + checkbox list of Tasks linking to tasks/task-<N>.md. -->
+**Goal:** Создать систему пулов объектов для всех игровых сущностей (враги, оружие, снаряды, павер-апы) с инициализацией на старте игры. Каждый пул прогревается заранее и умеет расти при нехватке объектов.
+
+**Architecture:** Один generic `ObjectPool<T> where T : MonoBehaviour` хранит объекты в скрытом `GameObject`-контейнере и предоставляет API `Get()`/`Return()`. `GamePools` агрегирует четыре типизированных пула и хранится на `GameContext.Pools`. Инициализация происходит в `InitState.Enter()`.
+
+**File structure:**
+| Path | Type | Purpose |
+|---|---|---|
+| `CB-client/Assets/Scripts/Core/Pools/ObjectPool.cs` | Create | Generic пул с pre-warm и grow |
+| `CB-client/Assets/Scripts/Core/Pools/PoolConstants.cs` | Create | Константы размеров pre-warm |
+| `CB-client/Assets/Scripts/Core/Pools/GamePools.cs` | Create | Агрегатор четырёх пулов |
+| `CB-client/Assets/Scripts/Entities/ProjectileView.cs` | Create | Stub MonoBehaviour для снарядов |
+| `CB-client/Assets/Scripts/Core/Configs/PrefabsConfig.cs` | Modify | projectilePrefab: GameObject → ProjectileView |
+| `CB-client/Assets/Scripts/Core/GameContext.cs` | Modify | Добавить свойство Pools |
+| `CB-client/Assets/Scripts/States/InitState.cs` | Modify | Создать GamePools и прогреть |
+
+- [ ] [Task 1: Core pool infrastructure](tasks/task-1.md)
+- [ ] [Task 2: Wire pools into GameContext and InitState](tasks/task-2.md)
 
 ## What we did
 
