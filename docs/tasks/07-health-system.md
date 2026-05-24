@@ -33,4 +33,4 @@
 
 ## Comments
 
-**[Copilot, 2026-05-24]:** Discovery complete. Approach: HealthComponent (MonoBehaviour) на View-объектах, OccupancyMap в GameContext, KnockbackResolver (static, детерминированный fallback), HealthSystem : IGameSystem с триггером GameOver; всё как scaffold с TODO-комментариями для интеграции с движением врагов. Scope: in — HealthComponent/OccupancyMap/KnockbackResolver/HealthSystem/обновление конфигов и View; out — движение врагов, UI, звук.
+**[Copilot, 2026-05-24]:** Implementation complete. Реализован scaffold системы здоровья: `HealthComponent` (MonoBehaviour) на View-объектах, `OccupancyMap` в GameContext, детерминированный `KnockbackResolver` и `HealthSystem` (IGameSystem) с переходом в GameOverState при смерти игрока и возвратом врага в пул при его смерти.
