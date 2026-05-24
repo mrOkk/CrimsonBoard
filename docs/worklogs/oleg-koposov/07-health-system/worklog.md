@@ -7,15 +7,16 @@
 | `task_file` | `docs/tasks/07-health-system.md` |
 | `branch` | `feature/07-health-system` |
 | `user_key` | `oleg-koposov` |
-| `current_phase` | `2`|
+| `current_phase` | `3`|
 | `status` | `active` |
 | `created_at` | `2026-05-24T18:46:28Z` |
-| `updated_at` | `2026-05-24T19:01:08Z`|
+| `updated_at` | `2026-05-24T19:04:27Z`|
 
 ## Phase History
 
 | When | From → To | Note |
 |---|---|---|
+| 2026-05-24T19:04:27Z | 2 → 3 | Plan signed off |
 | 2026-05-24T19:01:08Z | 1 → 2 | Discovery signed off |
 | 2026-05-24T18:46:28Z | — → 1 | Created by wf-start |
 
@@ -53,8 +54,27 @@
 
 ## Tasks
 
-<!-- Filled by wf-plan: cross-cutting Goal/Architecture/File-structure headers
-     + checkbox list of Tasks linking to tasks/task-<N>.md. -->
+**Goal:** Реализовать scaffold системы здоровья для игрока и врагов. Задача разбита на три слоя: данные и компоненты → карта занятости и resolver → система здоровья и её регистрация.
+
+**Architecture:** `HealthComponent` (MonoBehaviour) хранит float HP и генерирует событие OnDeath. `OccupancyMap` в GameContext отслеживает, кто стоит на какой клетке. `KnockbackResolver` детерминированно выбирает клетку отбрасывания. `HealthSystem` соединяет их вместе и при смерти игрока переводит FSM в GameOverState.
+
+**File structure:**
+| Path | Type | Purpose |
+|---|---|---|
+| `Core/Configs/PlayerConfig.cs` | Modify | int→float health |
+| `Core/Configs/EnemyConfig.cs` | Modify | int→float health, int→float damage |
+| `Entities/HealthComponent.cs` | Create | MonoBehaviour с float HP, событием OnDeath |
+| `Entities/PlayerView.cs` | Modify | добавить HealthComponent property |
+| `Entities/EnemyView.cs` | Modify | добавить HealthComponent property + Setup(EnemyConfig) |
+| `Core/OccupancyMap.cs` | Create | Dictionary<Vector2Int, EntityView>, Register/Unregister/IsOccupied |
+| `Core/GameContext.cs` | Modify | добавить OccupancyMap property |
+| `Core/Systems/KnockbackResolver.cs` | Create | static Resolve() с детерминированным fallback |
+| `Core/Systems/HealthSystem.cs` | Create | IGameSystem, ApplyDamageToPlayer, OnEnemyDeath |
+| `States/GameplayState.cs` | Modify | регистрация HealthSystem |
+
+- [ ] [Task 1: Data layer — configs, HealthComponent, View wiring](tasks/task-1.md)
+- [ ] [Task 2: OccupancyMap, GameContext, KnockbackResolver](tasks/task-2.md)
+- [ ] [Task 3: HealthSystem and GameplayState wiring](tasks/task-3.md)
 
 ## What we did
 
