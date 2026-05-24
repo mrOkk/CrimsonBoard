@@ -27,4 +27,4 @@
 
 ## Comments
 
-**[Copilot, 2026-05-19]:** Добавлена заготовка задачи на пулы объектов (враги, оружие, усиления) с созданием в фазе инициализации.
+**[Copilot, 2026-05-24]:** Implementation complete. Создана generic система пулов с pre-warm и grow, агрегированная в `GamePools` и инициализируемая в `InitState`. Добавлен `ProjectileView`-stub, все четыре пула доступны через `GameContext.Pools`.

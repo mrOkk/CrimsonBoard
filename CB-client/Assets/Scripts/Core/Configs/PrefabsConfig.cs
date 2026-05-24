@@ -9,7 +9,7 @@ namespace CrimsonBoard
         public EnemyView enemyPrefab;
         public WeaponView weaponPrefab;
         public PowerUpView powerUpPrefab;
-        public GameObject projectilePrefab;
+        public ProjectileView projectilePrefab;
         public BoardTileView tilePrefab;
     }
 }

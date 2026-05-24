@@ -9,6 +9,7 @@ namespace CrimsonBoard
         public static GameContext Instance { get; private set; }
 
         public GameConfig Config { get; }
+        public GamePools Pools { get; set; }
 
         public GameContext(GameConfig config)
         {
