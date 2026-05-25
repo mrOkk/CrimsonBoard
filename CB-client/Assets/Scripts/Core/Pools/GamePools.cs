@@ -12,7 +12,7 @@ namespace CrimsonBoard
             Enemies = new ObjectPool<EnemyView>(prefabs.enemyPrefab, PoolConstants.Enemies);
             Weapons = new ObjectPool<WeaponView>(prefabs.weaponPrefab, PoolConstants.Weapons);
             Projectiles = new ObjectPool<ProjectileView>(prefabs.projectilePrefab, PoolConstants.Projectiles);
-            PowerUps = new ObjectPool<PowerUpView>(prefabs.powerUpPrefab, PoolConstants.PowerUps);
+            // PowerUps = new ObjectPool<PowerUpView>(prefabs.powerUpPrefab, PoolConstants.PowerUps);
         }
     }
 }

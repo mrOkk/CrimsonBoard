@@ -13,10 +13,35 @@ MonoBehaviour:
   m_Name: GameConfig
   m_EditorClassIdentifier: 
   player:
-    mesh: {fileID: 0}
+    mesh: {fileID: 344591689352541397, guid: efe9a4f73c1398d498fc4a9b8d58691a, type: 3}
     health: 5
     movesPerBeat: 3
-  enemies: []
+  enemies:
+  - id: 0
+    mesh: {fileID: 8323581286048697210, guid: 66219c511e379ee4980106fd9b1a154c, type: 3}
+    health: 0
+    damage: 0
+    movesPerBeat: 0
+  - id: 1
+    mesh: {fileID: 3604837734585775333, guid: 443510764869b2a4bb6ff2c5bd50fc11, type: 3}
+    health: 0
+    damage: 0
+    movesPerBeat: 0
+  - id: 2
+    mesh: {fileID: 7580886584278885263, guid: 9ca342ec7e6a4e14aa25d92d1a864325, type: 3}
+    health: 0
+    damage: 0
+    movesPerBeat: 0
+  - id: 3
+    mesh: {fileID: 5549885903407873815, guid: adb3778ff0caee2428276da1f636cd5d, type: 3}
+    health: 0
+    damage: 0
+    movesPerBeat: 0
+  - id: 0
+    mesh: {fileID: 0}
+    health: 0
+    damage: 0
+    movesPerBeat: 0
   weapons: []
   timing:
     beatDuration: 0
@@ -37,8 +62,9 @@ MonoBehaviour:
     weaponPrefab: {fileID: 7479573442554556011, guid: 1a36721892d4b3e499733e8708122f3f,
       type: 3}
     powerUpPrefab: {fileID: 0}
-    projectilePrefab: {fileID: 2262501711610370836, guid: 6a5e25777bbd27e48bfab1f629e106c4,
+    projectilePrefab: {fileID: -3904231959811878246, guid: 6a5e25777bbd27e48bfab1f629e106c4,
       type: 3}
     tilePrefab: {fileID: 3019201125444322298, guid: c694ecf58e0ddf548a2248e64007f742,
       type: 3}
-    chunkPrefab: {fileID: 0}
+    chunkPrefab: {fileID: 1363234183109922341, guid: ab23866500c549143bafdb40fc8327f3,
+      type: 3}
