@@ -20,8 +20,10 @@ namespace CrimsonBoard
             _systemRunner = new GameplaySystemRunner();
 
             _gridMovementSystem = new GridMovementSystem(context);
-            _systemRunner.RegisterSystem(new GameFieldSystem(context));
-            _systemRunner.RegisterSystem(new PlayerSpawnSystem(context));
+
+            // Field and player are already initialized in TapToStartState; reuse existing systems.
+            _systemRunner.RegisterSystem(context.GameFieldSystem);
+            _systemRunner.RegisterSystem(new CameraFollowSystem(context));
             _healthSystem = new HealthSystem(context, fsm);
             _gridMovementSystem.HealthSystem = _healthSystem;
             _systemRunner.RegisterSystem(_healthSystem);

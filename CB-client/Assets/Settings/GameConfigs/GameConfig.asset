@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player:
     mesh: {fileID: 0}
-    health: 0
-    movesPerBeat: 0
+    health: 5
+    movesPerBeat: 3
   enemies: []
   weapons: []
   timing:

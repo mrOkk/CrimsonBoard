@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace CrimsonBoard
 {
     /// <summary>
@@ -12,6 +14,8 @@ namespace CrimsonBoard
         public GamePools Pools { get; set; }
         public PlayerView Player { get; set; }
         public OccupancyMap OccupancyMap { get; }
+        public Camera Camera { get; set; }
+        public GameFieldSystem GameFieldSystem { get; set; }
 
         public GameContext(GameConfig config)
         {
