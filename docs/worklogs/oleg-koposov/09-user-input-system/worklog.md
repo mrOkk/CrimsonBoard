@@ -7,15 +7,16 @@
 | `task_file` | `docs/tasks/09-user-input-system.md` |
 | `branch` | `feature/09-user-input-system` |
 | `user_key` | `oleg-koposov` |
-| `current_phase` | `2`|
+| `current_phase` | `3`|
 | `status` | `active` |
 | `created_at` | `2026-05-26T16:06:00Z` |
-| `updated_at` | `2026-05-26T17:56:30Z`|
+| `updated_at` | `2026-05-26T18:02:05Z`|
 
 ## Phase History
 
 | When | From → To | Note |
 |---|---|---|
+| 2026-05-26T18:02:05Z | 2 → 3 | Plan signed off |
 | 2026-05-26T17:56:30Z | 1 → 2 | Discovery signed off |
 | 2026-05-26T16:06:00Z | — → 1 | Created by wf-start |
 
@@ -96,8 +97,30 @@
 
 ## Tasks
 
-<!-- Filled by wf-plan: cross-cutting Goal/Architecture/File-structure headers
-     + checkbox list of Tasks linking to tasks/task-<N>.md. -->
+**Goal:** Implement the second iteration of the player input system: separate input reading from movement logic via a new `PlayerInputSystem` that handles movement input delay (first-move only, diagonal settling), movement buffer (persists command briefly after release), and shoot buffer. Add a code-driven hop animation (windup offset + parabolic arc) reusable for entities, driven by a new `HopAnimationSystem`. Wire everything through `GameContext.InputState` and new config fields.
+
+**Architecture:** `PlayerInputSystem` (new `IGameSystem`) owns `InputSystem_Actions`, writes to `GameContext.InputState` each tick, and is registered before `PlayerMovementSystem`. `PlayerMovementSystem` is stripped of input concerns and reads `InputState.MoveCommand`. `EntityView` gains `StartHop`/`TickHop` methods; `GridMovementSystem` calls `StartHop` instead of snapping position; `HopAnimationSystem` ticks the animation each frame.
+
+**File structure:**
+| Path | Type | Purpose |
+|---|---|---|
+| `Core/Configs/HopConfig.cs` | Create | Hop animation parameters |
+| `Core/Configs/PlayerConfig.cs` | Modify | Add `movementInputDelay`, `inputBufferWindow` |
+| `Core/Configs/GameConfig.cs` | Modify | Add `public HopConfig hop` |
+| `Core/InputState.cs` | Create | Shared input command struct updated by `PlayerInputSystem` |
+| `Core/GameContext.cs` | Modify | Expose `InputState InputState` property |
+| `Core/Systems/PlayerInputSystem.cs` | Create | Reads `InputSystem_Actions`, manages delay + buffer |
+| `Core/Systems/HopAnimationSystem.cs` | Create | Ticks hop animation on registered entities |
+| `Core/Systems/PlayerMovementSystem.cs` | Modify | Remove input; consume `InputState.MoveCommand` |
+| `Core/Systems/GridMovementSystem.cs` | Modify | Call `entity.StartHop(...)` instead of snap |
+| `Entities/EntityView.cs` | Modify | Add `StartHop` + `TickHop` |
+| `States/GameplayState.cs` | Modify | Register `PlayerInputSystem` and `HopAnimationSystem` |
+
+- [ ] [Task 1: Configs and InputState scaffolding](tasks/task-1.md)
+- [ ] [Task 2: EntityView hop animation + GridMovementSystem](tasks/task-2.md)
+- [ ] [Task 3: HopAnimationSystem](tasks/task-3.md)
+- [ ] [Task 4: PlayerInputSystem](tasks/task-4.md)
+- [ ] [Task 5: Refactor PlayerMovementSystem + wire GameplayState](tasks/task-5.md)
 
 ## What we did
 
