@@ -35,7 +35,14 @@ namespace CrimsonBoard
             LoadWindow(Vector2Int.zero);
         }
 
-        public void Tick(float deltaTime) { }
+        public void Tick(float deltaTime)
+        {
+            if (_context.Player == null) return;
+            var chunk = ChunkCoordConverter.WorldToChunk(
+                _context.Player.transform.position,
+                _context.Config.board);
+            OnPlayerChunkChanged(chunk);
+        }
 
         public void Dispose()
         {
