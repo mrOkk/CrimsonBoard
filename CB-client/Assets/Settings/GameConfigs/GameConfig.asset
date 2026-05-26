@@ -44,7 +44,7 @@ MonoBehaviour:
     movesPerBeat: 0
   weapons: []
   timing:
-    beatDuration: 0
+    beatDuration: 1
     phaseDuration: 0
   board:
     darkTile: {fileID: -5434464993826641324, guid: 4d9af5bfe81a5df4186eff7acc434450,
