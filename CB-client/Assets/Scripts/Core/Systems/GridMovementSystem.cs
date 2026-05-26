@@ -39,10 +39,12 @@ namespace CrimsonBoard
             }
 
             // Move
+            var fromPos = entity.transform.position;
             _context.OccupancyMap.Unregister(entity.CurrentCell);
             entity.CurrentCell = targetCell;
-            entity.transform.position = ChunkCoordConverter.TileToWorld(targetCell, _context.Config.board);
             _context.OccupancyMap.Register(targetCell, entity);
+            var toPos = ChunkCoordConverter.TileToWorld(targetCell, _context.Config.board);
+            entity.StartHop(dir, fromPos, toPos, _context.Config.hop);
             return MoveResult.Moved;
         }
     }
