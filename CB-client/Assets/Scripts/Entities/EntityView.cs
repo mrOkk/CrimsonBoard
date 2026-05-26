@@ -11,5 +11,7 @@ namespace CrimsonBoard
         public MeshFilter MeshFilter => _meshFilter;
         public Rigidbody Rigidbody => _rigidbody;
         public Collider Collider => _collider;
+
+        public Vector2Int CurrentCell { get; set; }
     }
 }

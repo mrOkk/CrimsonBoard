@@ -9,12 +9,14 @@ namespace CrimsonBoard
     public class EntryPoint : MonoBehaviour
     {
         [SerializeField] private GameConfig _config;
+        [SerializeField] private Camera _camera;
 
         private GameStateMachine _fsm;
 
         private void Awake()
         {
             var context = new GameContext(_config);
+            context.Camera = _camera != null ? _camera : Camera.main;
             _fsm = new GameStateMachine();
             _fsm.ChangeState(new InitState(context, _fsm));
         }

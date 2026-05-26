@@ -15,8 +15,13 @@ namespace CrimsonBoard
             _context = context;
         }
 
+        private bool _initialized;
+
         public void Initialize()
         {
+            if (_initialized) return;
+            _initialized = true;
+
             int diameter = 2 * _context.Config.board.windowRadius + 1;
             int prewarm = diameter * diameter + 4;
 

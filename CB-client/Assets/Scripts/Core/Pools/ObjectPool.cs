@@ -7,7 +7,7 @@ namespace CrimsonBoard
     {
         private readonly T _prefab;
         private readonly Transform _container;
-        private readonly Queue<T> _available = new Queue<T>();
+        private readonly Queue<T> _available = new();
         private readonly System.Action<T> _onCreate;
 
         public ObjectPool(T prefab, int prewarmCount, System.Action<T> onCreate = null)
