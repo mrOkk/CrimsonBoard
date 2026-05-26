@@ -87,4 +87,5 @@
    Also add `using UnityEngine;` if not already present (it already is).
 
 ## Implementation
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** Added `HopPhase` enum, hop state fields, `StartHop`, and `TickHop` to `EntityView`. Updated `GridMovementSystem.TryMove` to capture `fromPos`, keep `OccupancyMap.Register` after `CurrentCell` update, and call `entity.StartHop(...)` with world positions instead of snapping.

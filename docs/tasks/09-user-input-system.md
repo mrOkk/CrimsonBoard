@@ -41,4 +41,4 @@
 
 ## Comments
 
-**[Copilot, 2026-05-26]:** Discovery complete. Approach: `PlayerInputSystem` owns `InputSystem_Actions`, implements input delay (first-move only, quick-tap still moves via buffer) + movement/shoot buffers, writes to `GameContext.InputState`; `PlayerMovementSystem` consumes `InputState`; `HopAnimationSystem` + `EntityView.StartHop/TickHop` handle code-driven arc+windup animation (reusable for enemies); `HopConfig` in `GameConfig`, input params in `PlayerConfig`. No tests.
+**[Copilot, 2026-05-26]:** Implementation complete. Built `PlayerInputSystem` (input delay + movement/shoot buffers), `HopAnimationSystem`, `InputState`/`HopConfig` scaffolding, and refactored `PlayerMovementSystem` to consume `InputState`; entities now animate with a windup + parabolic hop instead of snapping.

@@ -35,4 +35,5 @@
    ```
 
 ## Implementation
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** Created `HopAnimationSystem` exactly as planned. Ticks `_context.Player?.TickHop(deltaTime)` each frame.

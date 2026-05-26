@@ -62,4 +62,5 @@
    ```
 
 ## Implementation
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** Created `HopConfig.cs` and `InputState.cs`; added `movementInputDelay`/`inputBufferWindow` to `PlayerConfig`, `hop` to `GameConfig`, and `InputState` auto-property to `GameContext`. No deviations from plan.

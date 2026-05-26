@@ -149,4 +149,5 @@
    ```
 
 ## Implementation
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** Created `PlayerInputSystem` exactly as planned. Owns `InputSystem_Actions`, manages movement input delay (first press only), movement buffer on release, and shoot buffer on `Attack.WasPressedThisFrame()`.

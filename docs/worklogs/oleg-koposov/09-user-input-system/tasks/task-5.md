@@ -77,4 +77,5 @@
    ```
 
 ## Implementation
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** Rewrote `PlayerMovementSystem` to read `InputState.MoveCommand` — removed all `InputSystem_Actions` usage and `RoundToGridDir` helper. Registered `PlayerInputSystem` first and `HopAnimationSystem` last in `GameplayState` constructor.

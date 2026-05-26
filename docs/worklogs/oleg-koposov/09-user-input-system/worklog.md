@@ -116,12 +116,18 @@
 | `Entities/EntityView.cs` | Modify | Add `StartHop` + `TickHop` |
 | `States/GameplayState.cs` | Modify | Register `PlayerInputSystem` and `HopAnimationSystem` |
 
-- [ ] [Task 1: Configs and InputState scaffolding](tasks/task-1.md)
-- [ ] [Task 2: EntityView hop animation + GridMovementSystem](tasks/task-2.md)
-- [ ] [Task 3: HopAnimationSystem](tasks/task-3.md)
-- [ ] [Task 4: PlayerInputSystem](tasks/task-4.md)
-- [ ] [Task 5: Refactor PlayerMovementSystem + wire GameplayState](tasks/task-5.md)
+- [x] [Task 1: Configs and InputState scaffolding](tasks/task-1.md)
+- [x] [Task 2: EntityView hop animation + GridMovementSystem](tasks/task-2.md)
+- [x] [Task 3: HopAnimationSystem](tasks/task-3.md)
+- [x] [Task 4: PlayerInputSystem](tasks/task-4.md)
+- [x] [Task 5: Refactor PlayerMovementSystem + wire GameplayState](tasks/task-5.md)
 
 ## What we did
 
-<!-- Filled manually or by wf-implement at phase end. -->
+- Input reading is now fully separated from movement logic: a new dedicated system reads the gamepad/keyboard and writes a single "desired direction" command, which the movement system consumes.
+- Movement now has a short settling delay on the very first press, giving the player time to refine a diagonal direction before the character starts moving; quick taps still register.
+- After releasing a directional input, the command is kept alive briefly (configurable buffer window), so moves that land just after a release are not dropped.
+- Shooting input is similarly buffered: a press stores a "shoot requested" flag for a short window, ready for the future combat system to consume.
+- All timing parameters (delay duration, buffer window) are tunable per-player in the Inspector via `PlayerConfig`.
+- Characters now visually hop to adjacent cells instead of teleporting: they lean back slightly in the opposite direction before launching along a short parabolic arc. Animation parameters (arc height, windup amplitude and durations) are tunable via a new `HopConfig` ScriptableObject field in `GameConfig`.
+- The hop animation logic lives on `EntityView` and is ready to be reused for enemy movement in a future task.
