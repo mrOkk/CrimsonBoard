@@ -34,9 +34,9 @@ namespace CrimsonBoard
         public static Vector3 TileToWorld(Vector2Int cell, BoardConfig config)
         {
             return new Vector3(
-                (cell.x + 0.5f) * config.tileSize.x,
+                cell.x * config.tileSize.x,
                 0f,
-                (cell.y + 0.5f) * config.tileSize.y
+                cell.y * config.tileSize.y
             );
         }
     }
