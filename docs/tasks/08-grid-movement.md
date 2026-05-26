@@ -25,4 +25,4 @@
 
 ## Comments
 
-**[Copilot, 2026-05-19]:** Добавлена заготовка задачи на клеточное передвижение игрока и врагов без визуальных интерполяций: только логический переход из клетки A в клетку B.
+**[Copilot, 2026-05-24]:** Implementation complete. Реализованы `GridMovementSystem` (TryMove + OccupancyMap + HealthSystem) и `PlayerMovementSystem` (InputSystem_Actions, WASD/стик, 8 направлений, кулдаун по конфигу, поворот DirectionIndicator); добавлены tile-конверторы, `CurrentCell` на сущностях, регистрация игрока в OccupancyMap при спавне, реальный knockback transform в HealthSystem.

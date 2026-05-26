@@ -15,8 +15,13 @@ namespace CrimsonBoard
             _context = context;
         }
 
+        private bool _initialized;
+
         public void Initialize()
         {
+            if (_initialized) return;
+            _initialized = true;
+
             int diameter = 2 * _context.Config.board.windowRadius + 1;
             int prewarm = diameter * diameter + 4;
 
@@ -30,7 +35,14 @@ namespace CrimsonBoard
             LoadWindow(Vector2Int.zero);
         }
 
-        public void Tick(float deltaTime) { }
+        public void Tick(float deltaTime)
+        {
+            if (_context.Player == null) return;
+            var chunk = ChunkCoordConverter.WorldToChunk(
+                _context.Player.transform.position,
+                _context.Config.board);
+            OnPlayerChunkChanged(chunk);
+        }
 
         public void Dispose()
         {

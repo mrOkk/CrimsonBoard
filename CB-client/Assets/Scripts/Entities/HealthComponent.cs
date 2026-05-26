@@ -2,7 +2,8 @@ using UnityEngine;
 
 namespace CrimsonBoard
 {
-    public class HealthComponent : MonoBehaviour
+    [System.Serializable]
+    public class HealthComponent
     {
         private float _maxHp;
         private float _currentHp;
