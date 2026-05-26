@@ -41,4 +41,4 @@
 
 ## Comments
 
-**[Copilot, 2026-05-19]:** Добавлена заготовка задачи на пользовательский ввод через `InputSystem_Actions`: 8-направленное движение с `input delay` и буфером, а также стрельба с буфером без задержки.
+**[Copilot, 2026-05-26]:** Discovery complete. Approach: `PlayerInputSystem` owns `InputSystem_Actions`, implements input delay (first-move only, quick-tap still moves via buffer) + movement/shoot buffers, writes to `GameContext.InputState`; `PlayerMovementSystem` consumes `InputState`; `HopAnimationSystem` + `EntityView.StartHop/TickHop` handle code-driven arc+windup animation (reusable for enemies); `HopConfig` in `GameConfig`, input params in `PlayerConfig`. No tests.
