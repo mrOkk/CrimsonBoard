@@ -45,4 +45,4 @@
 
 ## Comments
 
-**[Copilot, 2026-05-19]:** Добавлена заготовка задачи на систему движения врагов: тактовое движение со сдвигом фазы, отдыхом между ходами и отдельной логикой для пешки, коня, ладьи, башни и королевы.
+**[Copilot, 2026-05-27]:** Discovery complete. Approach: Strategy pattern — IMoveStrategy per enemy type (Pawn/Knight/Rook/Tower/Queen); EnemyMovementSystem управляет beat-таймером и per-enemy phaseOffset/cooldown; HopAnimationSystem обобщается на всех entities. Scope in: EnemyType enum, rank, moveCooldownTicks в EnemyConfig, 5 стратегий, EnemyMovementSystem, тесты. Scope out: визуальные микро-прыжки ладьи/башни между шагами.
