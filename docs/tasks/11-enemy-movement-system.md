@@ -45,4 +45,4 @@
 
 ## Comments
 
-**[Copilot, 2026-05-27]:** Discovery complete. Approach: Strategy pattern — IMoveStrategy per enemy type (Pawn/Knight/Rook/Tower/Queen); EnemyMovementSystem управляет beat-таймером и per-enemy phaseOffset/cooldown; HopAnimationSystem обобщается на всех entities. Scope in: EnemyType enum, rank, moveCooldownTicks в EnemyConfig, 5 стратегий, EnemyMovementSystem, тесты. Scope out: визуальные микро-прыжки ладьи/башни между шагами.
+**[Copilot, 2026-05-27]:** Implementation complete. Built a full chess-piece movement system: 5 strategy classes (Pawn/Knight/Rook/Tower/Queen), EnemyMovementSystem with beat timer and phase-offset scheduling, a shared LinearStrategy helper for sliding pieces, and 11 Edit Mode tests. EnemySpawnSystem, HopAnimationSystem, and GameplayState were updated to wire the new system.

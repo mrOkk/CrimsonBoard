@@ -15,9 +15,9 @@ namespace CrimsonBoard.Tests
         [SetUp]
         public void SetUp()
         {
-            _enemyGo  = new GameObject("Enemy");
+            _enemyGo = new GameObject("Enemy");
             _playerGo = new GameObject("Player");
-            _enemy  = _enemyGo.AddComponent<EnemyView>();
+            _enemy = _enemyGo.AddComponent<EnemyView>();
             _player = _playerGo.AddComponent<PlayerView>();
 
             _cfg = ScriptableObject.CreateInstance<GameConfig>();
@@ -38,9 +38,9 @@ namespace CrimsonBoard.Tests
         [Test]
         public void Pawn_MovesTowardPlayer()
         {
-            _enemy.CurrentCell  = Vector2Int.zero;
+            _enemy.CurrentCell = Vector2Int.zero;
             _player.CurrentCell = new Vector2Int(3, 0);
-            var ctx = MakeCtx(new OccupancyMap());
+            var ctx = MakeCtx();
 
             var dir = new PawnMoveStrategy().GetMoveDirection(_enemy, ctx, new System.Random(0));
 
@@ -50,17 +50,14 @@ namespace CrimsonBoard.Tests
         [Test]
         public void Pawn_AvoidsOccupiedCell()
         {
-            _enemy.CurrentCell  = Vector2Int.zero;
+            _enemy.CurrentCell = Vector2Int.zero;
             _player.CurrentCell = new Vector2Int(3, 0);
-            var map = new OccupancyMap();
 
-            // Block east
             _blockerGo = new GameObject("Blocker");
             var blocker = _blockerGo.AddComponent<EnemyView>();
             blocker.CurrentCell = new Vector2Int(1, 0);
-            map.Register(blocker.CurrentCell, blocker);
 
-            var ctx = MakeCtx(map);
+            var ctx = MakeCtx(map => map.Register(blocker.CurrentCell, blocker));
             var dir = new PawnMoveStrategy().GetMoveDirection(_enemy, ctx, new System.Random(0));
 
             Assert.AreNotEqual(new Vector2Int(1, 0), dir, "Pawn should not move into occupied cell");
@@ -71,14 +68,11 @@ namespace CrimsonBoard.Tests
         [Test]
         public void Knight_LJumpToPlayer()
         {
-            _enemy.CurrentCell  = Vector2Int.zero;
+            _enemy.CurrentCell = Vector2Int.zero;
             _player.CurrentCell = new Vector2Int(2, 1);
             SetEnemyConfig(rank: 1);
 
-            var map = new OccupancyMap();
-            map.Register(_player.CurrentCell, _player);
-            var ctx = MakeCtx(map);
-
+            var ctx = MakeCtx(map => map.Register(_player.CurrentCell, _player));
             var dir = new KnightMoveStrategy().GetMoveDirection(_enemy, ctx, new System.Random(0));
 
             Assert.AreEqual(new Vector2Int(2, 1), dir, "Knight should jump directly to player's cell");
@@ -88,45 +82,34 @@ namespace CrimsonBoard.Tests
         public void Knight_EarlyLandingWhenPlayerOnIntermediateCell()
         {
             // Enemy at (0,0); one L-path toward (2,1) has intermediate (1,0); player at (1,0)
-            _enemy.CurrentCell  = Vector2Int.zero;
+            _enemy.CurrentCell = Vector2Int.zero;
             _player.CurrentCell = new Vector2Int(1, 0);
             SetEnemyConfig(rank: 1);
 
-            var map = new OccupancyMap();
-            map.Register(_player.CurrentCell, _player);
-            var ctx = MakeCtx(map);
-
+            var ctx = MakeCtx(map => map.Register(_player.CurrentCell, _player));
             var dir = new KnightMoveStrategy().GetMoveDirection(_enemy, ctx, new System.Random(0));
 
             Assert.IsNotNull(dir, "Knight should find an early-landing direction");
-            // Step toward (1,0) from (0,0) → (1,0)
             Assert.AreEqual(new Vector2Int(1, 0), dir);
         }
 
         [Test]
         public void Knight_FallsBackToIntermediateWhenHigherRankAtTarget()
         {
-            _enemy.CurrentCell  = Vector2Int.zero;
+            _enemy.CurrentCell = Vector2Int.zero;
             _player.CurrentCell = new Vector2Int(10, 10); // far away
             SetEnemyConfig(rank: 1);
 
-            // Block every L-target with high-rank enemies; leave one intermediate free
-            var map = new OccupancyMap();
-            // Place a rank-3 blocker at (2,1) — one of the L-targets
             var blockerGo = new GameObject("HighRankEnemy");
             var blocker = blockerGo.AddComponent<EnemyView>();
             blocker.CurrentCell = new Vector2Int(2, 1);
             SetEnemyConfigOn(blocker, rank: 3);
-            map.Register(blocker.CurrentCell, blocker);
 
-            var ctx = MakeCtx(map);
+            var ctx = MakeCtx(map => map.Register(blocker.CurrentCell, blocker));
             var dir = new KnightMoveStrategy().GetMoveDirection(_enemy, ctx, new System.Random(0));
 
             Object.DestroyImmediate(blockerGo);
 
-            // The specific outcome depends on other L-paths — just verify we got a non-null result
-            // (other L-paths may be free) or if all blocked, null is valid
-            // The important assertion: we did NOT return (2,1) direction wholesale
             if (dir.HasValue)
                 Assert.AreNotEqual(blocker.CurrentCell, _enemy.CurrentCell + dir.Value,
                     "Knight should not land on a higher-rank enemy");
@@ -137,9 +120,9 @@ namespace CrimsonBoard.Tests
         [Test]
         public void Rook_PicksDiagonalTowardPlayer()
         {
-            _enemy.CurrentCell  = Vector2Int.zero;
+            _enemy.CurrentCell = Vector2Int.zero;
             _player.CurrentCell = new Vector2Int(3, 3);
-            var ctx = MakeCtx(new OccupancyMap());
+            var ctx = MakeCtx();
 
             var dir = new RookMoveStrategy().GetMoveDirection(_enemy, ctx, new System.Random(0));
 
@@ -149,20 +132,16 @@ namespace CrimsonBoard.Tests
         [Test]
         public void Rook_StopsBeforeBlockedCell()
         {
-            _enemy.CurrentCell  = Vector2Int.zero;
+            _enemy.CurrentCell = Vector2Int.zero;
             _player.CurrentCell = new Vector2Int(5, 5);
 
-            var map = new OccupancyMap();
-            // Block NE at step 2: (2,2)
             _blockerGo = new GameObject("Blocker");
             var blocker = _blockerGo.AddComponent<EnemyView>();
             blocker.CurrentCell = new Vector2Int(2, 2);
-            map.Register(blocker.CurrentCell, blocker);
 
-            var ctx = MakeCtx(map);
+            var ctx = MakeCtx(map => map.Register(blocker.CurrentCell, blocker));
             var dir = new RookMoveStrategy().GetMoveDirection(_enemy, ctx, new System.Random(0));
 
-            // NE direction is still best (can reach (1,1)); direction should still be (1,1)
             Assert.AreEqual(new Vector2Int(1, 1), dir);
         }
 
@@ -171,9 +150,9 @@ namespace CrimsonBoard.Tests
         [Test]
         public void Tower_PicksCardinalTowardPlayer()
         {
-            _enemy.CurrentCell  = Vector2Int.zero;
+            _enemy.CurrentCell = Vector2Int.zero;
             _player.CurrentCell = new Vector2Int(0, 4);
-            var ctx = MakeCtx(new OccupancyMap());
+            var ctx = MakeCtx();
 
             var dir = new TowerMoveStrategy().GetMoveDirection(_enemy, ctx, new System.Random(0));
 
@@ -183,23 +162,25 @@ namespace CrimsonBoard.Tests
         [Test]
         public void Tower_ReturnsNullWhenAllDirectionsBlocked()
         {
-            _enemy.CurrentCell  = new Vector2Int(5, 5);
+            _enemy.CurrentCell = new Vector2Int(5, 5);
             _player.CurrentCell = new Vector2Int(5, 10);
 
-            var map = new OccupancyMap();
-            var dirs = new[] {
+            var surroundDirs = new[] {
                 new Vector2Int(1, 0), new Vector2Int(-1, 0),
-                new Vector2Int(0, 1), new Vector2Int(0, -1) };
-            var blockerGos = new GameObject[dirs.Length];
-            for (int i = 0; i < dirs.Length; i++)
+                new Vector2Int(0, 1), new Vector2Int(0, -1),
+            };
+            var blockerGos = new GameObject[surroundDirs.Length];
+            for (int i = 0; i < surroundDirs.Length; i++)
             {
                 blockerGos[i] = new GameObject($"Blocker{i}");
-                var blocker = blockerGos[i].AddComponent<EnemyView>();
-                blocker.CurrentCell = _enemy.CurrentCell + dirs[i];
-                map.Register(blocker.CurrentCell, blocker);
+                blockerGos[i].AddComponent<EnemyView>().CurrentCell = _enemy.CurrentCell + surroundDirs[i];
             }
 
-            var ctx = MakeCtx(map);
+            var ctx = MakeCtx(map => {
+                for (int i = 0; i < surroundDirs.Length; i++)
+                    map.Register(_enemy.CurrentCell + surroundDirs[i],
+                        blockerGos[i].GetComponent<EnemyView>());
+            });
             var dir = new TowerMoveStrategy().GetMoveDirection(_enemy, ctx, new System.Random(0));
 
             foreach (var go in blockerGos) Object.DestroyImmediate(go);
@@ -212,9 +193,9 @@ namespace CrimsonBoard.Tests
         [Test]
         public void Queen_PicksDirectionClosestToPlayer()
         {
-            _enemy.CurrentCell  = Vector2Int.zero;
+            _enemy.CurrentCell = Vector2Int.zero;
             _player.CurrentCell = new Vector2Int(4, 0);
-            var ctx = MakeCtx(new OccupancyMap());
+            var ctx = MakeCtx();
 
             var dir = new QueenMoveStrategy().GetMoveDirection(_enemy, ctx, new System.Random(0));
 
@@ -227,7 +208,7 @@ namespace CrimsonBoard.Tests
         public void BeatThreshold_FiresWhenTimerCrossesPhasePoint()
         {
             float period = 0.5f;
-            float threshold = 0.25f; // phaseOffset=0.5 → fires at 0.25 s
+            float threshold = 0.25f;
 
             Assert.IsTrue(CrossedThreshold(0.2f, 0.3f, threshold, period),
                 "Should fire when crossing threshold within period");
@@ -239,18 +220,18 @@ namespace CrimsonBoard.Tests
         public void BeatThreshold_FiresOnWrap()
         {
             float period = 0.5f;
-            float threshold = 0.1f; // fires early in cycle
+            float threshold = 0.1f;
 
-            // prev=0.45, next=0.55 (wraps to 0.05 on next beat)
             Assert.IsTrue(CrossedThreshold(0.45f, 0.55f, threshold, period),
-                "Should fire on wrap: next beat's 0.05 >= threshold 0.1 is false... " +
-                "actually prev(0.45) < threshold(0.1) is false, so wrap rule applies");
+                "Should fire on wrap when next-beat position crosses threshold");
         }
 
         // ── Helpers ───────────────────────────────────────────────────────────
 
-        private GameContext MakeCtx(OccupancyMap map)
+        private GameContext MakeCtx(System.Action<OccupancyMap> register = null)
         {
+            var map = new OccupancyMap();
+            register?.Invoke(map);
             var ctx = new GameContext(_cfg, map);
             ctx.Player = _player;
             return ctx;
@@ -262,6 +243,7 @@ namespace CrimsonBoard.Tests
         private static void SetEnemyConfigOn(EnemyView view, int rank = 1, EnemyType enemyType = EnemyType.Pawn)
         {
             var cfg = new EnemyConfig { rank = rank, enemyType = enemyType };
+
             typeof(EnemyView)
                 .GetField("_config", BindingFlags.NonPublic | BindingFlags.Instance)
                 .SetValue(view, cfg);
@@ -272,7 +254,9 @@ namespace CrimsonBoard.Tests
         {
             if (next < period)
                 return prev < threshold && next >= threshold;
+
             float wrapped = next - period;
+
             return prev < threshold || wrapped >= threshold;
         }
     }

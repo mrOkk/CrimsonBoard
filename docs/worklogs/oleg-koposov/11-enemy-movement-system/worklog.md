@@ -113,4 +113,11 @@
 
 ## What we did
 
-<!-- Filled manually or by wf-implement at phase end. -->
+- Added `EnemyType` enum (Pawn, Knight, Rook, Tower, Queen) and extended enemy configuration with type, rank, and cooldown fields.
+- Introduced a strategy interface so each enemy type independently decides its move direction each beat, keeping movement logic decoupled and testable.
+- Pawn picks the best of 4 cardinal directions toward the player; Knight jumps in L-shapes with early-landing and rank-based collision rules; Rook/Tower/Queen slide up to 5–6 cells using a shared linear helper that stops at the first blocker.
+- Added a new `EnemyMovementSystem` that drives a beat timer, assigns each spawned enemy a random phase offset, and dispatches strategy calls with cooldown tracking.
+- `EnemySpawnSystem` now exposes a read-only active-enemy list and a spawn callback so downstream systems react to new enemies.
+- `HopAnimationSystem` was generalised to tick hop animations for all active enemies, not just the player.
+- All spawn, death, and movement callbacks are wired in `GameplayState` using multicast delegates (`+=`).
+- Added 11 Edit Mode tests covering every strategy's direction selection, blocking behaviour, and beat threshold wrapping logic.
