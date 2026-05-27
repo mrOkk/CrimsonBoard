@@ -17,12 +17,14 @@ namespace CrimsonBoard
         public Camera Camera { get; set; }
         public GameFieldSystem GameFieldSystem { get; set; }
         public InputState InputState { get; } = new InputState();
+        public System.Random SharedRandom { get; private set; }
 
         public GameContext(GameConfig config)
         {
             Instance = this;
             Config = config;
             OccupancyMap = new OccupancyMap();
+            SharedRandom = new System.Random(config.spawn.randomSeed);
         }
     }
 }

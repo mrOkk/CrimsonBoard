@@ -104,5 +104,39 @@ namespace CrimsonBoard
             chunk.Setup(coord, _context.Config.board);
             _activeChunks[coord] = chunk;
         }
+
+        /// <summary>
+        /// Returns all tile coordinates on the outer ring of the active chunk window.
+        /// </summary>
+        public List<Vector2Int> GetBorderTiles()
+        {
+            var board = _context.Config.board;
+            return ComputeBorderTiles(_currentCenter, board.windowRadius, board.chunkSize);
+        }
+
+        /// <summary>
+        /// Pure static helper — computes border tiles for the given parameters.
+        /// Extracted for unit-testability.
+        /// </summary>
+        public static List<Vector2Int> ComputeBorderTiles(Vector2Int center, int windowRadius, int chunkSize)
+        {
+            int minX = (center.x - windowRadius) * chunkSize;
+            int maxX = (center.x + windowRadius + 1) * chunkSize - 1;
+            int minY = (center.y - windowRadius) * chunkSize;
+            int maxY = (center.y + windowRadius + 1) * chunkSize - 1;
+
+            var result = new List<Vector2Int>();
+            for (int x = minX; x <= maxX; x++)
+            {
+                result.Add(new Vector2Int(x, minY));
+                result.Add(new Vector2Int(x, maxY));
+            }
+            for (int y = minY + 1; y <= maxY - 1; y++)
+            {
+                result.Add(new Vector2Int(minX, y));
+                result.Add(new Vector2Int(maxX, y));
+            }
+            return result;
+        }
     }
 }
