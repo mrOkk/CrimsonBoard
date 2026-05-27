@@ -7,15 +7,16 @@
 | `task_file` | `docs/tasks/11-enemy-movement-system.md` |
 | `branch` | `feature/11-enemy-movement-system` |
 | `user_key` | `oleg-koposov` |
-| `current_phase` | `2`|
+| `current_phase` | `3`|
 | `status` | `active` |
 | `created_at` | `2026-05-27T04:46:08Z` |
-| `updated_at` | `2026-05-27T05:22:45Z`|
+| `updated_at` | `2026-05-27T06:13:58Z`|
 
 ## Phase History
 
 | When | From → To | Note |
 |---|---|---|
+| 2026-05-27T06:13:58Z | 2 → 3 | Plan signed off |
 | 2026-05-27T05:22:45Z | 1 → 2 | Discovery signed off |
 | 2026-05-27T04:46:08Z | — → 1 | Created by wf-start |
 
@@ -81,8 +82,34 @@
 
 ## Tasks
 
-<!-- Filled by wf-plan: cross-cutting Goal/Architecture/File-structure headers
-     + checkbox list of Tasks linking to tasks/task-<N>.md. -->
+**Goal:** Implement a full enemy movement system for all 5 chess-like enemy types (Pawn, Knight, Rook, Tower, Queen). Each enemy type has its own movement strategy and acts on a beat timer with a random per-enemy phase offset. The system integrates with the existing `GridMovementSystem`, extends `EnemySpawnSystem` to expose active enemies, and generalises `HopAnimationSystem` to animate all enemies.
+
+**Architecture:** Strategy pattern — `IMoveStrategy` per `EnemyType`; `EnemyMovementSystem` maintains a beat timer and a `Dictionary<EnemyView, EnemyMoveState>` for phase/cooldown tracking. `EnemyConfig` is extended with `enemyType`, `rank`, and `moveCooldownTicks`. All randomness routes through `GameContext.SharedRandom`.
+
+**File structure:**
+| Path | Type | Purpose |
+|---|---|---|
+| `Core/Configs/EnemyType.cs` | Create | `EnemyType` enum: Pawn/Knight/Rook/Tower/Queen |
+| `Core/Configs/EnemyConfig.cs` | Modify | Add `enemyType`, `rank`, `moveCooldownTicks` fields |
+| `Core/Systems/EnemyMoveState.cs` | Create | Per-enemy state struct: phaseOffset, phaseTimer, cooldownTicksLeft |
+| `Core/Systems/Movement/IMoveStrategy.cs` | Create | Interface: `GetMoveDirection(enemy, ctx, rng) → Vector2Int?` |
+| `Core/Systems/Movement/LinearStrategy.cs` | Create | Shared helper for Rook/Tower/Queen: walk up to N cells, stop at blocker |
+| `Core/Systems/Movement/PawnMoveStrategy.cs` | Create | Prefer direction toward player, skip occupied |
+| `Core/Systems/Movement/KnightMoveStrategy.cs` | Create | 8 L-shapes, early-landing, rank-based crush |
+| `Core/Systems/Movement/RookMoveStrategy.cs` | Create | Diagonal toward player, up to 5 cells |
+| `Core/Systems/Movement/TowerMoveStrategy.cs` | Create | Cardinal toward player, up to 5 cells |
+| `Core/Systems/Movement/QueenMoveStrategy.cs` | Create | All 8 dirs toward player, up to 6 cells |
+| `Core/Systems/EnemyMovementSystem.cs` | Create | Beat timer, strategy dispatch, spawn/death callbacks |
+| `Core/Systems/EnemySpawnSystem.cs` | Modify | Add `ActiveEnemies` property + `EnemySpawned` callback |
+| `Core/Systems/HopAnimationSystem.cs` | Modify | Accept `EnemySpawnSystem`; tick all active enemies |
+| `States/GameplayState.cs` | Modify | Register `EnemyMovementSystem`; wire all callbacks |
+| `Tests/Editor/EnemyMovementTests.cs` | Test | Edit Mode tests for all 5 strategies + LinearStrategy |
+| `Core/GameContext.cs` | Modify | Add internal test-only constructor (OccupancyMap overload) |
+
+- [ ] [Task 1: EnemyType + EnemyConfig extensions](tasks/task-1.md)
+- [ ] [Task 2: IMoveStrategy + EnemyMoveState + 5 strategies](tasks/task-2.md)
+- [ ] [Task 3: EnemyMovementSystem + EnemySpawnSystem + HopAnimationSystem + GameplayState](tasks/task-3.md)
+- [ ] [Task 4: Edit Mode tests](tasks/task-4.md)
 
 ## What we did
 
