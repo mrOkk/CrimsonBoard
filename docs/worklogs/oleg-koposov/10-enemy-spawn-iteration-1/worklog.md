@@ -7,15 +7,16 @@
 | `task_file` | `docs/tasks/10-enemy-spawn-iteration-1.md` |
 | `branch` | `feature/10-enemy-spawn-iteration-1` |
 | `user_key` | `oleg-koposov` |
-| `current_phase` | `2`|
+| `current_phase` | `3`|
 | `status` | `active` |
 | `created_at` | `2026-05-27T04:26:29Z` |
-| `updated_at` | `2026-05-27T04:32:46Z`|
+| `updated_at` | `2026-05-27T04:36:24Z`|
 
 ## Phase History
 
 | When | From → To | Note |
 |---|---|---|
+| 2026-05-27T04:36:24Z | 2 → 3 | Plan signed off |
 | 2026-05-27T04:32:46Z | 1 → 2 | Discovery signed off |
 | 2026-05-27T04:26:29Z | — → 1 | Created by wf-start |
 
@@ -64,8 +65,30 @@
 
 ## Tasks
 
-<!-- Filled by wf-plan: cross-cutting Goal/Architecture/File-structure headers
-     + checkbox list of Tasks linking to tasks/task-<N>.md. -->
+**Goal:** Реализовать базовую волновую систему спавна врагов (`EnemySpawnSystem`) с детерминированным выбором граничных тайлов и типов врагов по весам. Добавить конфиги волн (`SpawnConfig`, `WaveConfig`, `EnemySpawnEntry`) в `GameConfig`. Покрыть ключевые алгоритмы Edit Mode тестами.
+
+**Architecture:** Следуем паттерну `IGameSystem` — `EnemySpawnSystem` регистрируется в `GameplaySystemRunner` из `GameplayState`. Весь общий стейт (сид, RNG, пул врагов) живёт в `GameContext`. Вычисление граничных тайлов вынесено в статический метод для тестируемости.
+
+**File structure:**
+
+| Path | Type | Purpose |
+|---|---|---|
+| `Core/Configs/EnemySpawnEntry.cs` | Create | `[Serializable]` запись типа врага: `enemyId` + `weight` |
+| `Core/Configs/WaveConfig.cs` | Create | `[Serializable]` параметры одной волны |
+| `Core/Configs/SpawnConfig.cs` | Create | `[Serializable]` верхний конфиг спавна: `waveInterval`, `randomSeed`, `waves[]` |
+| `Core/Configs/GameConfig.cs` | Modify | Добавить поле `public SpawnConfig spawn;` |
+| `Core/GameContext.cs` | Modify | Добавить `System.Random SharedRandom`, инициализировать из `config.spawn.randomSeed` |
+| `Core/GameField/GameFieldSystem.cs` | Modify | Добавить `GetBorderTiles()` + `ComputeBorderTiles()` static helper |
+| `Core/Systems/EnemySpawnSystem.cs` | Create | Волновые таймеры, батч-спавн через пул, `OnEnemyDied` callback |
+| `Core/Systems/HealthSystem.cs` | Modify | Добавить `EnemyDeathCallback` → вызов при смерти врага |
+| `States/GameplayState.cs` | Modify | Регистрация `EnemySpawnSystem`, подключение `EnemyDeathCallback` |
+| `Tests/Editor/CrimsonBoard.Tests.EditMode.asmdef` | Create | Test assembly definition |
+| `Tests/Editor/EnemySpawnTests.cs` | Create | Тесты граничных тайлов, весов, таймера волн |
+
+- [ ] [Task 1: Spawn config classes](tasks/task-1.md)
+- [ ] [Task 2: SharedRandom + GetBorderTiles](tasks/task-2.md)
+- [ ] [Task 3: EnemySpawnSystem](tasks/task-3.md)
+- [ ] [Task 4: Edit Mode Tests](tasks/task-4.md)
 
 ## What we did
 
