@@ -62,4 +62,5 @@
    Add `using System.Collections.Generic;` — already present in `GameFieldSystem.cs`.
 
 ## Implementation
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** `SharedRandom` добавлен в `GameContext`, инициализируется из `config.spawn.randomSeed`. В `GameFieldSystem` добавлены `GetBorderTiles()` (instance) и `ComputeBorderTiles()` (static, для тестов).
