@@ -71,4 +71,5 @@
 5. Create `.meta` files: Unity will auto-generate them on next Editor open; **no manual action needed** — just commit the `.cs` files.
 
 ## Implementation
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** Созданы `EnemySpawnEntry`, `WaveConfig`, `SpawnConfig` как `[Serializable]` классы. В `GameConfig` добавлено поле `spawn` после `hop`.

@@ -85,7 +85,7 @@
 | `Tests/Editor/CrimsonBoard.Tests.EditMode.asmdef` | Create | Test assembly definition |
 | `Tests/Editor/EnemySpawnTests.cs` | Create | Тесты граничных тайлов, весов, таймера волн |
 
-- [ ] [Task 1: Spawn config classes](tasks/task-1.md)
+- [x] [Task 1: Spawn config classes](tasks/task-1.md)
 - [ ] [Task 2: SharedRandom + GetBorderTiles](tasks/task-2.md)
 - [ ] [Task 3: EnemySpawnSystem](tasks/task-3.md)
 - [ ] [Task 4: Edit Mode Tests](tasks/task-4.md)
