@@ -10,6 +10,7 @@ namespace CrimsonBoard
         private GridMovementSystem _gridMovementSystem;
         private HealthSystem _healthSystem;
         private EnemySpawnSystem _enemySpawnSystem;
+        private EnemyMovementSystem _enemyMovementSystem;
 
         public HealthSystem HealthSystem => _healthSystem;
         public GridMovementSystem GridMovementSystem => _gridMovementSystem;
@@ -31,9 +32,13 @@ namespace CrimsonBoard
             _systemRunner.RegisterSystem(_healthSystem);
             _systemRunner.RegisterSystem(_gridMovementSystem);
             _systemRunner.RegisterSystem(new PlayerMovementSystem(context, _gridMovementSystem));
-            _systemRunner.RegisterSystem(new HopAnimationSystem(context));
             _enemySpawnSystem = new EnemySpawnSystem(context);
-            _healthSystem.EnemyDeathCallback = _enemySpawnSystem.OnEnemyDied;
+            _systemRunner.RegisterSystem(new HopAnimationSystem(context, _enemySpawnSystem));
+            _enemyMovementSystem = new EnemyMovementSystem(context, _gridMovementSystem);
+            _systemRunner.RegisterSystem(_enemyMovementSystem);
+            _healthSystem.EnemyDeathCallback += _enemySpawnSystem.OnEnemyDied;
+            _healthSystem.EnemyDeathCallback += _enemyMovementSystem.OnEnemyDied;
+            _enemySpawnSystem.EnemySpawned += _enemyMovementSystem.OnEnemySpawned;
             _systemRunner.RegisterSystem(_enemySpawnSystem);
         }
 

@@ -12,6 +12,12 @@ namespace CrimsonBoard
         private float _spawnTimer;
         private readonly List<EnemyView> _activeEnemies = new List<EnemyView>();
 
+        /// <summary>All currently alive enemies managed by this system.</summary>
+        public IReadOnlyList<EnemyView> ActiveEnemies => _activeEnemies;
+
+        /// <summary>Invoked when an enemy is spawned. Subscribers assign per-enemy state.</summary>
+        public System.Action<EnemyView> EnemySpawned;
+
         public EnemySpawnSystem(GameContext context)
         {
             _context = context;
@@ -112,6 +118,7 @@ namespace CrimsonBoard
             enemy.transform.position = ChunkCoordConverter.TileToWorld(cell, _context.Config.board);
             _context.OccupancyMap.Register(cell, enemy);
             _activeEnemies.Add(enemy);
+            EnemySpawned?.Invoke(enemy);
         }
 
         /// <summary>
