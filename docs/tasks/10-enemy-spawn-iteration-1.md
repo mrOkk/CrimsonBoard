@@ -49,4 +49,4 @@
 
 ## Comments
 
-**[Copilot, 2026-05-27]:** Discovery complete. Approach: inline SpawnConfig + WaveConfig + EnemySpawnEntry в GameConfig; EnemySpawnSystem : IGameSystem со спавном на границе активного окна чанков, System.Random с сидом, детерминированный выбор тайла и типа врага по весам. Scope in: конфиги волн, EnemySpawnSystem, GetBorderTiles, SharedRandom, тесты. Scope out: движение врагов.
+**[Copilot, 2026-05-27]:** Implementation complete. Добавлены конфиги волн, `EnemySpawnSystem` с волновым спавном на границе активного окна доски, детерминированный RNG, `HealthSystem.EnemyDeathCallback` и 8 Edit Mode тестов.

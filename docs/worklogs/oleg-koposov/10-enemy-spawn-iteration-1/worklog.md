@@ -8,14 +8,15 @@
 | `branch` | `feature/10-enemy-spawn-iteration-1` |
 | `user_key` | `oleg-koposov` |
 | `current_phase` | `3`|
-| `status` | `active` |
+| `status` | `done`|
 | `created_at` | `2026-05-27T04:26:29Z` |
-| `updated_at` | `2026-05-27T04:36:24Z`|
+| `updated_at` | `2026-05-27T04:43:54Z`|
 
 ## Phase History
 
 | When | From → To | Note |
 |---|---|---|
+| 2026-05-27T04:43:54Z | active → done | Implemented by wf-implement |
 | 2026-05-27T04:36:24Z | 2 → 3 | Plan signed off |
 | 2026-05-27T04:32:46Z | 1 → 2 | Discovery signed off |
 | 2026-05-27T04:26:29Z | — → 1 | Created by wf-start |
@@ -92,4 +93,4 @@
 
 ## What we did
 
-<!-- Filled manually or by wf-implement at phase end. -->
+Добавлена система волнового спавна врагов. Новые конфиги (`SpawnConfig`, `WaveConfig`, `EnemySpawnEntry`) встроены в `GameConfig` — настраиваются прямо в Inspector без дополнительных ассетов. `GameContext` получил детерминированный `System.Random` с сидом из конфига. `GameFieldSystem` теперь умеет возвращать список граничных тайлов активного окна доски. Новая система `EnemySpawnSystem` управляет циклом волн по таймеру (последняя волна не меняется), каждый тик спавнит батч врагов на незанятых граничных клетках с весовым выбором типа. `HealthSystem` оповещает систему о смерти врага через колбек. Добавлены 8 Edit Mode тестов, покрывающих вычисление границы, детерминированный выбор по весам и механику смены волн.
