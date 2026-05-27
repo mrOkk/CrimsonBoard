@@ -26,5 +26,13 @@ namespace CrimsonBoard
             OccupancyMap = new OccupancyMap();
             SharedRandom = new System.Random(config.spawn.randomSeed);
         }
+
+        /// <summary>Test-only constructor — bypasses pool/field setup.</summary>
+        internal GameContext(GameConfig config, OccupancyMap occupancyMap)
+        {
+            Config = config;
+            OccupancyMap = occupancyMap;
+            SharedRandom = new System.Random(config.spawn.randomSeed);
+        }
     }
 }
