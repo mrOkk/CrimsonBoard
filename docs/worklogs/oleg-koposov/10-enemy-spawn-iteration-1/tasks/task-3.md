@@ -194,4 +194,5 @@
    ```
 
 ## Implementation
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** Создан `EnemySpawnSystem` с волновыми таймерами, батч-спавном на граничных тайлах и `PickEnemyId` static для тестов. В `HealthSystem` добавлен `EnemyDeathCallback`. В `GameplayState` — регистрация системы и подключение колбека.

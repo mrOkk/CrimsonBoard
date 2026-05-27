@@ -87,7 +87,7 @@
 
 - [x] [Task 1: Spawn config classes](tasks/task-1.md)
 - [x] [Task 2: SharedRandom + GetBorderTiles](tasks/task-2.md)
-- [ ] [Task 3: EnemySpawnSystem](tasks/task-3.md)
+- [x] [Task 3: EnemySpawnSystem](tasks/task-3.md)
 - [ ] [Task 4: Edit Mode Tests](tasks/task-4.md)
 
 ## What we did
