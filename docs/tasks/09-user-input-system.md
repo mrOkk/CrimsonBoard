@@ -41,4 +41,4 @@
 
 ## Comments
 
-**[Copilot, 2026-05-19]:** Добавлена заготовка задачи на пользовательский ввод через `InputSystem_Actions`: 8-направленное движение с `input delay` и буфером, а также стрельба с буфером без задержки.
+**[Copilot, 2026-05-26]:** Implementation complete. Built `PlayerInputSystem` (input delay + movement/shoot buffers), `HopAnimationSystem`, `InputState`/`HopConfig` scaffolding, and refactored `PlayerMovementSystem` to consume `InputState`; entities now animate with a windup + parabolic hop instead of snapping.

@@ -11,5 +11,6 @@ namespace CrimsonBoard
         public TimingConfig timing;
         public BoardConfig board;
         public PrefabsConfig prefabs;
+        public HopConfig hop;
     }
 }
