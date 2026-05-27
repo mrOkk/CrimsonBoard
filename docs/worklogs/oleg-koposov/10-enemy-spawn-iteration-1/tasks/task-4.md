@@ -115,4 +115,5 @@
 4. **Commit** both `.cs` and `.asmdef` files together with their `.meta` files (Unity will generate `.meta` on Editor open; commit them in a follow-up if needed, or note in PR).
 
 ## Implementation
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** Создан test asmdef `CrimsonBoard.Tests.EditMode` и `EnemySpawnTests.cs` с 8 тестами: 4 на граничные тайлы (count, perimeter, non-zero center, no duplicates), 3 на взвешенный выбор врага, 2 на таймер волн.
