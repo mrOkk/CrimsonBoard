@@ -328,4 +328,5 @@
 4. Add `[TearDown]` destroy for `ScriptableObject.DestroyImmediate(cfg)` to avoid memory leaks between tests.
 
 ## Implementation
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** Created `EnemyMovementTests.cs` with 11 tests covering all 5 strategies, LinearStrategy blocking, and beat threshold logic. Uses `ScriptableObject.CreateInstance<GameConfig>()` + internal `GameContext` test constructor; sets `EnemyView._config` via reflection to avoid `HealthComponent` NPE in Edit Mode.

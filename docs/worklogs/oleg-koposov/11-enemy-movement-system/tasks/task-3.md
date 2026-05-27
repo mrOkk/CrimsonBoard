@@ -194,4 +194,5 @@
    > In task 10 we set `_healthSystem.EnemyDeathCallback = _enemySpawnSystem.OnEnemyDied;` — change `=` to `+=` and add the movement system line.
 
 ## Implementation
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** Created `EnemyMovementSystem` with beat timer and `CrossedThreshold` wrap logic; added `ActiveEnemies` property + `EnemySpawned` callback to `EnemySpawnSystem`; updated `HopAnimationSystem` to accept `EnemySpawnSystem` and tick all active enemies; wired `EnemyMovementSystem` in `GameplayState` using `+=` for all death/spawn callbacks.

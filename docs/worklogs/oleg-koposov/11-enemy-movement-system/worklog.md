@@ -106,10 +106,10 @@
 | `Tests/Editor/EnemyMovementTests.cs` | Test | Edit Mode tests for all 5 strategies + LinearStrategy |
 | `Core/GameContext.cs` | Modify | Add internal test-only constructor (OccupancyMap overload) |
 
-- [ ] [Task 1: EnemyType + EnemyConfig extensions](tasks/task-1.md)
-- [ ] [Task 2: IMoveStrategy + EnemyMoveState + 5 strategies](tasks/task-2.md)
-- [ ] [Task 3: EnemyMovementSystem + EnemySpawnSystem + HopAnimationSystem + GameplayState](tasks/task-3.md)
-- [ ] [Task 4: Edit Mode tests](tasks/task-4.md)
+- [x] [Task 1: EnemyType + EnemyConfig extensions](tasks/task-1.md)
+- [x] [Task 2: IMoveStrategy + EnemyMoveState + 5 strategies](tasks/task-2.md)
+- [x] [Task 3: EnemyMovementSystem + EnemySpawnSystem + HopAnimationSystem + GameplayState](tasks/task-3.md)
+- [x] [Task 4: Edit Mode tests](tasks/task-4.md)
 
 ## What we did
 

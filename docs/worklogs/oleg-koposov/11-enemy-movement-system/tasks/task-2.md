@@ -310,4 +310,5 @@
    ```
 
 ## Implementation
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** Created `EnemyMoveState` struct, `IMoveStrategy` interface, `LinearStrategy` shared helper, and all 5 strategy classes in `Core/Systems/Movement/`. Knight handles rank-based crush/fallback; Rook/Tower/Queen delegate to `LinearStrategy`.

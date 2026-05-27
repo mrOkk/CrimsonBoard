@@ -34,4 +34,5 @@
    Existing fields (`id`, `mesh`, `health`, `damage`, `movesPerBeat`) must remain in order to preserve serialized asset data.
 
 ## Implementation
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** Created `EnemyType.cs` enum with 5 values (Pawn/Knight/Rook/Tower/Queen); extended `EnemyConfig` with `enemyType`, `rank`, and `moveCooldownTicks` fields after existing fields to preserve serialized data.
