@@ -30,4 +30,5 @@
    Precedent: `_fsm.Tick(Time.deltaTime)` already follows this update-loop pattern in `EntryPoint.Update`.
 
 ## Implementation
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** Added `UiRoot UiRoot` property to `GameContext`; updated `EntryPoint` with `[SerializeField] UiRoot _uiRoot`, calling `_uiRoot?.Init()` and assigning `context.UiRoot` in `Awake`, and `_uiRoot?.Tick()` in `Update`. No deviations from plan.

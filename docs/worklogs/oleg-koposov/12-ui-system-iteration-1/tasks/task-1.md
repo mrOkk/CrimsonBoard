@@ -34,4 +34,5 @@
    - `Tick(float deltaTime)`: iterate all registered views and call `view.Tick(deltaTime)` — precedent: `GameplaySystemRunner.Tick` in `Gameplay/GameplaySystemRunner.cs`
 
 ## Implementation
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** Created `Scripts/UI/BaseView.cs` (abstract MonoBehaviour with Show/Hide/Tick) and `Scripts/UI/UiRoot.cs` (MonoBehaviour facade with Init, Show\<T\>/Hide\<T\>/GetView\<T\>/Tick). No deviations from plan.

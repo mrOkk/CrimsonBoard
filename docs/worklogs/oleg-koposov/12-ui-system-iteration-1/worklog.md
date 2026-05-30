@@ -66,8 +66,8 @@ View-объекты добавляются как дочерние GameObject-ы
 | `CB-client/Assets/Scripts/Core/GameContext.cs` | Modify | Добавить свойство `UiRoot UiRoot` |
 | `CB-client/Assets/Scripts/Core/EntryPoint.cs` | Modify | Добавить `_uiRoot`, присвоить `context.UiRoot`, вызвать Tick |
 
-- [ ] [Task 1: Create UI infrastructure (BaseView + UiRoot)](tasks/task-1.md)
-- [ ] [Task 2: Integrate UiRoot into GameContext and EntryPoint](tasks/task-2.md)
+- [x] [Task 1: Create UI infrastructure (BaseView + UiRoot)](tasks/task-1.md)
+- [x] [Task 2: Integrate UiRoot into GameContext and EntryPoint](tasks/task-2.md)
 
 ## What we did
 
