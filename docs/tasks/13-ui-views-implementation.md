@@ -36,4 +36,4 @@
 
 ## Comments
 
-**[Copilot, 2026-05-30]:** Discovery complete. Approach: 4 View-класса (PreBattleView, HudView, MenuView, PostBattleView) + GameStats; состояния управляют Show/Hide через context.UiRoot; аудио через AudioListener; рестарт без pre-battle через флаг autoStart. Scope out: AudioManager, анимации, локализация, UI-префаб.
+**[Copilot, 2026-05-30]:** Implementation complete. Созданы GameStats и четыре View-класса (PreBattleView, HudView, MenuView, PostBattleView); все FSM-состояния обновлены для управления видимостью экранов, аудио-настройки работают через AudioListener, рестарт из PostBattle минует pre-battle.
