@@ -16,6 +16,7 @@ namespace CrimsonBoard
         public OccupancyMap OccupancyMap { get; }
         public Camera Camera { get; set; }
         public GameFieldSystem GameFieldSystem { get; set; }
+        public UiRoot UiRoot { get; set; }
         public InputState InputState { get; } = new InputState();
         public System.Random SharedRandom { get; private set; }
 
