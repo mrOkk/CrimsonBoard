@@ -36,4 +36,4 @@
 
 ## Comments
 
-**[User, 2026-05-30]:** Следующая задача: имплементация вью классов (PreBattleView, MenuView, HudView, post-match screen).
+**[Copilot, 2026-05-30]:** Discovery complete. Approach: 4 View-класса (PreBattleView, HudView, MenuView, PostBattleView) + GameStats; состояния управляют Show/Hide через context.UiRoot; аудио через AudioListener; рестарт без pre-battle через флаг autoStart. Scope out: AudioManager, анимации, локализация, UI-префаб.
