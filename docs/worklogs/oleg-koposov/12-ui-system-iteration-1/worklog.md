@@ -8,14 +8,15 @@
 | `branch` | `feature/12-ui-system-iteration-1` |
 | `user_key` | `oleg-koposov` |
 | `current_phase` | `3`|
-| `status` | `active` |
+| `status` | `done`|
 | `created_at` | `2026-05-30T16:05:43Z` |
-| `updated_at` | `2026-05-30T16:25:33Z`|
+| `updated_at` | `2026-05-30T17:43:47Z`|
 
 ## Phase History
 
 | When | From → To | Note |
 |---|---|---|
+| 2026-05-30T17:43:47Z | active → done | Implemented by wf-implement |
 | 2026-05-30T16:25:33Z | 2 → 3 | Plan signed off |
 | 2026-05-30T16:09:45Z | 1 → 2 | Discovery signed off |
 | 2026-05-30T16:05:43Z | — → 1 | Created by wf-start |
@@ -71,4 +72,8 @@ View-объекты добавляются как дочерние GameObject-ы
 
 ## What we did
 
-<!-- Filled manually or by wf-implement at phase end. -->
+- Добавлен абстрактный класс `BaseView` — базовый MonoBehaviour для всех UI-экранов. Предоставляет методы показа, скрытия и обновления, которые конкретные View могут переопределять.
+- Добавлен `UiRoot` — центральный UI-фасад. При инициализации сканирует все дочерние View и регистрирует их по типу. Позволяет любому игровому состоянию показывать или скрывать нужный экран через обобщённые методы.
+- `GameContext` получил ссылку на `UiRoot`, доступную из всех игровых состояний.
+- `EntryPoint` инициализирует `UiRoot` сразу после запуска FSM и вызывает его обновление каждый кадр после обновления FSM.
+- Следующий шаг: создать конкретные View-классы и добавить их дочерними объектами в UI-префаб в Unity Editor.

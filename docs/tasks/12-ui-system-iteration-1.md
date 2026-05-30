@@ -21,4 +21,4 @@
 
 **[User, 2026-05-30]:** Добавить следующую задачу: UI system. Iteration 1.
 
-**[Copilot, 2026-05-30]:** Discovery complete. Approach: единый фасад `UiRoot` (MonoBehaviour) с авто-регистрацией View по типу через `GetComponentsInChildren`. Scope in: BaseView, UiRoot, GameContext.UiRoot, EntryPoint-интеграция. Scope out: конкретные View, UI-префаб, привязка состояний.
+**[Copilot, 2026-05-30]:** Implementation complete. Создана базовая UI-инфраструктура: абстрактный `BaseView` и фасад `UiRoot` с явной инициализацией через `Init()` и регистрацией View по типу; `GameContext` и `EntryPoint` обновлены для интеграции в игровой цикл.
