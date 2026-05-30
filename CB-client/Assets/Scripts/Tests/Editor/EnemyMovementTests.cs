@@ -230,9 +230,8 @@ namespace CrimsonBoard.Tests
 
         private GameContext MakeCtx(System.Action<OccupancyMap> register = null)
         {
-            var map = new OccupancyMap();
-            register?.Invoke(map);
-            var ctx = new GameContext(_cfg, map);
+            var ctx = new GameContext(_cfg);
+            register?.Invoke(ctx.OccupancyMap);
             ctx.Player = _player;
             return ctx;
         }

@@ -1,8 +1,11 @@
 {
     "name": "CrimsonBoard.Tests.EditMode",
+    "rootNamespace": "",
     "references": [
         "UnityEngine.TestRunner",
-        "UnityEditor.TestRunner"
+        "UnityEditor.TestRunner",
+        "CB-client",
+        "CB-input"
     ],
     "includePlatforms": [
         "Editor"

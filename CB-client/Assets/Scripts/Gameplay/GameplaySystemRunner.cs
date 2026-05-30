@@ -9,7 +9,7 @@ namespace CrimsonBoard
     /// </summary>
     public class GameplaySystemRunner
     {
-        private readonly List<IGameSystem> _systems = new List<IGameSystem>();
+        private readonly List<IGameSystem> _systems = new();
 
         public void RegisterSystem(IGameSystem system)
         {
@@ -24,14 +24,21 @@ namespace CrimsonBoard
 
         public void Tick(float deltaTime)
         {
-            foreach (var system in _systems)
+            for (var index = 0; index < _systems.Count; index++)
+            {
+                var system = _systems[index];
                 system.Tick(deltaTime);
+            }
         }
 
         public void Dispose()
         {
-            foreach (var system in _systems)
+            for (var index = 0; index < _systems.Count; index++)
+            {
+                var system = _systems[index];
                 system.Dispose();
+            }
+
             _systems.Clear();
         }
     }
