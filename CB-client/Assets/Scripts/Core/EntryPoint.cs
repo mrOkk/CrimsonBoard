@@ -20,14 +20,14 @@ namespace CrimsonBoard
             context.Camera = _camera != null ? _camera : Camera.main;
             _fsm = new GameStateMachine();
             _fsm.ChangeState(new InitState(context, _fsm));
-            _uiRoot?.Init();
+            _uiRoot.Init();
             context.UiRoot = _uiRoot;
         }
 
         private void Update()
         {
             _fsm.Tick(Time.deltaTime);
-            _uiRoot?.Tick(Time.deltaTime);
+            _uiRoot.Tick(Time.deltaTime);
         }
     }
 }
