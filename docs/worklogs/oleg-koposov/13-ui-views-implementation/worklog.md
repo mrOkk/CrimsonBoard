@@ -7,15 +7,16 @@
 | `task_file` | `docs/tasks/13-ui-views-implementation.md` |
 | `branch` | `feature/13-ui-views-implementation` |
 | `user_key` | `oleg-koposov` |
-| `current_phase` | `2`|
+| `current_phase` | `3`|
 | `status` | `active` |
 | `created_at` | `2026-05-30T18:34:36Z` |
-| `updated_at` | `2026-05-30T18:42:04Z`|
+| `updated_at` | `2026-05-30T18:46:05Z`|
 
 ## Phase History
 
 | When | From → To | Note |
 |---|---|---|
+| 2026-05-30T18:46:05Z | 2 → 3 | Plan signed off |
 | 2026-05-30T18:42:04Z | 1 → 2 | Discovery signed off |
 | 2026-05-30T18:34:36Z | — → 1 | Created by wf-start |
 
@@ -66,8 +67,29 @@
 
 ## Tasks
 
-<!-- Filled by wf-plan: cross-cutting Goal/Architecture/File-structure headers
-     + checkbox list of Tasks linking to tasks/task-<N>.md. -->
+**Goal:** Реализовать четыре View-экрана (PreBattleView, HudView, MenuView, PostBattleView) и базовый трекер игровой статистики (GameStats). Каждое FSM-состояние показывает свой экран при входе и скрывает при выходе. HudView обновляется через Tick, поллируя GameContext.Instance. MenuView управляет звуком через AudioListener. Рестарт из PostBattleView минует pre-battle через флаг autoStart в TapToStartState.
+
+**Architecture:** View-классы расширяют BaseView и хранят [SerializeField]-ссылки на UI-элементы; данные берут из GameContext.Instance в Tick() либо при Show(). Состояния управляют видимостью через context.UiRoot.Show\<T\>()/Hide\<T\>() и подписываются на события View в Enter()/Exit(). GameStats живёт в GameContext.Stats и тикает из GameplayState.Tick().
+
+**File structure:**
+| Path | Type | Purpose |
+|---|---|---|
+| `CB-client/Assets/Scripts/Core/GameStats.cs` | Create | Score + elapsed time, Reset/AddScore/Tick |
+| `CB-client/Assets/Scripts/UI/Views/PreBattleView.cs` | Create | «Tap to start» экран, обнаружение ввода |
+| `CB-client/Assets/Scripts/UI/Views/HudView.cs` | Create | Боевой HUD: здоровье, оружие, патроны, время, счёт |
+| `CB-client/Assets/Scripts/UI/Views/MenuView.cs` | Create | Пауза: Continue/Restart, аудио-настройки |
+| `CB-client/Assets/Scripts/UI/Views/PostBattleView.cs` | Create | Итоговый экран: счёт/время, рестарт |
+| `CB-client/Assets/Scripts/Core/GameContext.cs` | Modify | Добавить GameStats Stats |
+| `CB-client/Assets/Scripts/States/TapToStartState.cs` | Modify | Show/Hide PreBattleView, флаг autoStart |
+| `CB-client/Assets/Scripts/States/GameplayState.cs` | Modify | Show/Hide HudView, тик Stats, AddScore на убийство |
+| `CB-client/Assets/Scripts/States/PauseState.cs` | Modify | Show/Hide MenuView, Continue/Restart |
+| `CB-client/Assets/Scripts/States/GameOverState.cs` | Modify | Show/Hide PostBattleView, рестарт |
+
+- [ ] [Task 1: Add GameStats and wire into GameContext](tasks/task-1.md)
+- [ ] [Task 2: Create PreBattleView and update TapToStartState](tasks/task-2.md)
+- [ ] [Task 3: Create HudView and update GameplayState](tasks/task-3.md)
+- [ ] [Task 4: Create MenuView and update PauseState](tasks/task-4.md)
+- [ ] [Task 5: Create PostBattleView and update GameOverState](tasks/task-5.md)
 
 ## What we did
 
