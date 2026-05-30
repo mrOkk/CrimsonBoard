@@ -12,5 +12,6 @@ namespace CrimsonBoard
         public BoardConfig board;
         public PrefabsConfig prefabs;
         public HopConfig hop;
+        public SpawnConfig spawn;
     }
 }

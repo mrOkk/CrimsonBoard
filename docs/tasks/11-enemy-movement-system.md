@@ -45,4 +45,4 @@
 
 ## Comments
 
-**[Copilot, 2026-05-19]:** Добавлена заготовка задачи на систему движения врагов: тактовое движение со сдвигом фазы, отдыхом между ходами и отдельной логикой для пешки, коня, ладьи, башни и королевы.
+**[Copilot, 2026-05-27]:** Implementation complete. Built a full chess-piece movement system: 5 strategy classes (Pawn/Knight/Rook/Tower/Queen), EnemyMovementSystem with beat timer and phase-offset scheduling, a shared LinearStrategy helper for sliding pieces, and 11 Edit Mode tests. EnemySpawnSystem, HopAnimationSystem, and GameplayState were updated to wire the new system.

@@ -14,6 +14,7 @@ namespace CrimsonBoard
         public void Setup(EnemyConfig config)
         {
             _config = config;
+            MeshFilter.sharedMesh = config.mesh;
             _health.Init(config.health);
         }
     }

@@ -13,6 +13,9 @@ namespace CrimsonBoard
             _fsm = fsm;
         }
 
+        /// <summary>Called when an enemy dies, before it is returned to the pool.</summary>
+        public System.Action<EnemyView> EnemyDeathCallback;
+
         public void Initialize()
         {
             _context.Player.Health.Init(_context.Config.player.health);
@@ -59,6 +62,7 @@ namespace CrimsonBoard
         /// </summary>
         public void OnEnemyDeath(EnemyView enemy, Vector2Int enemyCell)
         {
+            EnemyDeathCallback?.Invoke(enemy);
             _context.OccupancyMap.Unregister(enemyCell);
             _context.Pools.Enemies.Return(enemy);
         }
