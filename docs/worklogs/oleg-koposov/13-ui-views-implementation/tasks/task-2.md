@@ -43,4 +43,5 @@
    e. Remove old `Tick()` input handling (the Space keydown and touch block) — input is now owned by PreBattleView.
 
 ## Implementation
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** Создан `PreBattleView` с обнаружением `Input.anyKeyDown` / touch в Tick и событием `OnPlayerInput`; `TapToStartState` получил флаг `autoStart`, Show/Hide PreBattleView и удалено старое inline-управление вводом.

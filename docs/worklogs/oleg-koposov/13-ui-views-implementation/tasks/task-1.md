@@ -34,4 +34,5 @@
    - Place after `UiRoot UiRoot` property (precedent: UiRoot was added after GameFieldSystem).
 
 ## Implementation
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** Created `GameStats.cs` с полями Score и ElapsedBattleTime; добавлено `Stats` property в `GameContext` с инициализацией при объявлении.

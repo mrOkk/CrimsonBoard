@@ -67,4 +67,5 @@
    c. Remove existing `// TODO` comment from `Tick()`.
 
 ## Implementation
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** Создан `MenuView` с кнопками Continue/Restart, Toggle (AudioListener.pause) и Slider (AudioListener.volume); `PauseState` показывает MenuView при входе и подписывается на события Continue/Restart.

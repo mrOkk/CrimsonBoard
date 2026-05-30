@@ -85,11 +85,11 @@
 | `CB-client/Assets/Scripts/States/PauseState.cs` | Modify | Show/Hide MenuView, Continue/Restart |
 | `CB-client/Assets/Scripts/States/GameOverState.cs` | Modify | Show/Hide PostBattleView, рестарт |
 
-- [ ] [Task 1: Add GameStats and wire into GameContext](tasks/task-1.md)
-- [ ] [Task 2: Create PreBattleView and update TapToStartState](tasks/task-2.md)
-- [ ] [Task 3: Create HudView and update GameplayState](tasks/task-3.md)
-- [ ] [Task 4: Create MenuView and update PauseState](tasks/task-4.md)
-- [ ] [Task 5: Create PostBattleView and update GameOverState](tasks/task-5.md)
+- [x] [Task 1: Add GameStats and wire into GameContext](tasks/task-1.md)
+- [x] [Task 2: Create PreBattleView and update TapToStartState](tasks/task-2.md)
+- [x] [Task 3: Create HudView and update GameplayState](tasks/task-3.md)
+- [x] [Task 4: Create MenuView and update PauseState](tasks/task-4.md)
+- [x] [Task 5: Create PostBattleView and update GameOverState](tasks/task-5.md)
 
 ## What we did
 

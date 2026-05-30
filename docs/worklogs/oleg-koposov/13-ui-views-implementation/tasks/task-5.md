@@ -55,4 +55,5 @@
    c. Remove `// TODO` comment from `Tick()`.
 
 ## Implementation
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** Создан `PostBattleView` — заполняет итоговые счёт/время из Stats при Show, кнопка рестарта; `GameOverState` показывает PostBattleView при входе, рестарт идёт через `TapToStartState(autoStart: true)`.

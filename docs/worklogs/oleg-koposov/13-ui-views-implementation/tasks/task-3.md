@@ -82,4 +82,5 @@
       ```
 
 ## Implementation
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** Создан `HudView` с поллингом `GameContext.Instance` в Tick (здоровье, ∞ патронов, время, счёт, оружие) и событием меню; `GameplayState` сбрасывает Stats, показывает HudView при входе, тикает Stats, инкрементирует очко на каждое убийство.
