@@ -20,3 +20,5 @@
 ## Comments
 
 **[User, 2026-05-30]:** Добавить следующую задачу: UI system. Iteration 1.
+
+**[Copilot, 2026-05-30]:** Implementation complete. Создана базовая UI-инфраструктура: абстрактный `BaseView` и фасад `UiRoot` с явной инициализацией через `Init()` и регистрацией View по типу; `GameContext` и `EntryPoint` обновлены для интеграции в игровой цикл.

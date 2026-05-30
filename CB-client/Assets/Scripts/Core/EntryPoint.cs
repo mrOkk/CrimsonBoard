@@ -10,6 +10,7 @@ namespace CrimsonBoard
     {
         [SerializeField] private GameConfig _config;
         [SerializeField] private Camera _camera;
+        [SerializeField] private UiRoot _uiRoot;
 
         private GameStateMachine _fsm;
 
@@ -19,11 +20,14 @@ namespace CrimsonBoard
             context.Camera = _camera != null ? _camera : Camera.main;
             _fsm = new GameStateMachine();
             _fsm.ChangeState(new InitState(context, _fsm));
+            _uiRoot.Init();
+            context.UiRoot = _uiRoot;
         }
 
         private void Update()
         {
             _fsm.Tick(Time.deltaTime);
+            _uiRoot.Tick(Time.deltaTime);
         }
     }
 }
