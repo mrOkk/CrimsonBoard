@@ -13,12 +13,21 @@ namespace CrimsonBoard
             _fsm = fsm;
         }
 
-        public void Enter() => Debug.Log("[PauseState] Enter");
-        public void Exit() => Debug.Log("[PauseState] Exit");
-
-        public void Tick(float deltaTime)
+        public void Enter()
         {
-            // TODO: handle settings changes, resume input
+            Debug.Log("[PauseState] Enter");
+            var menu = _context.UiRoot.GetView<MenuView>();
+            menu.OnContinue = () => _fsm.ResumePreviousState();
+            menu.OnRestart  = () => _fsm.ChangeState(new TapToStartState(_context, _fsm, autoStart: true));
+            _context.UiRoot.Show<MenuView>();
         }
+
+        public void Exit()
+        {
+            Debug.Log("[PauseState] Exit");
+            _context.UiRoot.Hide<MenuView>();
+        }
+
+        public void Tick(float deltaTime) { }
     }
 }
