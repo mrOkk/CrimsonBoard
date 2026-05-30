@@ -7,15 +7,16 @@
 | `task_file` | `docs/tasks/12-ui-system-iteration-1.md` |
 | `branch` | `feature/12-ui-system-iteration-1` |
 | `user_key` | `oleg-koposov` |
-| `current_phase` | `2`|
+| `current_phase` | `3`|
 | `status` | `active` |
 | `created_at` | `2026-05-30T16:05:43Z` |
-| `updated_at` | `2026-05-30T16:09:45Z`|
+| `updated_at` | `2026-05-30T16:25:33Z`|
 
 ## Phase History
 
 | When | From → To | Note |
 |---|---|---|
+| 2026-05-30T16:25:33Z | 2 → 3 | Plan signed off |
 | 2026-05-30T16:09:45Z | 1 → 2 | Discovery signed off |
 | 2026-05-30T16:05:43Z | — → 1 | Created by wf-start |
 
@@ -53,8 +54,20 @@ View-объекты добавляются как дочерние GameObject-ы
 
 ## Tasks
 
-<!-- Filled by wf-plan: cross-cutting Goal/Architecture/File-structure headers
-     + checkbox list of Tasks linking to tasks/task-<N>.md. -->
+**Goal:** Реализовать базовую UI-инфраструктуру — абстрактный `BaseView` и фасад `UiRoot` — и подключить её к игровому циклу через `GameContext` и `EntryPoint`. После этого любое состояние (FSM) сможет управлять видимостью View через `context.UiRoot.Show<T>()`.
+
+**Architecture:** `UiRoot` — MonoBehaviour, который в `Awake` сканирует дочерние объекты через `GetComponentsInChildren<BaseView>(true)` и регистрирует каждый View в `Dictionary<Type, BaseView>`. `EntryPoint` держит `[SerializeField] UiRoot _uiRoot`, передаёт его в `GameContext.UiRoot` при `Awake` и вызывает `_uiRoot?.Tick(deltaTime)` после `_fsm.Tick(deltaTime)` в `Update`.
+
+**File structure:**
+| Path | Type | Purpose |
+|---|---|---|
+| `CB-client/Assets/Scripts/UI/BaseView.cs` | Create | Абстрактный MonoBehaviour с Show/Hide/Tick |
+| `CB-client/Assets/Scripts/UI/UiRoot.cs` | Create | MonoBehaviour-фасад: регистрация и управление View |
+| `CB-client/Assets/Scripts/Core/GameContext.cs` | Modify | Добавить свойство `UiRoot UiRoot` |
+| `CB-client/Assets/Scripts/Core/EntryPoint.cs` | Modify | Добавить `_uiRoot`, присвоить `context.UiRoot`, вызвать Tick |
+
+- [ ] [Task 1: Create UI infrastructure (BaseView + UiRoot)](tasks/task-1.md)
+- [ ] [Task 2: Integrate UiRoot into GameContext and EntryPoint](tasks/task-2.md)
 
 ## What we did
 
