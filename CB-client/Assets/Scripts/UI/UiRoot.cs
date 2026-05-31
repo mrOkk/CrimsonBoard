@@ -13,6 +13,7 @@ namespace CrimsonBoard
         {
             _views.Clear();
             _openViews.Clear();
+
             foreach (var view in GetComponentsInChildren<BaseView>(true))
             {
                 _views[view.GetType()] = view;
@@ -54,8 +55,11 @@ namespace CrimsonBoard
 
         public void Tick(float deltaTime)
         {
-            foreach (var view in _openViews)
+            for (var index = 0; index < _openViews.Count; index++)
+            {
+                var view = _openViews[index];
                 view.Tick(deltaTime);
+            }
         }
     }
 }

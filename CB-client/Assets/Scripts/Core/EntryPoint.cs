@@ -18,10 +18,10 @@ namespace CrimsonBoard
         {
             var context = new GameContext(_config);
             context.Camera = _camera != null ? _camera : Camera.main;
+            context.UiRoot = _uiRoot;
+            _uiRoot.Init();
             _fsm = new GameStateMachine();
             _fsm.ChangeState(new InitState(context, _fsm));
-            _uiRoot.Init();
-            context.UiRoot = _uiRoot;
         }
 
         private void Update()
