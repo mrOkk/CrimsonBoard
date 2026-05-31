@@ -20,8 +20,8 @@ namespace CrimsonBoard
             _volumeSlider.value = AudioListener.volume;
             _continueButton.onClick.AddListener(HandleContinue);
             _restartButton.onClick.AddListener(HandleRestart);
-            _audioToggle.onValueChanged.AddListener(HandleAudioToggle);
-            _volumeSlider.onValueChanged.AddListener(HandleVolumeSlider);
+            // _audioToggle.onValueChanged.AddListener(HandleAudioToggle);
+            // _volumeSlider.onValueChanged.AddListener(HandleVolumeSlider);
         }
 
         public override void Hide()
@@ -29,8 +29,8 @@ namespace CrimsonBoard
             base.Hide();
             _continueButton.onClick.RemoveListener(HandleContinue);
             _restartButton.onClick.RemoveListener(HandleRestart);
-            _audioToggle.onValueChanged.RemoveListener(HandleAudioToggle);
-            _volumeSlider.onValueChanged.RemoveListener(HandleVolumeSlider);
+            // _audioToggle.onValueChanged.RemoveListener(HandleAudioToggle);
+            // _volumeSlider.onValueChanged.RemoveListener(HandleVolumeSlider);
         }
 
         private void HandleContinue() => OnContinue?.Invoke();
