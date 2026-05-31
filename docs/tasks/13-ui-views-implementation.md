@@ -36,4 +36,4 @@
 
 ## Comments
 
-**[User, 2026-05-30]:** Следующая задача: имплементация вью классов (PreBattleView, MenuView, HudView, post-match screen).
+**[Copilot, 2026-05-30]:** Implementation complete. Созданы GameStats и четыре View-класса (PreBattleView, HudView, MenuView, PostBattleView); все FSM-состояния обновлены для управления видимостью экранов, аудио-настройки работают через AudioListener, рестарт из PostBattle минует pre-battle.

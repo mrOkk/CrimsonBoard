@@ -38,6 +38,7 @@ namespace CrimsonBoard
             _systemRunner.RegisterSystem(_enemyMovementSystem);
             _healthSystem.EnemyDeathCallback += _enemySpawnSystem.OnEnemyDied;
             _healthSystem.EnemyDeathCallback += _enemyMovementSystem.OnEnemyDied;
+            _healthSystem.EnemyDeathCallback += _ => _context.Stats.AddScore(1);
             _enemySpawnSystem.EnemySpawned += _enemyMovementSystem.OnEnemySpawned;
             _systemRunner.RegisterSystem(_enemySpawnSystem);
         }
@@ -45,15 +46,24 @@ namespace CrimsonBoard
         public void Enter()
         {
             Debug.Log("[GameplayState] Enter");
+            _context.Stats.Reset();
+            var hud = _context.UiRoot.GetView<HudView>();
+            hud.OnMenuRequested = () => _fsm.RequestPause(new PauseState(_context, _fsm));
+            _context.UiRoot.Show<HudView>();
             _systemRunner.Initialize();
         }
 
         public void Exit()
         {
             Debug.Log("[GameplayState] Exit");
+            _context.UiRoot.Hide<HudView>();
             _systemRunner.Dispose();
         }
 
-        public void Tick(float deltaTime) => _systemRunner.Tick(deltaTime);
+        public void Tick(float deltaTime)
+        {
+            _context.Stats.Tick(deltaTime);
+            _systemRunner.Tick(deltaTime);
+        }
     }
 }

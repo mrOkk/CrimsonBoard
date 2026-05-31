@@ -13,12 +13,20 @@ namespace CrimsonBoard
             _fsm = fsm;
         }
 
-        public void Enter() => Debug.Log("[GameOverState] Enter");
-        public void Exit() => Debug.Log("[GameOverState] Exit");
-
-        public void Tick(float deltaTime)
+        public void Enter()
         {
-            // TODO: detect restart input → ChangeState(new TapToStartState(...))
+            Debug.Log("[GameOverState] Enter");
+            var view = _context.UiRoot.GetView<PostBattleView>();
+            view.OnRestart = () => _fsm.ChangeState(new TapToStartState(_context, _fsm, autoStart: true));
+            _context.UiRoot.Show<PostBattleView>();
         }
+
+        public void Exit()
+        {
+            Debug.Log("[GameOverState] Exit");
+            _context.UiRoot.Hide<PostBattleView>();
+        }
+
+        public void Tick(float deltaTime) { }
     }
 }
