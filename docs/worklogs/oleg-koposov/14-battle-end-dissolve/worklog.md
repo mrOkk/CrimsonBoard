@@ -7,15 +7,16 @@
 | `task_file` | `docs/tasks/14-battle-end-dissolve.md` |
 | `branch` | `feature/14-battle-end-dissolve` |
 | `user_key` | `oleg-koposov` |
-| `current_phase` | `2`|
+| `current_phase` | `3`|
 | `status` | `active` |
 | `created_at` | `2026-06-01T19:55:22Z` |
-| `updated_at` | `2026-06-01T20:01:17Z`|
+| `updated_at` | `2026-06-01T20:04:48Z`|
 
 ## Phase History
 
 | When | From → To | Note |
 |---|---|---|
+| 2026-06-01T20:04:48Z | 2 → 3 | Plan signed off |
 | 2026-06-01T20:01:17Z | 1 → 2 | Discovery signed off |
 | 2026-06-01T19:55:22Z | — → 1 | Created by wf-start |
 
@@ -69,8 +70,22 @@
 
 ## Tasks
 
-<!-- Filled by wf-plan: cross-cutting Goal/Architecture/File-structure headers
-     + checkbox list of Tasks linking to tasks/task-<N>.md. -->
+**Goal:** Доработать завершение битвы: все активные враги уничтожаются через dissolve-эффект при game over; dissolve-lifecycle вынесен в переиспользуемый `DissolveService`; игровое поле и позиция игрока сохраняются при рестарте.
+
+**Architecture:** Статический `DissolveService` инкапсулирует dissolve + pool-return lifecycle для одного врага и для батча. `HealthSystem` делегирует ему; `GameOverState` запускает батч-dissolve параллельно с показом UI. Рестарт переходит напрямую в `GameplayState` (поле и игрок не пересоздаются). Доступ к списку активных врагов обеспечивается через новое свойство `GameContext.EnemySpawnSystem`.
+
+**File structure:**
+| Path | Type | Purpose |
+|---|---|---|
+| `CB-client/Assets/Scripts/Core/Systems/DissolveService.cs` | Create | Утилита dissolve lifecycle |
+| `CB-client/Assets/Scripts/Core/GameContext.cs` | Modify | Добавить `EnemySpawnSystem` property |
+| `CB-client/Assets/Scripts/Core/Systems/HealthSystem.cs` | Modify | Делегировать dissolve в `DissolveService` |
+| `CB-client/Assets/Scripts/States/GameplayState.cs` | Modify | Установить `context.EnemySpawnSystem` |
+| `CB-client/Assets/Scripts/States/GameOverState.cs` | Modify | Батч-dissolve врагов + прямой рестарт |
+
+- [ ] [Task 1: DissolveService + HealthSystem refactor](tasks/task-1.md)
+- [ ] [Task 2: GameContext + GameplayState wiring](tasks/task-2.md)
+- [ ] [Task 3: GameOverState — dissolve on enter + restart fix](tasks/task-3.md)
 
 ## What we did
 
