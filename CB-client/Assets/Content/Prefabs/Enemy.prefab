@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 76bbaec3a8c0c0947ac901ae2c03f69d, type: 2}
+  - {fileID: 2100000, guid: 8a45f2d383f72e14e88354de6883d61a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -151,3 +151,4 @@ MonoBehaviour:
   _meshFilter: {fileID: 6705240861444662091}
   _rigidbody: {fileID: 4411970351049152255}
   _collider: {fileID: 5408949687067737936}
+  _dissolve: {fileID: 0}

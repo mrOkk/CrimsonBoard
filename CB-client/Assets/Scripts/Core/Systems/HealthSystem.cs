@@ -64,7 +64,13 @@ namespace CrimsonBoard
         {
             EnemyDeathCallback?.Invoke(enemy);
             _context.OccupancyMap.Unregister(enemyCell);
-            _context.Pools.Enemies.Return(enemy);
+            enemy.Collider.enabled = false;
+
+            enemy.Dissolve.Play(() =>
+            {
+                enemy.Collider.enabled = true;
+                _context.Pools.Enemies.Return(enemy);
+            });
         }
     }
 }
