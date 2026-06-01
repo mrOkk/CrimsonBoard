@@ -91,4 +91,5 @@
 
 ## Implementation
 
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** Создан `DissolveService.cs` со статическими методами `DissolveAndReturn` и `DissolveAllAndReturn`. `HealthSystem.OnEnemyDeath` упрощён до двух строк — вызов коллбэка и делегирование в `DissolveService`.

@@ -8,14 +8,15 @@
 | `branch` | `feature/14-battle-end-dissolve` |
 | `user_key` | `oleg-koposov` |
 | `current_phase` | `3`|
-| `status` | `active` |
+| `status` | `done`|
 | `created_at` | `2026-06-01T19:55:22Z` |
-| `updated_at` | `2026-06-01T20:04:48Z`|
+| `updated_at` | `2026-06-01T20:24:38Z`|
 
 ## Phase History
 
 | When | From → To | Note |
 |---|---|---|
+| 2026-06-01T20:24:38Z | active → done | Implemented by wf-implement |
 | 2026-06-01T20:04:48Z | 2 → 3 | Plan signed off |
 | 2026-06-01T20:01:17Z | 1 → 2 | Discovery signed off |
 | 2026-06-01T19:55:22Z | — → 1 | Created by wf-start |
@@ -83,10 +84,14 @@
 | `CB-client/Assets/Scripts/States/GameplayState.cs` | Modify | Установить `context.EnemySpawnSystem` |
 | `CB-client/Assets/Scripts/States/GameOverState.cs` | Modify | Батч-dissolve врагов + прямой рестарт |
 
-- [ ] [Task 1: DissolveService + HealthSystem refactor](tasks/task-1.md)
-- [ ] [Task 2: GameContext + GameplayState wiring](tasks/task-2.md)
-- [ ] [Task 3: GameOverState — dissolve on enter + restart fix](tasks/task-3.md)
+- [x] [Task 1: DissolveService + HealthSystem refactor](tasks/task-1.md)
+- [x] [Task 2: GameContext + GameplayState wiring](tasks/task-2.md)
+- [x] [Task 3: GameOverState — dissolve on enter + restart fix](tasks/task-3.md)
 
 ## What we did
 
-<!-- Filled manually or by wf-implement at phase end. -->
+- Создан `DissolveService` — статическая утилита, инкапсулирующая полный цикл уничтожения врага: снятие с карты занятости, отключение коллайдера, запуск dissolve-анимации и возврат в пул по её завершении.
+- Из `HealthSystem` убрана inline-логика ожидания dissolve; метод теперь делегирует в `DissolveService`.
+- `GameContext` получил свойство `EnemySpawnSystem`; `GameplayState` устанавливает его при создании системы спауна.
+- `GameOverState` при входе делает snapshot активных врагов и запускает их батч-dissolve параллельно с показом PostBattle-экрана.
+- Рестарт матча теперь идёт напрямую в `GameplayState`: игровое поле и текущая позиция игрока сохраняются, здоровье и таймеры волн сбрасываются штатной инициализацией систем.

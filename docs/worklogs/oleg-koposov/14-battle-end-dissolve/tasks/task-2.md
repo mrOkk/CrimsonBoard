@@ -25,4 +25,5 @@
 
 ## Implementation
 
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** Добавлено свойство `EnemySpawnSystem` в `GameContext`; в конструкторе `GameplayState` после создания экземпляра добавлена строка `context.EnemySpawnSystem = _enemySpawnSystem`.

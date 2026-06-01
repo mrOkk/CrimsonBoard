@@ -20,4 +20,4 @@
 
 **[User, 2026-06-01]:** Добавь задачу: Доработка этапа завершения битвы. Нужно уничтожить всех врагов через dissolve эффект. Для этого логику ожидания окончания нужно вынести из HealthSystem в какую-нибудь общую ютилити часть. Не нужно уничтожать игровое поле, и при перезапуске стартуем с того же места, где остановились.
 
-**[Copilot, 2026-06-01]:** Discovery complete. Approach: статический `DissolveService` инкапсулирует dissolve lifecycle, `HealthSystem` его использует, `GameOverState` запускает батч-dissolve параллельно с UI, рестарт идёт напрямую в `GameplayState` минуя `TapToStartState`. Scope in: DissolveService (new), HealthSystem, GameOverState, GameContext, GameplayState. Scope out: GameField, PlayerSpawnSystem, логика волн.
+**[Copilot, 2026-06-01]:** Implementation complete. Создан `DissolveService` для переиспользуемого dissolve lifecycle; `HealthSystem` делегирует ему; `GameOverState` растворяет всех активных врагов при входе и при рестарте ведёт напрямую в `GameplayState`, сохраняя поле и позицию игрока.

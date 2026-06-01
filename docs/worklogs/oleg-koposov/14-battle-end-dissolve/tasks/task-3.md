@@ -34,4 +34,5 @@
 
 ## Implementation
 
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** В `GameOverState.Enter()` добавлен snapshot активных врагов и вызов `DissolveService.DissolveAllAndReturn` перед показом UI; `OnRestart` теперь переходит в `new GameplayState(...)` напрямую, минуя `TapToStartState`.
