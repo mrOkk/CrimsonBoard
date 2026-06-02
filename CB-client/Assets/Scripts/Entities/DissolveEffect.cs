@@ -1,5 +1,6 @@
 using System;
-using System.Collections;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace CrimsonBoard
@@ -11,45 +12,46 @@ namespace CrimsonBoard
 
         private static readonly int DissolveAmountId = Shader.PropertyToID("_DissolveAmount");
 
-        private readonly MaterialPropertyBlock _block = new();
-        private Coroutine _coroutine;
+        private MaterialPropertyBlock _block;
+        private CancellationTokenSource _cts;
 
         /// <summary>Animates dissolve from 0 → 1 over <see cref="_duration"/> seconds.</summary>
         public void Play(Action onComplete = null)
         {
-            if (_coroutine != null)
-                StopCoroutine(_coroutine);
-            _coroutine = StartCoroutine(DissolveRoutine(onComplete));
+            _cts?.Cancel();
+            _cts?.Dispose();
+            _cts = new();
+            DissolveRoutine(onComplete, _cts.Token).Forget();
         }
 
         /// <summary>Stops any running animation and resets to fully visible.</summary>
         public void ResetDissolve()
         {
-            if (_coroutine != null)
-            {
-                StopCoroutine(_coroutine);
-                _coroutine = null;
-            }
+            _cts?.Cancel();
+            _cts?.Dispose();
+            _cts = null;
             SetAmount(0f);
         }
 
         private void SetAmount(float value)
         {
+            _block ??= new();
             _block.SetFloat(DissolveAmountId, value);
             _renderer.SetPropertyBlock(_block);
         }
 
-        private IEnumerator DissolveRoutine(Action onComplete)
+        private async UniTask DissolveRoutine(Action onComplete, CancellationToken ct)
         {
             float elapsed = 0f;
             while (elapsed < _duration)
             {
+                if (ct.IsCancellationRequested)
+                    return;
                 elapsed += Time.deltaTime;
                 SetAmount(Mathf.Clamp01(elapsed / _duration));
-                yield return null;
+                await UniTask.Yield(cancellationToken: ct);
             }
             SetAmount(1f);
-            _coroutine = null;
             onComplete?.Invoke();
         }
     }
