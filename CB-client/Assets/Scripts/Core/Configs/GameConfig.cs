@@ -13,5 +13,22 @@ namespace CrimsonBoard
         public PrefabsConfig prefabs;
         public HopConfig hop;
         public SpawnConfig spawn;
+
+#if UNITY_EDITOR
+        private static GameConfig _editorInstance;
+
+        public static GameConfig EditorInstance
+        {
+            get
+            {
+                if (_editorInstance != null) return _editorInstance;
+                var guids = UnityEditor.AssetDatabase.FindAssets("t:GameConfig");
+                if (guids.Length == 0) return null;
+                var path = UnityEditor.AssetDatabase.GUIDToAssetPath(guids[0]);
+                _editorInstance = UnityEditor.AssetDatabase.LoadAssetAtPath<GameConfig>(path);
+                return _editorInstance;
+            }
+        }
+#endif
     }
 }
