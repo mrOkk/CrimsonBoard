@@ -44,4 +44,5 @@
    Прецедент: аналогичный defensive null-return паттерн используется в `EnemySpawnSystem.SpawnEnemyAt`.
 
 ## Implementation
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** `GamePools.Weapons` заменён на `IReadOnlyDictionary<int, ObjectPool<WeaponView>>`, построенный из `prefabs.weaponPrefabs`. Добавлен `GetWeaponPool(int)`. `PoolConstants.Weapons` переименован в `WeaponsPerType = 5`.
