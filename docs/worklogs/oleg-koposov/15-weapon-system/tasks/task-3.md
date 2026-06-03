@@ -52,4 +52,5 @@
    Прецедент: аналогичная активация/деактивация через `enabled` — в `ObjectPool<T>.Get/Return`.
 
 ## Implementation
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** Добавлены `WeaponId`, `_hoverHeight`, `_pickupCollider`, event `TriggerEntered`, методы `SetWeaponId`, `SetDroppedMode`, `SetEquippedMode`, обработчик `OnTriggerEnter`.

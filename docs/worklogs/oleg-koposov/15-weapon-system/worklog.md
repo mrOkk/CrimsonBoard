@@ -76,7 +76,7 @@
 | `Assets/Scripts/Tests/Editor/WeaponIdDrawer.cs` | Create | PropertyDrawer для [WeaponId] — выпадающий список weapon names по id |
 
 - [x] [Task 1: Config types refactor](tasks/task-1.md)
-- [ ] [Task 2: WeaponView pickup mode](tasks/task-3.md)
+- [x] [Task 2: WeaponView pickup mode](tasks/task-3.md)
 - [ ] [Task 3: Per-weapon pools](tasks/task-2.md)
 - [ ] [Task 4: PlayerInventory + init](tasks/task-4.md)
 - [ ] [Task 5: WeaponPickupSystem](tasks/task-5.md)
