@@ -75,4 +75,5 @@
    Прецедент: паттерн `Array.Find` по id — в `EnemySpawnSystem.SpawnEnemyAt`.
 
 ## Implementation
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** Создан `PlayerInventory` (owned ids, ammo dict, activeWeaponId). `GameContext` получил `Inventory`. `PlayerSpawnSystem` инициализирует инвентарь из `config.player.startingInventory`, с поддержкой `infiniteAmmo` → `int.MaxValue`.
