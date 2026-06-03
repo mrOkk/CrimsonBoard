@@ -12,6 +12,7 @@ namespace CrimsonBoard
         private EnemySpawnSystem _enemySpawnSystem;
         private EnemyMovementSystem _enemyMovementSystem;
         private WeaponPickupSystem _weaponPickupSystem;
+        private WeaponUsageSystem _weaponUsageSystem;
 
         public HealthSystem HealthSystem => _healthSystem;
         public GridMovementSystem GridMovementSystem => _gridMovementSystem;
@@ -47,6 +48,8 @@ namespace CrimsonBoard
             _weaponPickupSystem = new WeaponPickupSystem(context);
             _systemRunner.RegisterSystem(_weaponPickupSystem);
             _healthSystem.WeaponDropped += _weaponPickupSystem.RegisterDropped;
+            _weaponUsageSystem = new WeaponUsageSystem(context);
+            _systemRunner.RegisterSystem(_weaponUsageSystem);
         }
 
         public void Enter()
