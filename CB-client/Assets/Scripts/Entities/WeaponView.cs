@@ -7,9 +7,36 @@ namespace CrimsonBoard
         [SerializeField] private MeshFilter _meshFilter;
         [SerializeField] private Transform _playerAttachPoint;
         [SerializeField] private Transform _muzzlePoint;
+        [SerializeField] private Collider _pickupCollider;
+        [SerializeField] private float _hoverHeight = 1f;
 
         public MeshFilter MeshFilter => _meshFilter;
         public Transform PlayerAttachPoint => _playerAttachPoint;
         public Transform MuzzlePoint => _muzzlePoint;
+        public int WeaponId { get; private set; }
+        public float HoverHeight => _hoverHeight;
+
+        public System.Action<WeaponView, Collider> TriggerEntered;
+
+        public void SetWeaponId(int id) => WeaponId = id;
+
+        public void SetDroppedMode(Vector3 basePosition)
+        {
+            transform.position = basePosition + Vector3.up * _hoverHeight;
+            if (_pickupCollider != null)
+            {
+                _pickupCollider.isTrigger = true;
+                _pickupCollider.enabled = true;
+            }
+        }
+
+        public void SetEquippedMode()
+        {
+            if (_pickupCollider != null)
+                _pickupCollider.enabled = false;
+            TriggerEntered = null;
+        }
+
+        private void OnTriggerEnter(Collider other) => TriggerEntered?.Invoke(this, other);
     }
 }

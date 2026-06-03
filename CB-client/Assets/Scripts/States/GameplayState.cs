@@ -11,9 +11,11 @@ namespace CrimsonBoard
         private HealthSystem _healthSystem;
         private EnemySpawnSystem _enemySpawnSystem;
         private EnemyMovementSystem _enemyMovementSystem;
+        private WeaponPickupSystem _weaponPickupSystem;
 
         public HealthSystem HealthSystem => _healthSystem;
         public GridMovementSystem GridMovementSystem => _gridMovementSystem;
+        public WeaponPickupSystem WeaponPickupSystem => _weaponPickupSystem;
 
         public GameplayState(GameContext context, GameStateMachine fsm)
         {
@@ -42,6 +44,9 @@ namespace CrimsonBoard
             _healthSystem.EnemyDeathCallback += _ => _context.Stats.AddScore(1);
             _enemySpawnSystem.EnemySpawned += _enemyMovementSystem.OnEnemySpawned;
             _systemRunner.RegisterSystem(_enemySpawnSystem);
+            _weaponPickupSystem = new WeaponPickupSystem(context);
+            _systemRunner.RegisterSystem(_weaponPickupSystem);
+            _healthSystem.WeaponDropped += _weaponPickupSystem.RegisterDropped;
         }
 
         public void Enter()

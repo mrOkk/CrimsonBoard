@@ -18,6 +18,7 @@ namespace CrimsonBoard
         public GameFieldSystem GameFieldSystem { get; set; }
         public EnemySpawnSystem EnemySpawnSystem { get; set; }
         public UiRoot UiRoot { get; set; }
+        public PlayerInventory Inventory { get; set; }
         public GameStats Stats { get; } = new GameStats();
         public InputState InputState { get; } = new InputState();
         public System.Random SharedRandom { get; private set; }

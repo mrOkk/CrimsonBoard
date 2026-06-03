@@ -7,11 +7,13 @@ namespace CrimsonBoard
     {
         public int id;
         public string name;
-        public Mesh mesh;
         public int damage;
         public float shotsPerBeat;
         public float spread;
         public float rotationSpeed;
         public float moveSpeedCoefficient;
+        public bool infiniteAmmo;
+        public int ammoOnPickup;
+        [Range(0f, 1f)] public float dropChance;
     }
 }

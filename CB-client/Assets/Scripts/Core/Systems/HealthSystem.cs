@@ -16,6 +16,9 @@ namespace CrimsonBoard
         /// <summary>Called when an enemy dies, before it is returned to the pool.</summary>
         public System.Action<EnemyView> EnemyDeathCallback;
 
+        /// <summary>Invoked after enemy death with the WeaponView that was dropped (if any).</summary>
+        public System.Action<WeaponView> WeaponDropped;
+
         public void Initialize()
         {
             _context.Player.Health.Init(_context.Config.player.health);
@@ -64,6 +67,35 @@ namespace CrimsonBoard
         {
             EnemyDeathCallback?.Invoke(enemy);
             DissolveService.DissolveAndReturn(enemy, enemyCell, _context.OccupancyMap, _context.Pools);
+            TryDropWeapon(enemyCell);
+        }
+
+        private void TryDropWeapon(Vector2Int enemyCell)
+        {
+            var weapons = _context.Config.weapons;
+            float totalWeight = 0f;
+            foreach (var w in weapons)
+                if (w.dropChance > 0f) totalWeight += w.dropChance;
+            if (totalWeight <= 0f) return;
+
+            float roll = (float)(_context.SharedRandom.NextDouble() * totalWeight);
+            float acc = 0f;
+            WeaponConfig chosen = null;
+            foreach (var w in weapons)
+            {
+                if (w.dropChance <= 0f) continue;
+                acc += w.dropChance;
+                if (roll < acc) { chosen = w; break; }
+            }
+            if (chosen == null) return;
+
+            var pool = _context.Pools.GetWeaponPool(chosen.id);
+            if (pool == null) return;
+
+            var weaponView = pool.Get();
+            var worldPos = ChunkCoordConverter.TileToWorld(enemyCell, _context.Config.board);
+            weaponView.SetDroppedMode(worldPos);
+            WeaponDropped?.Invoke(weaponView);
         }
     }
 }
