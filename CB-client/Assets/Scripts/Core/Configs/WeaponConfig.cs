@@ -11,7 +11,6 @@ namespace CrimsonBoard
         public float shotsPerBeat;
         public float spread;
         public float rotationSpeed;
-        public float moveSpeedCoefficient;
         public bool infiniteAmmo;
         public int ammoOnPickup;
         [Range(0f, 1f)] public float dropChance;

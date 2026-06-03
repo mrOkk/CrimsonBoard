@@ -18,6 +18,9 @@ MonoBehaviour:
     movesPerBeat: 3
     movementInputDelay: 0.1
     inputBufferWindow: 0.15
+    startingInventory:
+    - weaponId: 0
+      ammoCount: 0
   enemies:
   - id: 0
     mesh: {fileID: 8323581286048697210, guid: 66219c511e379ee4980106fd9b1a154c, type: 3}
@@ -51,7 +54,67 @@ MonoBehaviour:
     enemyType: 4
     rank: 5
     moveCooldownTicks: 1
-  weapons: []
+  weapons:
+  - id: 0
+    name: Pistol
+    damage: 1
+    shotsPerBeat: 1
+    spread: 1
+    rotationSpeed: 100
+    moveSpeedCoefficient: 1
+    infiniteAmmo: 1
+    ammoOnPickup: 0
+    dropChance: 0
+  - id: 1
+    name: HeavyPistol
+    damage: 3
+    shotsPerBeat: 1
+    spread: 1
+    rotationSpeed: 100
+    moveSpeedCoefficient: 1
+    infiniteAmmo: 0
+    ammoOnPickup: 15
+    dropChance: 0.2
+  - id: 2
+    name: Shotgun
+    damage: 1
+    shotsPerBeat: 1
+    spread: 1
+    rotationSpeed: 100
+    moveSpeedCoefficient: 1
+    infiniteAmmo: 0
+    ammoOnPickup: 15
+    dropChance: 0.2
+  - id: 3
+    name: AssaultRifle
+    damage: 3
+    shotsPerBeat: 1
+    spread: 1
+    rotationSpeed: 100
+    moveSpeedCoefficient: 1
+    infiniteAmmo: 0
+    ammoOnPickup: 15
+    dropChance: 0.2
+  - id: 4
+    name: SniperRifle
+    damage: 10
+    shotsPerBeat: 1
+    spread: 1
+    rotationSpeed: 100
+    moveSpeedCoefficient: 1
+    infiniteAmmo: 0
+    ammoOnPickup: 15
+    dropChance: 0.2
+  - id: 5
+    name: MachineGun
+    damage: 2
+    shotsPerBeat: 10
+    spread: 10
+    rotationSpeed: 10
+    moveSpeedCoefficient: 0.7
+    infiniteAmmo: 0
+    ammoOnPickup: 15
+    dropChance: 0.2
   timing:
     beatDuration: 1
     phaseDuration: 0
@@ -68,8 +131,19 @@ MonoBehaviour:
       type: 3}
     enemyPrefab: {fileID: 5712899670507637763, guid: 34e15d35fde51e14a85f007985491b68,
       type: 3}
-    weaponPrefab: {fileID: 7479573442554556011, guid: 1a36721892d4b3e499733e8708122f3f,
-      type: 3}
+    weaponPrefabs:
+    - weaponId: 0
+      prefab: {fileID: 0}
+    - weaponId: 0
+      prefab: {fileID: 0}
+    - weaponId: 0
+      prefab: {fileID: 0}
+    - weaponId: 0
+      prefab: {fileID: 0}
+    - weaponId: 0
+      prefab: {fileID: 0}
+    - weaponId: 0
+      prefab: {fileID: 0}
     powerUpPrefab: {fileID: 0}
     projectilePrefab: {fileID: -3904231959811878246, guid: 6a5e25777bbd27e48bfab1f629e106c4,
       type: 3}
