@@ -6,6 +6,7 @@
 
 Требования:
 - Каждое оружие представлено отдельным префабом.
+- Поле mesh из оружия нужно удалить.
 - Для каждого префаба оружия по `id` должен маппиться отдельный пул объектов.
 - Для полей выбора оружия в инспекторе требуется селектор с выпадающим меню:
 	- значение хранится по `id` оружия;
@@ -26,3 +27,5 @@
 - Стрельба и способ переключения оружия реализуются в отдельной задаче.
 
 ## Comments
+
+**[Copilot, 2026-06-03]:** Discovery complete. Approach: per-weapon prefabs + per-weapon pools, PlayerInventory as plain C# class in GameContext, WeaponPickupSystem handles trigger-based pickup and auto-switch, HealthSystem rolls weighted random drop on enemy death (max 1 weapon). Scope OUT: shooting and manual weapon switching (separate task).
