@@ -10,5 +10,6 @@ namespace CrimsonBoard
         public int movesPerBeat;
         public float movementInputDelay = 0.1f;
         public float inputBufferWindow = 0.15f;
+        public InventoryEntry[] startingInventory;
     }
 }

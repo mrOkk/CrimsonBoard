@@ -7,7 +7,7 @@ namespace CrimsonBoard
     {
         public PlayerView playerPrefab;
         public EnemyView enemyPrefab;
-        public WeaponView weaponPrefab;
+        public WeaponPrefabEntry[] weaponPrefabs;
         public PowerUpView powerUpPrefab;
         public ProjectileView projectilePrefab;
         public BoardTileView tilePrefab;
