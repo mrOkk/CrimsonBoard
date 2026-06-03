@@ -57,4 +57,5 @@
    ```
 
 ## Implementation
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** `HealthSystem` получил `WeaponDropped` event и `TryDropWeapon` — weighted random выбор среди оружий с `dropChance > 0`, спавн в dropped-режиме. `GameplayState` подписал `_weaponPickupSystem.RegisterDropped` на этот event.

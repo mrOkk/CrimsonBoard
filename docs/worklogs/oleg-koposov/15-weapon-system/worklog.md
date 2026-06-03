@@ -80,7 +80,7 @@
 - [x] [Task 3: Per-weapon pools](tasks/task-2.md)
 - [x] [Task 4: PlayerInventory + init](tasks/task-4.md)
 - [x] [Task 5: WeaponPickupSystem](tasks/task-5.md)
-- [ ] [Task 6: HealthSystem weapon drop](tasks/task-6.md)
+- [x] [Task 6: HealthSystem weapon drop](tasks/task-6.md)
 - [ ] [Task 7: WeaponId PropertyDrawer](tasks/task-7.md)
 
 ## What we did
