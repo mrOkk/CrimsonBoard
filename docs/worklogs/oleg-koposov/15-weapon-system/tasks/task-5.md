@@ -82,4 +82,5 @@
    Это событие будет подписано в GameplayState (см. Task 6).
 
 ## Implementation
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** Создан `WeaponPickupSystem` (IGameSystem): трекинг dropped weapons через `RegisterDropped`, обработка `TriggerEntered`, auto-switch при новом оружии, возврат в пул. `GameplayState` регистрирует систему и публикует свойство `WeaponPickupSystem`.
