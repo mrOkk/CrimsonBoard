@@ -59,4 +59,5 @@
    ```
 
 ## Implementation
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** Удалены `mesh` из `WeaponConfig`, добавлены `infiniteAmmo`, `ammoOnPickup`, `dropChance`. Созданы `WeaponPrefabEntry` и `InventoryEntry`. `PrefabsConfig.weaponPrefab` заменён на `weaponPrefabs[]`. `PlayerConfig` получил `startingInventory[]`.
