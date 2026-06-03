@@ -34,5 +34,54 @@ namespace CrimsonBoard
         {
             if (HasWeapon(weaponId)) ActiveWeaponId = weaponId;
         }
+
+        public void CycleNext()
+        {
+            if (_weaponIds.Count == 0) return;
+            int startIdx = ActiveWeaponId.HasValue ? _weaponIds.IndexOf(ActiveWeaponId.Value) : 0;
+            if (startIdx < 0) startIdx = 0;
+
+            int idx = startIdx;
+            for (int i = 0; i < _weaponIds.Count; i++)
+            {
+                idx = (idx + 1) % _weaponIds.Count;
+                int wid = _weaponIds[idx];
+                var cfg = GetWeaponConfig(wid);
+                if (cfg != null && (cfg.infiniteAmmo || GetAmmo(wid) > 0))
+                {
+                    ActiveWeaponId = wid;
+                    return;
+                }
+            }
+        }
+
+        public void CyclePrevious()
+        {
+            if (_weaponIds.Count == 0) return;
+            int startIdx = ActiveWeaponId.HasValue ? _weaponIds.IndexOf(ActiveWeaponId.Value) : 0;
+            if (startIdx < 0) startIdx = 0;
+
+            int idx = startIdx;
+            for (int i = 0; i < _weaponIds.Count; i++)
+            {
+                idx = (idx - 1 + _weaponIds.Count) % _weaponIds.Count;
+                int wid = _weaponIds[idx];
+                var cfg = GetWeaponConfig(wid);
+                if (cfg != null && (cfg.infiniteAmmo || GetAmmo(wid) > 0))
+                {
+                    ActiveWeaponId = wid;
+                    return;
+                }
+            }
+        }
+
+        private WeaponConfig GetWeaponConfig(int weaponId)
+        {
+            var ctx = GameContext.Instance;
+            if (ctx == null || ctx.Config == null) return null;
+            foreach (var w in ctx.Config.weapons)
+                if (w.id == weaponId) return w;
+            return null;
+        }
     }
 }
