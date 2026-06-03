@@ -46,6 +46,7 @@ namespace CrimsonBoard
             _systemRunner.RegisterSystem(_enemySpawnSystem);
             _weaponPickupSystem = new WeaponPickupSystem(context);
             _systemRunner.RegisterSystem(_weaponPickupSystem);
+            _healthSystem.WeaponDropped += _weaponPickupSystem.RegisterDropped;
         }
 
         public void Enter()
