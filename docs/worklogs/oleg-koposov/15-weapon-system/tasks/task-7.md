@@ -104,4 +104,5 @@
    ```
 
 ## Implementation
-<!-- Filled in Phase 3 -->
+**Status:** DONE
+**Summary:** `GameConfig.EditorInstance` — кешированный поиск через `AssetDatabase`. Создан `WeaponIdAttribute` (marker). Создана новая Editor-сборка `CrimsonBoard.Editor` с `WeaponIdDrawer` — показывает выпадающий список weapon names, хранит id.
