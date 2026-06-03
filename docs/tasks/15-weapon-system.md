@@ -28,4 +28,4 @@
 
 ## Comments
 
-**[Copilot, 2026-06-03]:** Discovery complete. Approach: per-weapon prefabs + per-weapon pools, PlayerInventory as plain C# class in GameContext, WeaponPickupSystem handles trigger-based pickup and auto-switch, HealthSystem rolls weighted random drop on enemy death (max 1 weapon). Scope OUT: shooting and manual weapon switching (separate task).
+**[Copilot, 2026-06-03]:** Implementation complete. Реализована базовая система оружия: per-weapon пулы, инвентарь игрока с патронами, подбор оружия через Unity-триггеры, выпадение оружия при смерти врага, [WeaponId] PropertyDrawer для инспектора.
