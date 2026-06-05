@@ -64,3 +64,7 @@ Run via Unity Editor: *Window → General → Test Runner*
 ## Git
 
 - **Do not** add `Co-authored-by:` trailers to commits
+
+## Code Style
+
+See `CodeStyle.md` for formatting conventions.
