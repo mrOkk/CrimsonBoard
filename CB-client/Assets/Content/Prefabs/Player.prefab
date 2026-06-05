@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 418534059972708883}
   - component: {fileID: 2659018454469011521}
   - component: {fileID: 5700760563321648037}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -163,7 +163,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7466713110996207054}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WeaponLocator
   m_TagString: Untagged
   m_Icon: {fileID: 0}

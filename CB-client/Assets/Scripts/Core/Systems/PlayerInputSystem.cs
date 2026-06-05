@@ -50,6 +50,7 @@ namespace CrimsonBoard
             {
                 _lastDir = rawDir;
                 _moveBufferTimer = 0f;
+                _context.InputState.IsKeysHeld = true;
 
                 if (!_wasActive)
                 {
@@ -76,6 +77,7 @@ namespace CrimsonBoard
             }
             else
             {
+                _context.InputState.IsKeysHeld = false;
                 if (_wasActive)
                 {
                     // Just released — emit immediately and start buffer

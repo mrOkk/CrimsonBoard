@@ -10,6 +10,14 @@ Project: **Crimson Gambit** (repo uses legacy name "CrimsonBoard")
 - State machine: `GameStateMachine` with states (Init, TapToStart, Gameplay, Pause, GameEnd)
 - Assembly definitions required — see `Scripts/CB-client.asmdef` and sub-assemblies
 
+### GameContext Guidelines
+
+- **`GameContext` must not contain systems** — it should only hold data entities and shared state
+- If other code needs data from a system, extract that data into a separate entity class
+- Example: Replace `GameBoardSystem` references with a `GameBoard` class that holds board data
+- Systems should read from and write to these data entities, not expose their internal state directly
+- Active opponents list should also be stored in `GameBoard` or similar data entity, not in a system
+
 ## Code Organization
 
 ```

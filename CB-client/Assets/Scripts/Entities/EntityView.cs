@@ -13,6 +13,7 @@ namespace CrimsonBoard
         public Collider Collider => _collider;
 
         public Vector2Int CurrentCell { get; set; }
+        public bool IsMoving => _hopPhase != HopPhase.Idle;
 
         private enum HopPhase { Idle, Windup, Hop }
         private HopPhase _hopPhase = HopPhase.Idle;

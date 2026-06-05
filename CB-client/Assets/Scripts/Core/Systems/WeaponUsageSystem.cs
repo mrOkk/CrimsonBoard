@@ -125,9 +125,9 @@ namespace CrimsonBoard
 
             if (oldId != null && _equippedWeapons.TryGetValue(oldId.Value, out var oldWv))
             {
-                var oldCfg = GetWeaponConfig(oldId.Value);
-                if (oldCfg != null && oldWv.RotationPoint != null)
-                    await AnimateRotation(oldWv, -90f, oldCfg.holsterTime, ct);
+                // var oldCfg = GetWeaponConfig(oldId.Value);
+                // if (oldCfg != null && oldWv.RotationPoint != null)
+                //     await AnimateRotation(oldWv, 70f, oldCfg.holsterTime, ct);
                 oldWv.gameObject.SetActive(false);
             }
 
@@ -137,8 +137,8 @@ namespace CrimsonBoard
                 var newCfg = GetWeaponConfig(newId.Value);
                 if (newCfg != null && newWv.RotationPoint != null)
                 {
-                    SetLocalRotationAroundPoint(newWv, newWv.RotationPoint, -90f);
-                    await AnimateRotation(newWv, 0f, newCfg.drawTime, ct);
+                    // SetLocalRotationAroundPoint(newWv, newWv.RotationPoint, 70f);
+                    // await AnimateRotation(newWv, 0f, newCfg.drawTime, ct);
                 }
             }
 
@@ -149,19 +149,24 @@ namespace CrimsonBoard
         {
             if (wv.RotationPoint == null) return;
 
-            float startAngle = GetLocalRotationAroundPoint(wv, wv.RotationPoint);
-            float elapsed = 0f;
+            await UniTask.Yield();
 
-            while (elapsed < duration)
+            float startAngle = GetLocalRotationAroundPoint(wv, wv.RotationPoint);
+            var startTime = Time.time;
+            duration = 5f;
+            var t = 0f;
+
+            while (t < 1f)
             {
                 ct.ThrowIfCancellationRequested();
-                elapsed += Time.deltaTime;
-                float t = Mathf.Clamp01(elapsed / duration);
-                float angle = Mathf.Lerp(startAngle, targetAngle, t);
+                t = Mathf.Clamp01((Time.time - startTime) / duration);
+                var angle = Mathf.Lerp(startAngle, targetAngle, t) * Mathf.Rad2Deg;
+                Debug.LogError($"rotation {angle} | t = {t} {Time.time} {startTime} {duration}");
                 SetLocalRotationAroundPoint(wv, wv.RotationPoint, angle);
-                await UniTask.Yield(PlayerLoopTiming.Update, ct);
+                await UniTask.Yield();
             }
 
+            Debug.LogError($"final rotation {targetAngle} | t = {t}");
             SetLocalRotationAroundPoint(wv, wv.RotationPoint, targetAngle);
         }
 
@@ -175,8 +180,8 @@ namespace CrimsonBoard
         private void SetLocalRotationAroundPoint(WeaponView wv, Transform pivot, float angleX)
         {
             Vector3 pivotPos = pivot.position;
-            Vector3 localPos = wv.transform.InverseTransformPoint(pivotPos);
-            wv.transform.RotateAround(pivotPos, pivot.right, angleX - GetLocalRotationAroundPoint(wv, pivot));
+            var localRotationAroundPoint = angleX - GetLocalRotationAroundPoint(wv, pivot);
+            wv.transform.RotateAround(pivotPos, pivot.right, localRotationAroundPoint);
         }
 
         private void HideAllWeaponsExcept(int? exceptId)
@@ -189,7 +194,7 @@ namespace CrimsonBoard
 
         private bool CanShoot(WeaponConfig cfg)
         {
-            if (_context.InputState.MoveCommand != null) return false;
+            if (_context.InputState.IsKeysHeld || _context.Player.IsMoving) return false;
             if (!cfg.infiniteAmmo && _context.Inventory.GetAmmo(cfg.id) <= 0) return false;
             return true;
         }
@@ -207,7 +212,7 @@ namespace CrimsonBoard
             {
                 if (enemy == null || enemy.Health.IsDead) continue;
                 float dist = Vector3.SqrMagnitude(playerPos - enemy.transform.position);
-                if (dist < nearestDist)
+                if (dist <= nearestDist)
                 {
                     nearestDist = dist;
                     nearest = enemy;
@@ -235,7 +240,9 @@ namespace CrimsonBoard
             var muzzle = wv.MuzzlePoint;
             if (muzzle == null) return;
 
-            var dir = (target.transform.position - muzzle.position).normalized;
+            var dir = (target.transform.position - muzzle.position);
+            dir.y = 0f;
+            dir.Normalize();
             dir = ApplySpread(dir, cfg.spread);
 
             var proj = _context.Pools.Projectiles.Get();
