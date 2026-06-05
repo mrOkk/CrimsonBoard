@@ -15,8 +15,7 @@ namespace CrimsonBoard
         public PlayerView Player { get; set; }
         public OccupancyMap OccupancyMap { get; }
         public Camera Camera { get; set; }
-        public GameFieldSystem GameFieldSystem { get; set; }
-        public EnemySpawnSystem EnemySpawnSystem { get; set; }
+        public GameBoard Board { get; set; }
         public UiRoot UiRoot { get; set; }
         public PlayerInventory Inventory { get; set; }
         public GameStats Stats { get; } = new GameStats();
