@@ -67,8 +67,27 @@
 
 ## Tasks
 
-<!-- Filled by wf-plan: cross-cutting Goal/Architecture/File-structure headers
-     + checkbox list of Tasks linking to tasks/task-<N>.md. -->
+**Goal:** Refactor `GameContext` to comply with AGENTS.md — remove system references and introduce a `GameBoard` data entity that holds board-level data (active enemies, border tiles, weapon positions, power-up positions).
+
+**Architecture:**
+`GameBoard` is a plain C# class (not a MonoBehaviour, not a system). It wraps `GameFieldSystem` (stored internally) for border-tile queries and **owns** the `_activeEnemies` list. Systems receive `GameBoard` via constructor — never reach into other systems through `_context`. `GameplayState` accesses the underlying `GameFieldSystem` through `GameBoard.FieldSystem` for runner registration only.
+
+**File structure:**
+| Path | Type | Purpose |
+|---|---|---|
+| `Core/GameBoard.cs` | Create | Data entity: active enemies, border tiles, dropped weapons, power-ups |
+| `Core/GameContext.cs` | Modify | Add `Board` property, remove `GameFieldSystem` and `EnemySpawnSystem` |
+| `States/TapToStartState.cs` | Modify | Create `GameBoard`, wire to context |
+| `Core/Systems/EnemySpawnSystem.cs` | Modify | Read/write enemies via `GameBoard` |
+| `Core/Systems/HopAnimationSystem.cs` | Modify | Read enemies from `GameBoard` instead of `EnemySpawnSystem` |
+| `Core/Systems/WeaponUsageSystem.cs` | Modify | Read enemies from `_context.Board` |
+| `States/GameplayState.cs` | Modify | Pass `GameBoard` to systems, register field system via `Board.FieldSystem` |
+| `States/GameOverState.cs` | Modify | Read enemies from `_context.Board` |
+
+- [x] [Task 1: Create GameBoard data class](tasks/task-1.md)
+- [ ] [Task 2: Migrate GameFieldSystem out of GameContext](tasks/task-2.md)
+- [ ] [Task 3: Migrate EnemySpawnSystem out of GameContext](tasks/task-3.md)
+
 
 ## What we did
 
