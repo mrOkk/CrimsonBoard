@@ -8,6 +8,7 @@ namespace CrimsonBoard
         private readonly GameStateMachine _fsm;
         private readonly bool _autoStart;
         private CameraFollowSystem _cameraFollowSystem;
+        private GameFieldSystem _gameFieldSystem;
 
         public TapToStartState(GameContext context, GameStateMachine fsm, bool autoStart = false)
         {
@@ -20,8 +21,9 @@ namespace CrimsonBoard
         {
             Debug.Log("[TapToStartState] Enter");
 
-            _context.GameFieldSystem = new GameFieldSystem(_context);
-            _context.GameFieldSystem.Initialize();
+            _gameFieldSystem = new GameFieldSystem(_context);
+            _gameFieldSystem.Initialize();
+            _context.Board = new GameBoard(_gameFieldSystem);
 
             new PlayerSpawnSystem(_context).Initialize();
 

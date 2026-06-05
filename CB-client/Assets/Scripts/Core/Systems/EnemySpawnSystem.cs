@@ -88,7 +88,7 @@ namespace CrimsonBoard
             int batch = _context.SharedRandom.Next(batchRange.x, batchRange.y + 1);
             batch = Mathf.Min(batch, wave.maxAliveEnemies - alive);
 
-            var border = _context.GameFieldSystem.GetBorderTiles();
+            var border = _context.Board.GetBorderTiles();
             Shuffle(border);
 
             int spawned = 0;

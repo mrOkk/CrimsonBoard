@@ -205,10 +205,10 @@ namespace CrimsonBoard
             float nearestDist = range * range;
 
             var playerPos = _context.Player.transform.position;
-            var spawnSystem = _context.EnemySpawnSystem;
-            if (spawnSystem == null) return null;
+            var board = _context.Board;
+            if (board == null) return null;
 
-            foreach (var enemy in spawnSystem.ActiveEnemies)
+            foreach (var enemy in board.ActiveEnemies)
             {
                 if (enemy == null || enemy.Health.IsDead) continue;
                 float dist = Vector3.SqrMagnitude(playerPos - enemy.transform.position);

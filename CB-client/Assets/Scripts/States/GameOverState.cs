@@ -17,7 +17,7 @@ namespace CrimsonBoard
         {
             Debug.Log("[GameOverState] Enter");
 
-            var enemies = _context.EnemySpawnSystem?.ActiveEnemies;
+            var enemies = _context.Board?.ActiveEnemies;
             if (enemies != null && enemies.Count > 0)
             {
                 var snapshot = new System.Collections.Generic.List<EnemyView>(enemies);
