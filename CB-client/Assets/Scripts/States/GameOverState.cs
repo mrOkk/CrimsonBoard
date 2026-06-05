@@ -25,7 +25,7 @@ namespace CrimsonBoard
             }
 
             var view = _context.UiRoot.GetView<PostBattleView>();
-            view.OnRestart = () => _fsm.ChangeState(new GameplayState(_context, _fsm));
+            view.OnRestart = () => _fsm.ChangeState(new TapToStartState(_context, _fsm, autoStart: true));
             _context.UiRoot.Show<PostBattleView>();
         }
 

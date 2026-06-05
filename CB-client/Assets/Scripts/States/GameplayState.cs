@@ -7,6 +7,7 @@ namespace CrimsonBoard
         private readonly GameContext _context;
         private readonly GameStateMachine _fsm;
         private readonly GameplaySystemRunner _systemRunner;
+        private readonly GameFieldSystem _gameFieldSystem;
         private GridMovementSystem _gridMovementSystem;
         private HealthSystem _healthSystem;
         private EnemySpawnSystem _enemySpawnSystem;
@@ -18,24 +19,25 @@ namespace CrimsonBoard
         public GridMovementSystem GridMovementSystem => _gridMovementSystem;
         public WeaponPickupSystem WeaponPickupSystem => _weaponPickupSystem;
 
-        public GameplayState(GameContext context, GameStateMachine fsm)
+        public GameplayState(GameContext context, GameStateMachine fsm, GameFieldSystem gameFieldSystem)
         {
             _context = context;
             _fsm = fsm;
             _systemRunner = new GameplaySystemRunner();
+            _gameFieldSystem = gameFieldSystem;
 
             _gridMovementSystem = new GridMovementSystem(context);
 
             // Field and player are already initialized in TapToStartState; reuse existing systems.
             _systemRunner.RegisterSystem(new PlayerInputSystem(context));
-            _systemRunner.RegisterSystem(_context.Board.FieldSystem);
+            _systemRunner.RegisterSystem(_gameFieldSystem);
             _systemRunner.RegisterSystem(new CameraFollowSystem(context));
             _healthSystem = new HealthSystem(context, fsm);
             _gridMovementSystem.HealthSystem = _healthSystem;
             _systemRunner.RegisterSystem(_healthSystem);
             _systemRunner.RegisterSystem(_gridMovementSystem);
             _systemRunner.RegisterSystem(new PlayerMovementSystem(context, _gridMovementSystem));
-            _enemySpawnSystem = new EnemySpawnSystem(context);
+            _enemySpawnSystem = new EnemySpawnSystem(context, _gameFieldSystem);
             _systemRunner.RegisterSystem(new HopAnimationSystem(context, context.Board));
             _enemyMovementSystem = new EnemyMovementSystem(context, _gridMovementSystem);
             _systemRunner.RegisterSystem(_enemyMovementSystem);

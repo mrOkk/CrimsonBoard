@@ -23,7 +23,7 @@ namespace CrimsonBoard
 
             _gameFieldSystem = new GameFieldSystem(_context);
             _gameFieldSystem.Initialize();
-            _context.Board = new GameBoard(_gameFieldSystem);
+            _context.Board = new GameBoard();
 
             new PlayerSpawnSystem(_context).Initialize();
 
@@ -32,12 +32,12 @@ namespace CrimsonBoard
 
             if (_autoStart)
             {
-                _fsm.ChangeState(new GameplayState(_context, _fsm));
+                _fsm.ChangeState(new GameplayState(_context, _fsm, _gameFieldSystem));
                 return;
             }
 
             var view = _context.UiRoot.GetView<PreBattleView>();
-            view.OnPlayerInput = () => _fsm.ChangeState(new GameplayState(_context, _fsm));
+            view.OnPlayerInput = () => _fsm.ChangeState(new GameplayState(_context, _fsm, _gameFieldSystem));
             _context.UiRoot.Show<PreBattleView>();
         }
 

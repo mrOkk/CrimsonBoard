@@ -6,6 +6,7 @@ namespace CrimsonBoard
     public class EnemySpawnSystem : IGameSystem
     {
         private readonly GameContext _context;
+        private readonly GameFieldSystem _gameFieldSystem;
 
         private int _currentWaveIndex;
         private float _waveTimer;
@@ -13,9 +14,10 @@ namespace CrimsonBoard
 
         public System.Action<EnemyView> EnemySpawned;
 
-        public EnemySpawnSystem(GameContext context)
+        public EnemySpawnSystem(GameContext context, GameFieldSystem gameFieldSystem)
         {
             _context = context;
+            _gameFieldSystem = gameFieldSystem;
         }
 
         public void Initialize()
@@ -83,7 +85,7 @@ namespace CrimsonBoard
             int batch = _context.SharedRandom.Next(batchRange.x, batchRange.y + 1);
             batch = Mathf.Min(batch, wave.maxAliveEnemies - alive);
 
-            var border = _context.Board.GetBorderTiles();
+            var border = _gameFieldSystem.GetBorderTiles();
             Shuffle(border);
 
             int spawned = 0;
