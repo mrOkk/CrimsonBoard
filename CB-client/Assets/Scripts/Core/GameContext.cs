@@ -20,6 +20,7 @@ namespace CrimsonBoard
         public PlayerInventory Inventory { get; set; }
         public GameStats Stats { get; } = new GameStats();
         public InputState InputState { get; } = new InputState();
+        public HitEmitter HitEmitter { get; set; }
         public System.Random SharedRandom { get; private set; }
 
         public GameContext(GameConfig config)

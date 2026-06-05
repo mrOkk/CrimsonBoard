@@ -49,6 +49,10 @@ namespace CrimsonBoard
                 health.TakeDamage(_damage);
                 _pierceLeft--;
 
+                var ctx = GameContext.Instance;
+                if (ctx != null && ctx.HitEmitter != null)
+                    ctx.HitEmitter.Emit(enemyView.transform.position);
+
                 if (_pierceLeft <= 0)
                 {
                     ReturnToPool();
