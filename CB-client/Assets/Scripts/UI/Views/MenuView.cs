@@ -16,8 +16,8 @@ namespace CrimsonBoard
         public override void Show()
         {
             base.Show();
-            _audioToggle.isOn = !AudioListener.pause;
-            _volumeSlider.value = AudioListener.volume;
+            // _audioToggle.isOn = !AudioListener.pause;
+            // _volumeSlider.value = AudioListener.volume;
             _continueButton.onClick.AddListener(HandleContinue);
             _restartButton.onClick.AddListener(HandleRestart);
             // _audioToggle.onValueChanged.AddListener(HandleAudioToggle);

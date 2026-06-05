@@ -4,16 +4,16 @@ namespace CrimsonBoard
 {
     public class WeaponView : MonoBehaviour
     {
-        [SerializeField] private MeshFilter _meshFilter;
         [SerializeField] private Transform _playerAttachPoint;
         [SerializeField] private Transform _muzzlePoint;
         [SerializeField] private Collider _pickupCollider;
-        [SerializeField] private float _hoverHeight = 1f;
+        [SerializeField] private Transform _rotationPoint;
+        [SerializeField] private float _hoverHeight = 1;
 
-        public MeshFilter MeshFilter => _meshFilter;
         public Transform PlayerAttachPoint => _playerAttachPoint;
         public Transform MuzzlePoint => _muzzlePoint;
         public int WeaponId { get; private set; }
+        public Transform RotationPoint => _rotationPoint;
         public float HoverHeight => _hoverHeight;
 
         public System.Action<WeaponView, Collider> TriggerEntered;

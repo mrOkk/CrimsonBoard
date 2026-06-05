@@ -50,6 +50,7 @@ namespace CrimsonBoard
             {
                 _lastDir = rawDir;
                 _moveBufferTimer = 0f;
+                _context.InputState.IsKeysHeld = true;
 
                 if (!_wasActive)
                 {
@@ -76,6 +77,7 @@ namespace CrimsonBoard
             }
             else
             {
+                _context.InputState.IsKeysHeld = false;
                 if (_wasActive)
                 {
                     // Just released — emit immediately and start buffer
@@ -99,11 +101,14 @@ namespace CrimsonBoard
 
         private void TickShoot(float deltaTime)
         {
-            // if (_input.Player.Attack.WasPressedThisFrame())
-            // {
-            //     _context.InputState.ShootCommandBuffered = true;
-            //     _shootBufferTimer = _context.Config.player.inputBufferWindow;
-            // }
+            if (_input.Player.Next.WasPressedThisFrame())
+            {
+                _context.Inventory.CycleNext();
+            }
+            else if (_input.Player.Previous.WasPressedThisFrame())
+            {
+                _context.Inventory.CyclePrevious();
+            }
 
             if (_shootBufferTimer > 0f)
             {

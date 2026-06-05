@@ -14,5 +14,9 @@ namespace CrimsonBoard
         public bool infiniteAmmo;
         public int ammoOnPickup;
         [Range(0f, 1f)] public float dropChance;
+        public float range = 10f;
+        public float holsterTime = 0.3f;
+        public float drawTime = 0.3f;
+        public int maxTargetsPerBullet = 1;
     }
 }
