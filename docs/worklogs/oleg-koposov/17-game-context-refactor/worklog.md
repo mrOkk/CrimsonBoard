@@ -92,8 +92,10 @@
 ## What we did
 
 Рефакторинг GameContext в соответствии с AGENTS.md:
-- Создан класс `GameBoard` как data entity для хранения данных доски
+- Создан класс `GameBoard` как data entity (без систем) для хранения данных доски
 - Убраны ссылки на системы (`GameFieldSystem`, `EnemySpawnSystem`) из `GameContext`
 - Активные противники теперь хранятся в `GameBoard.ActiveEnemies`
-- Системы получают `GameBoard` через конструктор (зависимости систем)
+- Системы получают другие системы через конструктор (зависимости систем)
+- `EnemySpawnSystem` → `GameFieldSystem` (система получает систему)
 - Обновлены все consumers: `TapToStartState`, `GameplayState`, `GameOverState`, `WeaponUsageSystem`, `HopAnimationSystem`
+- `GameOverState` теперь переходит в `TapToStartState(autoStart: true)` вместо прямого `GameplayState`
