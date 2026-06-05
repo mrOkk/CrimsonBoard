@@ -38,6 +38,7 @@ namespace CrimsonBoard
             _systemRunner.RegisterSystem(_gridMovementSystem);
             _systemRunner.RegisterSystem(new PlayerMovementSystem(context, _gridMovementSystem));
             _enemySpawnSystem = new EnemySpawnSystem(context, _gameFieldSystem);
+            _enemySpawnSystem.SetHealthSystem(_healthSystem);
             _systemRunner.RegisterSystem(new HopAnimationSystem(context, context.Board));
             _enemyMovementSystem = new EnemyMovementSystem(context, _gridMovementSystem);
             _systemRunner.RegisterSystem(_enemyMovementSystem);

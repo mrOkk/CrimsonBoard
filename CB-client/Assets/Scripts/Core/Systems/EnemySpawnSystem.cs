@@ -7,6 +7,7 @@ namespace CrimsonBoard
     {
         private readonly GameContext _context;
         private readonly GameFieldSystem _gameFieldSystem;
+        private HealthSystem _healthSystem;
 
         private int _currentWaveIndex;
         private float _waveTimer;
@@ -19,6 +20,8 @@ namespace CrimsonBoard
             _context = context;
             _gameFieldSystem = gameFieldSystem;
         }
+
+        public void SetHealthSystem(HealthSystem healthSystem) => _healthSystem = healthSystem;
 
         public void Initialize()
         {
@@ -115,6 +118,13 @@ namespace CrimsonBoard
             enemy.transform.position = ChunkCoordConverter.TileToWorld(cell, _context.Config.board);
             _context.OccupancyMap.Register(cell, enemy);
             _context.Board.RegisterEnemy(enemy);
+
+            enemy.Health.OnDeath += () =>
+            {
+                if (_healthSystem != null)
+                    _healthSystem.OnEnemyDeath(enemy, enemy.CurrentCell);
+            };
+
             EnemySpawned?.Invoke(enemy);
         }
 
