@@ -7,8 +7,8 @@
 | `task_file` | `docs/tasks/17-game-context-refactor.md` |
 | `branch` | `feature/17-game-context-refactor` |
 | `user_key` | `oleg-koposov` |
-| `current_phase` | `2`|
-| `status` | `active` |
+| `current_phase` | `3`|
+| `status` | `done` |
 | `created_at` | `2026-06-05T15:31:25Z` |
 | `updated_at` | `2026-06-05T15:38:48Z`|
 

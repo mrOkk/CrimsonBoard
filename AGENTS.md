@@ -17,6 +17,8 @@ Project: **Crimson Gambit** (repo uses legacy name "CrimsonBoard")
 - Example: Replace `GameBoardSystem` references with a `GameBoard` class that holds board data
 - Systems should read from and write to these data entities, not expose their internal state directly
 - Active opponents list should also be stored in `GameBoard` or similar data entity, not in a system
+- **Systems may only be dependencies of other systems** — passed via constructor, not stored in GameContext
+- Data entities, states, and UI must not hold references to systems
 
 ## Code Organization
 
