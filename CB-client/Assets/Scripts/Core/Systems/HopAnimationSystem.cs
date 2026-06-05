@@ -3,12 +3,12 @@ namespace CrimsonBoard
     public class HopAnimationSystem : IGameSystem
     {
         private readonly GameContext _context;
-        private readonly EnemySpawnSystem _enemySpawn;
+        private readonly GameBoard _board;
 
-        public HopAnimationSystem(GameContext context, EnemySpawnSystem enemySpawn)
+        public HopAnimationSystem(GameContext context, GameBoard board)
         {
             _context = context;
-            _enemySpawn = enemySpawn;
+            _board = board;
         }
 
         public void Initialize() { }
@@ -16,8 +16,8 @@ namespace CrimsonBoard
         public void Tick(float deltaTime)
         {
             _context.Player?.TickHop(deltaTime);
-            if (_enemySpawn == null) return;
-            foreach (var enemy in _enemySpawn.ActiveEnemies)
+            if (_board == null) return;
+            foreach (var enemy in _board.ActiveEnemies)
                 enemy.TickHop(deltaTime);
         }
 

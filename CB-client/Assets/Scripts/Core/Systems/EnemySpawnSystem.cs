@@ -10,12 +10,7 @@ namespace CrimsonBoard
         private int _currentWaveIndex;
         private float _waveTimer;
         private float _spawnTimer;
-        private readonly List<EnemyView> _activeEnemies = new List<EnemyView>();
 
-        /// <summary>All currently alive enemies managed by this system.</summary>
-        public IReadOnlyList<EnemyView> ActiveEnemies => _activeEnemies;
-
-        /// <summary>Invoked when an enemy is spawned. Subscribers assign per-enemy state.</summary>
         public System.Action<EnemyView> EnemySpawned;
 
         public EnemySpawnSystem(GameContext context)
@@ -63,7 +58,7 @@ namespace CrimsonBoard
         /// <summary>Called by HealthSystem when an enemy's HP reaches zero.</summary>
         public void OnEnemyDied(EnemyView enemy)
         {
-            _activeEnemies.Remove(enemy);
+            _context.Board.UnregisterEnemy(enemy);
         }
 
         // ── Private helpers ─────────────────────────────────────────────────
@@ -81,7 +76,7 @@ namespace CrimsonBoard
         {
             var wave = CurrentWave;
 
-            int alive = _activeEnemies.Count;
+            int alive = _context.Board.ActiveEnemies.Count;
             if (alive >= wave.maxAliveEnemies) return;
 
             var batchRange = wave.spawnBatchSizeRange;
@@ -117,7 +112,7 @@ namespace CrimsonBoard
             enemy.CurrentCell = cell;
             enemy.transform.position = ChunkCoordConverter.TileToWorld(cell, _context.Config.board);
             _context.OccupancyMap.Register(cell, enemy);
-            _activeEnemies.Add(enemy);
+            _context.Board.RegisterEnemy(enemy);
             EnemySpawned?.Invoke(enemy);
         }
 
