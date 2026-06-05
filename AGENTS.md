@@ -28,6 +28,7 @@ CB-client/Assets/Scripts/
 - **Always commit `.meta` files** with their assets — deleting/regenerating breaks GUIDs
 - **TextMeshPro only** — never use legacy `UnityEngine.UI.Text`
 - **URP shaders only** — use `Universal Render Pipeline/Lit` or URP shader graphs
+- **UniTask only** — never use coroutines, use UniTask for async operations
 - Scenes: `Assets/Scenes/`
 - URP quality tiers: `Assets/Settings/URP-*`
 

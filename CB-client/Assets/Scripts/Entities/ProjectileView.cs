@@ -23,7 +23,7 @@ namespace CrimsonBoard
             _pierceLeft = pierceCount;
             _lifetime = range / speed;
 
-            _rb.linearVelocity = direction.normalized * speed;
+            _rb.velocity = direction.normalized * speed;
         }
 
         private void Update()
@@ -58,9 +58,9 @@ namespace CrimsonBoard
 
         private void ReturnToPool()
         {
-            _rb.linearVelocity = Vector3.zero;
+            _rb.velocity = Vector3.zero;
             var ctx = GameContext.Instance;
-            if (ctx != null && ctx.Pools != null)
+            if (ctx.Pools != null)
                 ctx.Pools.Projectiles.Return(this);
             else
                 gameObject.SetActive(false);

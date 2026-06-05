@@ -1,5 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace CrimsonBoard
@@ -12,7 +13,8 @@ namespace CrimsonBoard
         private int? _activeWeaponId;
         private bool _isSwitching;
         private float _shotTimer;
-        private Coroutine _switchCoroutine;
+        private UniTask _switchTask;
+        private CancellationTokenSource _switchCts;
         private Transform _weaponLocator;
         private bool _initialized;
 
@@ -44,13 +46,9 @@ namespace CrimsonBoard
             var cfg = GetWeaponConfig(activeId.Value);
             if (cfg == null) return;
 
-            if (!CanShoot(cfg))
-            {
-                HideAllWeaponsExcept(null);
-                return;
-            }
-
             HideAllWeaponsExcept(activeId.Value);
+
+            if (!CanShoot(cfg)) return;
 
             var nearest = FindNearestEnemyInRange(cfg.range);
             if (nearest == null) return;
@@ -67,6 +65,10 @@ namespace CrimsonBoard
 
         public void Dispose()
         {
+            _switchCts?.Cancel();
+            _switchCts?.Dispose();
+            _switchCts = null;
+
             foreach (var kv in _equippedWeapons)
             {
                 var pool = _context.Pools.GetWeaponPool(kv.Key);
@@ -95,7 +97,7 @@ namespace CrimsonBoard
             if (pool == null) return;
 
             var wv = pool.Get();
-            wv.transform.SetParent(_weaponLocator);
+            wv.transform.SetParent(_weaponLocator, false);
             wv.transform.localPosition = wv.PlayerAttachPoint != null
                 ? _weaponLocator.InverseTransformPoint(wv.PlayerAttachPoint.position)
                 : Vector3.zero;
@@ -111,17 +113,13 @@ namespace CrimsonBoard
             var newActive = _context.Inventory.ActiveWeaponId;
             if (newActive == _activeWeaponId) return;
 
-            if (_switchCoroutine != null)
-            {
-                _context.Player.StopCoroutine(_switchCoroutine);
-                _isSwitching = false;
-            }
-
-            _switchCoroutine = _context.Player.StartCoroutine(SwitchWeaponRoutine(_activeWeaponId, newActive));
+            _switchCts?.Cancel();
+            _switchCts = new CancellationTokenSource();
+            _switchTask = SwitchWeaponRoutine(_activeWeaponId, newActive, _switchCts.Token);
             _activeWeaponId = newActive;
         }
 
-        private IEnumerator SwitchWeaponRoutine(int? oldId, int? newId)
+        private async UniTask SwitchWeaponRoutine(int? oldId, int? newId, CancellationToken ct)
         {
             _isSwitching = true;
 
@@ -129,7 +127,7 @@ namespace CrimsonBoard
             {
                 var oldCfg = GetWeaponConfig(oldId.Value);
                 if (oldCfg != null && oldWv.RotationPoint != null)
-                    yield return AnimateRotation(oldWv, -90f, oldCfg.holsterTime);
+                    await AnimateRotation(oldWv, -90f, oldCfg.holsterTime, ct);
                 oldWv.gameObject.SetActive(false);
             }
 
@@ -140,27 +138,28 @@ namespace CrimsonBoard
                 if (newCfg != null && newWv.RotationPoint != null)
                 {
                     SetLocalRotationAroundPoint(newWv, newWv.RotationPoint, -90f);
-                    yield return AnimateRotation(newWv, 0f, newCfg.drawTime);
+                    await AnimateRotation(newWv, 0f, newCfg.drawTime, ct);
                 }
             }
 
             _isSwitching = false;
         }
 
-        private IEnumerator AnimateRotation(WeaponView wv, float targetAngle, float duration)
+        private async UniTask AnimateRotation(WeaponView wv, float targetAngle, float duration, CancellationToken ct)
         {
-            if (wv.RotationPoint == null) yield break;
+            if (wv.RotationPoint == null) return;
 
             float startAngle = GetLocalRotationAroundPoint(wv, wv.RotationPoint);
             float elapsed = 0f;
 
             while (elapsed < duration)
             {
+                ct.ThrowIfCancellationRequested();
                 elapsed += Time.deltaTime;
                 float t = Mathf.Clamp01(elapsed / duration);
                 float angle = Mathf.Lerp(startAngle, targetAngle, t);
                 SetLocalRotationAroundPoint(wv, wv.RotationPoint, angle);
-                yield return null;
+                await UniTask.Yield(PlayerLoopTiming.Update, ct);
             }
 
             SetLocalRotationAroundPoint(wv, wv.RotationPoint, targetAngle);
@@ -198,7 +197,7 @@ namespace CrimsonBoard
         private EnemyView FindNearestEnemyInRange(float range)
         {
             EnemyView nearest = null;
-            float nearestDist = range;
+            float nearestDist = range * range;
 
             var playerPos = _context.Player.transform.position;
             var spawnSystem = _context.EnemySpawnSystem;
@@ -207,7 +206,7 @@ namespace CrimsonBoard
             foreach (var enemy in spawnSystem.ActiveEnemies)
             {
                 if (enemy == null || enemy.Health.IsDead) continue;
-                float dist = Vector3.Distance(playerPos, enemy.transform.position);
+                float dist = Vector3.SqrMagnitude(playerPos - enemy.transform.position);
                 if (dist < nearestDist)
                 {
                     nearestDist = dist;

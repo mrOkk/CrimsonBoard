@@ -61,60 +61,78 @@ MonoBehaviour:
     shotsPerBeat: 1
     spread: 1
     rotationSpeed: 100
-    moveSpeedCoefficient: 1
     infiniteAmmo: 1
     ammoOnPickup: 0
     dropChance: 0
+    range: 10
+    holsterTime: 0.3
+    drawTime: 0.3
+    maxTargetsPerBullet: 1
   - id: 1
     name: HeavyPistol
     damage: 3
     shotsPerBeat: 1
     spread: 1
     rotationSpeed: 100
-    moveSpeedCoefficient: 1
     infiniteAmmo: 0
     ammoOnPickup: 15
     dropChance: 0.2
+    range: 10
+    holsterTime: 0.3
+    drawTime: 0.3
+    maxTargetsPerBullet: 1
   - id: 2
     name: Shotgun
     damage: 1
     shotsPerBeat: 1
     spread: 1
     rotationSpeed: 100
-    moveSpeedCoefficient: 1
     infiniteAmmo: 0
     ammoOnPickup: 15
     dropChance: 0.2
+    range: 10
+    holsterTime: 0.3
+    drawTime: 0.3
+    maxTargetsPerBullet: 1
   - id: 3
     name: AssaultRifle
     damage: 3
     shotsPerBeat: 1
     spread: 1
     rotationSpeed: 100
-    moveSpeedCoefficient: 1
     infiniteAmmo: 0
     ammoOnPickup: 15
     dropChance: 0.2
+    range: 10
+    holsterTime: 0.3
+    drawTime: 0.3
+    maxTargetsPerBullet: 1
   - id: 4
     name: SniperRifle
     damage: 10
     shotsPerBeat: 1
     spread: 1
     rotationSpeed: 100
-    moveSpeedCoefficient: 1
     infiniteAmmo: 0
     ammoOnPickup: 15
     dropChance: 0.2
+    range: 10
+    holsterTime: 0.3
+    drawTime: 0.3
+    maxTargetsPerBullet: 1
   - id: 5
     name: MachineGun
     damage: 2
     shotsPerBeat: 10
     spread: 10
     rotationSpeed: 10
-    moveSpeedCoefficient: 0.7
     infiniteAmmo: 0
     ammoOnPickup: 15
     dropChance: 0.2
+    range: 10
+    holsterTime: 0.3
+    drawTime: 0.3
+    maxTargetsPerBullet: 1
   timing:
     beatDuration: 1
     phaseDuration: 0
@@ -133,17 +151,23 @@ MonoBehaviour:
       type: 3}
     weaponPrefabs:
     - weaponId: 0
-      prefab: {fileID: 0}
-    - weaponId: 0
-      prefab: {fileID: 0}
-    - weaponId: 0
-      prefab: {fileID: 0}
-    - weaponId: 0
-      prefab: {fileID: 0}
-    - weaponId: 0
-      prefab: {fileID: 0}
-    - weaponId: 0
-      prefab: {fileID: 0}
+      prefab: {fileID: 4361027972044714428, guid: c6d502120d02a384dae0bf7afe7788a1,
+        type: 3}
+    - weaponId: 1
+      prefab: {fileID: 4361027972044714428, guid: c6d502120d02a384dae0bf7afe7788a1,
+        type: 3}
+    - weaponId: 2
+      prefab: {fileID: 4361027972044714428, guid: c6d502120d02a384dae0bf7afe7788a1,
+        type: 3}
+    - weaponId: 3
+      prefab: {fileID: 4361027972044714428, guid: c6d502120d02a384dae0bf7afe7788a1,
+        type: 3}
+    - weaponId: 4
+      prefab: {fileID: 4361027972044714428, guid: c6d502120d02a384dae0bf7afe7788a1,
+        type: 3}
+    - weaponId: 5
+      prefab: {fileID: 4361027972044714428, guid: c6d502120d02a384dae0bf7afe7788a1,
+        type: 3}
     powerUpPrefab: {fileID: 0}
     projectilePrefab: {fileID: -3904231959811878246, guid: 6a5e25777bbd27e48bfab1f629e106c4,
       type: 3}
