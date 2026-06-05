@@ -85,10 +85,15 @@
 | `States/GameOverState.cs` | Modify | Read enemies from `_context.Board` |
 
 - [x] [Task 1: Create GameBoard data class](tasks/task-1.md)
-- [ ] [Task 2: Migrate GameFieldSystem out of GameContext](tasks/task-2.md)
-- [ ] [Task 3: Migrate EnemySpawnSystem out of GameContext](tasks/task-3.md)
+- [x] [Task 2: Migrate GameFieldSystem out of GameContext](tasks/task-2.md)
+- [x] [Task 3: Migrate EnemySpawnSystem out of GameContext](tasks/task-3.md)
 
 
 ## What we did
 
-<!-- Filled manually or by wf-implement at phase end. -->
+Рефакторинг GameContext в соответствии с AGENTS.md:
+- Создан класс `GameBoard` как data entity для хранения данных доски
+- Убраны ссылки на системы (`GameFieldSystem`, `EnemySpawnSystem`) из `GameContext`
+- Активные противники теперь хранятся в `GameBoard.ActiveEnemies`
+- Системы получают `GameBoard` через конструктор (зависимости систем)
+- Обновлены все consumers: `TapToStartState`, `GameplayState`, `GameOverState`, `WeaponUsageSystem`, `HopAnimationSystem`
