@@ -27,11 +27,15 @@ Within a class or struct, organize members in this order:
 
 1. Nested types (enums, structs, classes)
 2. Constants
-3. Events
-4. Properties
-5. Fields
-6. Constructors
-7. Methods
+3. Static events
+4. Static properties
+5. Static fields
+6. Static methods
+7. Events
+8. Properties
+9. Fields
+10. Constructors
+11. Methods
 
 Within each group, sort by access modifier from most to least accessible:
 - `public`
