@@ -18,7 +18,7 @@ namespace CrimsonBoard
             foreach (var dir in Cardinals)
             {
                 var target = enemy.CurrentCell + dir;
-                var occupant = ctx.OccupancyMap.GetEntity(target);
+                var occupant = ctx.TileMap.GetEntity(target);
                 bool passable = occupant == null || occupant is PlayerView;
                 if (!passable) continue;
 

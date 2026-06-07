@@ -23,7 +23,7 @@ namespace CrimsonBoard
                 for (int step = 1; step <= maxSteps; step++)
                 {
                     var next = enemy.CurrentCell + dir * step;
-                    var occupant = ctx.OccupancyMap.GetEntity(next);
+                    var occupant = ctx.TileMap.GetEntity(next);
                     if (occupant != null && !(occupant is PlayerView)) break; // blocked by non-player
                     reached = next;
                     if (occupant is PlayerView) break; // stop at player cell

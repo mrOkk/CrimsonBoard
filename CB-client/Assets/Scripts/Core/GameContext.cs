@@ -13,7 +13,7 @@ namespace CrimsonBoard
         public GameConfig Config { get; }
         public GamePools Pools { get; set; }
         public PlayerView Player { get; set; }
-        public OccupancyMap OccupancyMap { get; }
+        public TileMap TileMap { get; }
         public Camera Camera { get; set; }
         public GameBoard Board { get; set; }
         public UiRoot UiRoot { get; set; }
@@ -27,15 +27,15 @@ namespace CrimsonBoard
         {
             Instance = this;
             Config = config;
-            OccupancyMap = new OccupancyMap();
+            TileMap = new TileMap();
             SharedRandom = new System.Random(config.spawn.randomSeed);
         }
 
         /// <summary>Test-only constructor — bypasses pool/field setup.</summary>
-        internal GameContext(GameConfig config, OccupancyMap occupancyMap)
+        internal GameContext(GameConfig config, TileMap tileMap)
         {
             Config = config;
-            OccupancyMap = occupancyMap;
+            TileMap = tileMap;
             SharedRandom = new System.Random(config.spawn.randomSeed);
         }
     }

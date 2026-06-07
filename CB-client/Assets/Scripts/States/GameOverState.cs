@@ -21,7 +21,7 @@ namespace CrimsonBoard
             if (enemies != null && enemies.Count > 0)
             {
                 var snapshot = new System.Collections.Generic.List<EnemyView>(enemies);
-                DissolveService.DissolveAllAndReturn(snapshot, _context.OccupancyMap, _context.Pools);
+                DissolveService.DissolveAllAndReturn(snapshot, _context.TileMap, _context.Pools);
             }
 
             var view = _context.UiRoot.GetView<PostBattleView>();

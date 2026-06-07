@@ -7,11 +7,13 @@ namespace CrimsonBoard
     {
         [SerializeField] private Button _continueButton;
         [SerializeField] private Button _restartButton;
+        [SerializeField] private Button _mainMenuButton;
         [SerializeField] private Toggle _audioToggle;
         [SerializeField] private Slider _volumeSlider;
 
         public System.Action OnContinue;
         public System.Action OnRestart;
+        public System.Action OnMainMenu;
 
         public override void Show()
         {
@@ -20,6 +22,7 @@ namespace CrimsonBoard
             // _volumeSlider.value = AudioListener.volume;
             _continueButton.onClick.AddListener(HandleContinue);
             _restartButton.onClick.AddListener(HandleRestart);
+            // _mainMenuButton.onClick.AddListener(HandleMainMenu);
             // _audioToggle.onValueChanged.AddListener(HandleAudioToggle);
             // _volumeSlider.onValueChanged.AddListener(HandleVolumeSlider);
         }
@@ -29,12 +32,14 @@ namespace CrimsonBoard
             base.Hide();
             _continueButton.onClick.RemoveListener(HandleContinue);
             _restartButton.onClick.RemoveListener(HandleRestart);
+            // _mainMenuButton.onClick.RemoveListener(HandleMainMenu);
             // _audioToggle.onValueChanged.RemoveListener(HandleAudioToggle);
             // _volumeSlider.onValueChanged.RemoveListener(HandleVolumeSlider);
         }
 
         private void HandleContinue() => OnContinue?.Invoke();
         private void HandleRestart() => OnRestart?.Invoke();
+        private void HandleMainMenu() => OnMainMenu?.Invoke();
         private void HandleAudioToggle(bool on) => AudioListener.pause = !on;
         private void HandleVolumeSlider(float v) => AudioListener.volume = v;
     }

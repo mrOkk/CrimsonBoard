@@ -35,7 +35,7 @@ namespace CrimsonBoard
             foreach (var lMove in LMoves)
             {
                 var target = enemy.CurrentCell + lMove;
-                var occupant = ctx.OccupancyMap.GetEntity(target);
+                var occupant = ctx.TileMap.GetEntity(target);
 
                 if (occupant == null || occupant is PlayerView)
                 {
@@ -48,7 +48,7 @@ namespace CrimsonBoard
                 else
                 {
                     // Equal or higher rank — try fallback to last free intermediate cell
-                    var fallback = GetLastFreeIntermediate(enemy.CurrentCell, lMove, ctx.OccupancyMap);
+                    var fallback = GetLastFreeIntermediate(enemy.CurrentCell, lMove, ctx.TileMap);
                     if (fallback.HasValue)
                     {
                         int fd = Manhattan(fallback.Value, playerCell);
@@ -88,7 +88,7 @@ namespace CrimsonBoard
             return cells;
         }
 
-        private static Vector2Int? GetLastFreeIntermediate(Vector2Int from, Vector2Int lMove, OccupancyMap map)
+        private static Vector2Int? GetLastFreeIntermediate(Vector2Int from, Vector2Int lMove, TileMap map)
         {
             var cells = GetIntermediateCells(from, lMove);
             Vector2Int? last = null;

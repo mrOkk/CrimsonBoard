@@ -49,13 +49,13 @@ namespace CrimsonBoard
                 return;
             }
 
-            var targetCell = KnockbackResolver.Resolve(playerCell, enemyDir, _context.OccupancyMap);
+            var targetCell = KnockbackResolver.Resolve(playerCell, enemyDir, _context.TileMap);
             if (targetCell.HasValue)
             {
-                _context.OccupancyMap.Unregister(playerCell);
+                _context.TileMap.UnregisterEntity(playerCell);
                 _context.Player.CurrentCell = targetCell.Value;
                 _context.Player.transform.position = ChunkCoordConverter.TileToWorld(targetCell.Value, _context.Config.board);
-                _context.OccupancyMap.Register(targetCell.Value, _context.Player);
+                _context.TileMap.RegisterEntity(targetCell.Value, _context.Player);
             }
             // else: all cells occupied — only damage applied, player stays
         }
@@ -66,7 +66,7 @@ namespace CrimsonBoard
         public void OnEnemyDeath(EnemyView enemy, Vector2Int enemyCell)
         {
             EnemyDeathCallback?.Invoke(enemy);
-            DissolveService.DissolveAndReturn(enemy, enemyCell, _context.OccupancyMap, _context.Pools);
+            DissolveService.DissolveAndReturn(enemy, enemyCell, _context.TileMap, _context.Pools);
             TryDropWeapon(enemyCell);
         }
 
@@ -93,8 +93,10 @@ namespace CrimsonBoard
             if (pool == null) return;
 
             var weaponView = pool.Get();
-            var worldPos = ChunkCoordConverter.TileToWorld(enemyCell, _context.Config.board);
-            weaponView.SetDroppedMode(worldPos);
+            weaponView.SetDroppedMode(enemyCell, _context.Config.board);
+            weaponView.CurrentCell = enemyCell;
+            _context.TileMap.RegisterWeapon(enemyCell, weaponView);
+            _context.Board.NotifyWeaponDropped(weaponView);
             WeaponDropped?.Invoke(weaponView);
         }
     }

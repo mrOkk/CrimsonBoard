@@ -161,12 +161,10 @@ namespace CrimsonBoard
                 ct.ThrowIfCancellationRequested();
                 t = Mathf.Clamp01((Time.time - startTime) / duration);
                 var angle = Mathf.Lerp(startAngle, targetAngle, t) * Mathf.Rad2Deg;
-                Debug.LogError($"rotation {angle} | t = {t} {Time.time} {startTime} {duration}");
                 SetLocalRotationAroundPoint(wv, wv.RotationPoint, angle);
                 await UniTask.Yield();
             }
 
-            Debug.LogError($"final rotation {targetAngle} | t = {t}");
             SetLocalRotationAroundPoint(wv, wv.RotationPoint, targetAngle);
         }
 
@@ -206,7 +204,6 @@ namespace CrimsonBoard
 
             var playerPos = _context.Player.transform.position;
             var board = _context.Board;
-            if (board == null) return null;
 
             foreach (var enemy in board.ActiveEnemies)
             {
@@ -248,7 +245,7 @@ namespace CrimsonBoard
             var proj = _context.Pools.Projectiles.Get();
             proj.transform.position = muzzle.position;
             proj.transform.rotation = Quaternion.LookRotation(dir);
-            proj.Launch(dir, 30f, cfg.damage, cfg.maxTargetsPerBullet, cfg.range);
+            proj.Launch(dir, 30f, cfg.damage, cfg.maxTargetsPerBullet, cfg.range, cfg.projectileRadius);
 
             if (!cfg.infiniteAmmo)
                 _context.Inventory.AddAmmo(cfg.id, -1);

@@ -7,12 +7,15 @@ namespace CrimsonBoard
         private readonly GameContext _context;
         private readonly GridMovementSystem _gridMovement;
         private float _cooldownRemaining;
+        private WeaponPickupSystem _weaponPickup;
 
         public PlayerMovementSystem(GameContext context, GridMovementSystem gridMovement)
         {
             _context = context;
             _gridMovement = gridMovement;
         }
+
+        public void SetWeaponPickup(WeaponPickupSystem weaponPickup) => _weaponPickup = weaponPickup;
 
         public void Initialize()
         {
@@ -36,6 +39,8 @@ namespace CrimsonBoard
                 if (_context.Player.DirectionIndicator != null)
                     _context.Player.DirectionIndicator.rotation =
                         Quaternion.LookRotation(new Vector3(cmd.Value.x, 0f, cmd.Value.y), Vector3.up);
+
+                _weaponPickup?.TryPickupAt(_context.Player.CurrentCell);
             }
         }
 

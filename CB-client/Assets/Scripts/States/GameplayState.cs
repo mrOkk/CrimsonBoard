@@ -36,9 +36,9 @@ namespace CrimsonBoard
             _gridMovementSystem.HealthSystem = _healthSystem;
             _systemRunner.RegisterSystem(_healthSystem);
             _systemRunner.RegisterSystem(_gridMovementSystem);
-            _systemRunner.RegisterSystem(new PlayerMovementSystem(context, _gridMovementSystem));
-            _enemySpawnSystem = new EnemySpawnSystem(context, _gameFieldSystem);
-            _enemySpawnSystem.SetHealthSystem(_healthSystem);
+            var playerMovement = new PlayerMovementSystem(context, _gridMovementSystem);
+            _systemRunner.RegisterSystem(playerMovement);
+            _enemySpawnSystem = new EnemySpawnSystem(context, _gameFieldSystem, _healthSystem);
             _systemRunner.RegisterSystem(new HopAnimationSystem(context, context.Board));
             _enemyMovementSystem = new EnemyMovementSystem(context, _gridMovementSystem);
             _systemRunner.RegisterSystem(_enemyMovementSystem);
@@ -48,8 +48,8 @@ namespace CrimsonBoard
             _enemySpawnSystem.EnemySpawned += _enemyMovementSystem.OnEnemySpawned;
             _systemRunner.RegisterSystem(_enemySpawnSystem);
             _weaponPickupSystem = new WeaponPickupSystem(context);
+            playerMovement.SetWeaponPickup(_weaponPickupSystem);
             _systemRunner.RegisterSystem(_weaponPickupSystem);
-            _healthSystem.WeaponDropped += _weaponPickupSystem.RegisterDropped;
             _weaponUsageSystem = new WeaponUsageSystem(context);
             _systemRunner.RegisterSystem(_weaponUsageSystem);
         }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using GObject = UnityEngine.Object;
 
 namespace CrimsonBoard
 {
@@ -22,7 +23,7 @@ namespace CrimsonBoard
             var hitEmitterPrefab = _context.Config.prefabs.hitEmitterPrefab;
             if (hitEmitterPrefab != null)
             {
-                var hitEmitter = Instantiate(hitEmitterPrefab);
+                var hitEmitter = GObject.Instantiate(hitEmitterPrefab);
                 _context.HitEmitter = hitEmitter;
             }
 

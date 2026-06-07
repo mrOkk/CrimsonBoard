@@ -15,13 +15,12 @@ namespace CrimsonBoard
 
         public System.Action<EnemyView> EnemySpawned;
 
-        public EnemySpawnSystem(GameContext context, GameFieldSystem gameFieldSystem)
+        public EnemySpawnSystem(GameContext context, GameFieldSystem gameFieldSystem, HealthSystem healthSystem)
         {
             _context = context;
             _gameFieldSystem = gameFieldSystem;
+            _healthSystem = healthSystem;
         }
-
-        public void SetHealthSystem(HealthSystem healthSystem) => _healthSystem = healthSystem;
 
         public void Initialize()
         {
@@ -95,7 +94,7 @@ namespace CrimsonBoard
             foreach (var cell in border)
             {
                 if (spawned >= batch) break;
-                if (_context.OccupancyMap.IsOccupied(cell)) continue;
+                if (_context.TileMap.IsOccupied(cell)) continue;
 
                 SpawnEnemyAt(cell, wave);
                 spawned++;
@@ -116,7 +115,7 @@ namespace CrimsonBoard
             enemy.Setup(cfg);
             enemy.CurrentCell = cell;
             enemy.transform.position = ChunkCoordConverter.TileToWorld(cell, _context.Config.board);
-            _context.OccupancyMap.Register(cell, enemy);
+            _context.TileMap.RegisterEntity(cell, enemy);
             _context.Board.RegisterEnemy(enemy);
 
             enemy.Health.OnDeath += () =>

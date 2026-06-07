@@ -2,46 +2,62 @@ using UnityEngine;
 
 namespace CrimsonBoard
 {
-    [RequireComponent(typeof(Rigidbody))]
     public class ProjectileView : MonoBehaviour
     {
-        private Rigidbody _rb;
+        private static readonly LayerMask EnemyLayerMask = 1 << 7;
+
+        private Vector3 _direction;
         private float _speed;
         private float _damage;
         private int _pierceLeft;
-        private float _lifetime;
+        private float _remainingDistance;
+        private float _radius;
 
-        private void Awake()
+        public void Launch(Vector3 direction, float speed, float damage, int pierceCount, float range, float radius)
         {
-            _rb = GetComponent<Rigidbody>();
-        }
-
-        public void Launch(Vector3 direction, float speed, float damage, int pierceCount, float range)
-        {
+            _direction = direction.normalized;
             _speed = speed;
             _damage = damage;
             _pierceLeft = pierceCount;
-            _lifetime = range / speed;
-
-            _rb.velocity = direction.normalized * speed;
+            _remainingDistance = range;
+            _radius = radius;
         }
 
         private void Update()
         {
-            if (_lifetime > 0f)
+            if (_remainingDistance <= 0f)
             {
-                _lifetime -= Time.deltaTime;
-                if (_lifetime <= 0f)
-                    ReturnToPool();
+                ReturnToPool();
+                return;
+            }
+
+            float moveDistance = _speed * Time.deltaTime;
+            float actualMove = Mathf.Min(moveDistance, _remainingDistance);
+
+            Vector3 origin = transform.position;
+
+            if (Physics.SphereCast(origin, _radius, _direction, out RaycastHit hit, actualMove, EnemyLayerMask, QueryTriggerInteraction.Ignore))
+            {
+                float traveled = hit.distance;
+                transform.position = origin + _direction * traveled;
+                _remainingDistance -= traveled;
+
+                if (ProcessHit(hit.collider))
+                    return;
+            }
+            else
+            {
+                transform.position = origin + _direction * actualMove;
+                _remainingDistance -= actualMove;
             }
         }
 
-        private void OnTriggerEnter(Collider other)
+        private bool ProcessHit(Collider hitCollider)
         {
-            if (other == null) return;
+            if (hitCollider == null) return false;
 
-            var enemyView = other.GetComponentInParent<EnemyView>();
-            if (enemyView == null) return;
+            var enemyView = hitCollider.GetComponentInParent<EnemyView>();
+            if (enemyView == null) return false;
 
             var health = enemyView.Health;
             if (health != null && !health.IsDead)
@@ -51,20 +67,22 @@ namespace CrimsonBoard
 
                 var ctx = GameContext.Instance;
                 if (ctx != null && ctx.HitEmitter != null)
-                    ctx.HitEmitter.Emit(enemyView.transform.position);
+                    ctx.HitEmitter.Emit(transform.position);
 
                 if (_pierceLeft <= 0)
                 {
                     ReturnToPool();
+                    return true;
                 }
             }
+
+            return false;
         }
 
         private void ReturnToPool()
         {
-            _rb.velocity = Vector3.zero;
             var ctx = GameContext.Instance;
-            if (ctx.Pools != null)
+            if (ctx != null && ctx.Pools != null)
                 ctx.Pools.Projectiles.Return(this);
             else
                 gameObject.SetActive(false);

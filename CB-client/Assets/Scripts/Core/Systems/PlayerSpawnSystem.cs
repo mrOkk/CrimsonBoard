@@ -23,14 +23,14 @@ namespace CrimsonBoard
             }
             else
             {
-                _context.OccupancyMap.Unregister(_context.Player.CurrentCell);
+                _context.TileMap.UnregisterEntity(_context.Player.CurrentCell);
                 _context.Player.transform.position = spawnPos;
                 Debug.Log("[PlayerSpawnSystem] Player respawned (repositioned).");
             }
 
             var spawnCell = ChunkCoordConverter.WorldToTile(spawnPos, _context.Config.board);
             _context.Player.CurrentCell = spawnCell;
-            _context.OccupancyMap.Register(spawnCell, _context.Player);
+            _context.TileMap.RegisterEntity(spawnCell, _context.Player);
 
             var inventory = new PlayerInventory();
             foreach (var entry in _context.Config.player.startingInventory)

@@ -25,24 +25,22 @@ namespace CrimsonBoard
         public MoveResult TryMove(EntityView entity, Vector2Int dir)
         {
             var targetCell = entity.CurrentCell + dir;
-            var occupant = _context.OccupancyMap.GetEntity(targetCell);
+            var tileData = _context.TileMap.GetTile(targetCell);
 
-            if (occupant != null)
+            if (tileData.IsOccupied)
             {
-                // Combat: enemy steps into player cell
-                if (entity is EnemyView enemy && occupant is PlayerView)
+                if (entity is EnemyView enemy && tileData.Occupant is PlayerView)
                 {
-                    HealthSystem?.ApplyDamageToPlayer(enemy, dir, occupant.CurrentCell);
+                    HealthSystem?.ApplyDamageToPlayer(enemy, dir, tileData.Occupant.CurrentCell);
                     return MoveResult.Combat;
                 }
                 return MoveResult.Blocked;
             }
 
-            // Move
             var fromPos = entity.transform.position;
-            _context.OccupancyMap.Unregister(entity.CurrentCell);
+            _context.TileMap.UnregisterEntity(entity.CurrentCell);
             entity.CurrentCell = targetCell;
-            _context.OccupancyMap.Register(targetCell, entity);
+            _context.TileMap.RegisterEntity(targetCell, entity);
             var toPos = ChunkCoordConverter.TileToWorld(targetCell, _context.Config.board);
             entity.StartHop(dir, fromPos, toPos, _context.Config.hop);
             return MoveResult.Moved;

@@ -57,7 +57,7 @@ namespace CrimsonBoard.Tests
             var blocker = _blockerGo.AddComponent<EnemyView>();
             blocker.CurrentCell = new Vector2Int(1, 0);
 
-            var ctx = MakeCtx(map => map.Register(blocker.CurrentCell, blocker));
+            var ctx = MakeCtx(map => map.RegisterEntity(blocker.CurrentCell, blocker));
             var dir = new PawnMoveStrategy().GetMoveDirection(_enemy, ctx, new System.Random(0));
 
             Assert.AreNotEqual(new Vector2Int(1, 0), dir, "Pawn should not move into occupied cell");
@@ -72,7 +72,7 @@ namespace CrimsonBoard.Tests
             _player.CurrentCell = new Vector2Int(2, 1);
             SetEnemyConfig(rank: 1);
 
-            var ctx = MakeCtx(map => map.Register(_player.CurrentCell, _player));
+            var ctx = MakeCtx(map => map.RegisterEntity(_player.CurrentCell, _player));
             var dir = new KnightMoveStrategy().GetMoveDirection(_enemy, ctx, new System.Random(0));
 
             Assert.AreEqual(new Vector2Int(2, 1), dir, "Knight should jump directly to player's cell");
@@ -86,7 +86,7 @@ namespace CrimsonBoard.Tests
             _player.CurrentCell = new Vector2Int(1, 0);
             SetEnemyConfig(rank: 1);
 
-            var ctx = MakeCtx(map => map.Register(_player.CurrentCell, _player));
+            var ctx = MakeCtx(map => map.RegisterEntity(_player.CurrentCell, _player));
             var dir = new KnightMoveStrategy().GetMoveDirection(_enemy, ctx, new System.Random(0));
 
             Assert.IsNotNull(dir, "Knight should find an early-landing direction");
@@ -105,7 +105,7 @@ namespace CrimsonBoard.Tests
             blocker.CurrentCell = new Vector2Int(2, 1);
             SetEnemyConfigOn(blocker, rank: 3);
 
-            var ctx = MakeCtx(map => map.Register(blocker.CurrentCell, blocker));
+            var ctx = MakeCtx(map => map.RegisterEntity(blocker.CurrentCell, blocker));
             var dir = new KnightMoveStrategy().GetMoveDirection(_enemy, ctx, new System.Random(0));
 
             Object.DestroyImmediate(blockerGo);
@@ -139,7 +139,7 @@ namespace CrimsonBoard.Tests
             var blocker = _blockerGo.AddComponent<EnemyView>();
             blocker.CurrentCell = new Vector2Int(2, 2);
 
-            var ctx = MakeCtx(map => map.Register(blocker.CurrentCell, blocker));
+            var ctx = MakeCtx(map => map.RegisterEntity(blocker.CurrentCell, blocker));
             var dir = new RookMoveStrategy().GetMoveDirection(_enemy, ctx, new System.Random(0));
 
             Assert.AreEqual(new Vector2Int(1, 1), dir);
@@ -178,7 +178,7 @@ namespace CrimsonBoard.Tests
 
             var ctx = MakeCtx(map => {
                 for (int i = 0; i < surroundDirs.Length; i++)
-                    map.Register(_enemy.CurrentCell + surroundDirs[i],
+                    map.RegisterEntity(_enemy.CurrentCell + surroundDirs[i],
                         blockerGos[i].GetComponent<EnemyView>());
             });
             var dir = new TowerMoveStrategy().GetMoveDirection(_enemy, ctx, new System.Random(0));
@@ -228,10 +228,10 @@ namespace CrimsonBoard.Tests
 
         // ── Helpers ───────────────────────────────────────────────────────────
 
-        private GameContext MakeCtx(System.Action<OccupancyMap> register = null)
+        private GameContext MakeCtx(System.Action<TileMap> register = null)
         {
             var ctx = new GameContext(_cfg);
-            register?.Invoke(ctx.OccupancyMap);
+            register?.Invoke(ctx.TileMap);
             ctx.Player = _player;
             return ctx;
         }

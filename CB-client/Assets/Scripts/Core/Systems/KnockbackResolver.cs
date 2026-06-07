@@ -19,7 +19,7 @@ namespace CrimsonBoard
         /// <param name="playerPos">Current player cell.</param>
         /// <param name="enemyDir">Direction the enemy was moving when it hit the player.</param>
         /// <param name="map">Current occupancy map.</param>
-        public static Vector2Int? Resolve(Vector2Int playerPos, Vector2Int enemyDir, OccupancyMap map)
+        public static Vector2Int? Resolve(Vector2Int playerPos, Vector2Int enemyDir, TileMap map)
         {
             // Primary: opposite of enemy movement direction
             var primary = playerPos - enemyDir;

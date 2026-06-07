@@ -13,11 +13,11 @@ namespace CrimsonBoard
         public static void DissolveAndReturn(
             EnemyView enemy,
             Vector2Int cell,
-            OccupancyMap occupancyMap,
+            TileMap tileMap,
             GamePools pools,
             Action onComplete = null)
         {
-            occupancyMap.Unregister(cell);
+            tileMap.UnregisterEntity(cell);
             enemy.Collider.enabled = false;
             enemy.Dissolve.Play(() =>
             {
@@ -34,7 +34,7 @@ namespace CrimsonBoard
         /// </summary>
         public static void DissolveAllAndReturn(
             IReadOnlyList<EnemyView> enemies,
-            OccupancyMap occupancyMap,
+            TileMap tileMap,
             GamePools pools,
             Action onAllComplete = null)
         {
@@ -55,7 +55,7 @@ namespace CrimsonBoard
             {
                 var enemy = enemies[i];
                 var cell = cells[i];
-                DissolveAndReturn(enemy, cell, occupancyMap, pools, () =>
+                DissolveAndReturn(enemy, cell, tileMap, pools, () =>
                 {
                     if (--remaining == 0)
                         onAllComplete?.Invoke();

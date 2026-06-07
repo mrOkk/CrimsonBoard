@@ -6,32 +6,36 @@ namespace CrimsonBoard
     public class WeaponPickupSystem : IGameSystem
     {
         private readonly GameContext _context;
-        private readonly List<WeaponView> _dropped = new();
+        private readonly HashSet<WeaponView> _trackedWeapons = new();
 
         public WeaponPickupSystem(GameContext context)
         {
             _context = context;
         }
 
-        public void Initialize() { }
+        public void Initialize()
+        {
+            _context.Board.WeaponDropped += OnWeaponDropped;
+        }
+
         public void Tick(float deltaTime) { }
 
         public void Dispose()
         {
-            foreach (var w in _dropped)
-                w.TriggerEntered = null;
-            _dropped.Clear();
+            _context.Board.WeaponDropped -= OnWeaponDropped;
+            _trackedWeapons.Clear();
         }
 
-        public void RegisterDropped(WeaponView weapon)
+        private void OnWeaponDropped(WeaponView weapon)
         {
-            _dropped.Add(weapon);
-            weapon.TriggerEntered += OnWeaponTrigger;
+            _trackedWeapons.Add(weapon);
         }
 
-        private void OnWeaponTrigger(WeaponView weapon, Collider other)
+        public void TryPickupAt(Vector2Int cell)
         {
-            if (other.gameObject != _context.Player.gameObject) return;
+            var weapon = _context.TileMap.GetWeapon(cell);
+            if (weapon == null) return;
+            if (!_trackedWeapons.Contains(weapon)) return;
 
             var inventory = _context.Inventory;
             var weaponCfg = System.Array.Find(_context.Config.weapons, w => w.id == weapon.WeaponId);
@@ -44,8 +48,8 @@ namespace CrimsonBoard
             if (isNew)
                 inventory.SwitchTo(weapon.WeaponId);
 
-            weapon.TriggerEntered -= OnWeaponTrigger;
-            _dropped.Remove(weapon);
+            _trackedWeapons.Remove(weapon);
+            _context.TileMap.UnregisterWeapon(cell);
             weapon.SetEquippedMode();
             _context.Pools.GetWeaponPool(weapon.WeaponId)?.Return(weapon);
         }
