@@ -20,8 +20,8 @@ namespace CrimsonBoard
         {
             Debug.Log("[TapToStartState] Enter");
 
-            _context.GameFieldSystem = new GameFieldSystem(_context);
-            _context.GameFieldSystem.Initialize();
+            _context.TileMap.Spawn();
+            _context.Board = new GameBoard();
 
             new PlayerSpawnSystem(_context).Initialize();
 

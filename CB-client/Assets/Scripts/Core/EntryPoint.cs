@@ -11,11 +11,13 @@ namespace CrimsonBoard
         [SerializeField] private GameConfig _config;
         [SerializeField] private Camera _camera;
         [SerializeField] private UiRoot _uiRoot;
+        [SerializeField] private int _targetFrameRate = 60;
 
         private GameStateMachine _fsm;
 
         private void Awake()
         {
+            Application.targetFrameRate = _targetFrameRate;
             var context = new GameContext(_config);
             context.Camera = _camera != null ? _camera : Camera.main;
             context.UiRoot = _uiRoot;

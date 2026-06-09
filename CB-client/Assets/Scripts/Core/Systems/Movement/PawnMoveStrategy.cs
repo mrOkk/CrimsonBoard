@@ -13,22 +13,35 @@ namespace CrimsonBoard
         {
             var playerCell = ctx.Player?.CurrentCell ?? Vector2Int.zero;
             Vector2Int? best = null;
-            int bestDist = int.MaxValue;
+            var bestDist = int.MaxValue;
 
-            foreach (var dir in Cardinals)
+            for (var index = 0; index < Cardinals.Length; index++)
             {
+                var dir = Cardinals[index];
                 var target = enemy.CurrentCell + dir;
-                var occupant = ctx.OccupancyMap.GetEntity(target);
-                bool passable = occupant == null || occupant is PlayerView;
-                if (!passable) continue;
 
-                int dist = Mathf.Abs(target.x - playerCell.x) + Mathf.Abs(target.y - playerCell.y);
+                if (!ctx.TileMap.IsValidCell(target))
+                {
+                    continue;
+                }
+
+                var occupant = ctx.TileMap.GetEntity(target);
+                var passable = occupant == null || occupant is PlayerView;
+
+                if (!passable)
+                {
+                    continue;
+                }
+
+                var dist = Mathf.Abs(target.x - playerCell.x) + Mathf.Abs(target.y - playerCell.y);
+
                 if (dist < bestDist)
                 {
                     bestDist = dist;
                     best = dir;
                 }
             }
+
             return best;
         }
     }

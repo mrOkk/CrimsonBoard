@@ -18,5 +18,6 @@ namespace CrimsonBoard
         public float holsterTime = 0.3f;
         public float drawTime = 0.3f;
         public int maxTargetsPerBullet = 1;
+        public float projectileRadius = 0.2f;
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace CrimsonBoard
@@ -6,21 +7,29 @@ namespace CrimsonBoard
     public class EnemySpawnSystem : IGameSystem
     {
         private readonly GameContext _context;
+        private EnemyConfig[] _enemyConfigs;
+        private HealthSystem _healthSystem;
 
         private int _currentWaveIndex;
         private float _waveTimer;
         private float _spawnTimer;
-        private readonly List<EnemyView> _activeEnemies = new List<EnemyView>();
 
-        /// <summary>All currently alive enemies managed by this system.</summary>
-        public IReadOnlyList<EnemyView> ActiveEnemies => _activeEnemies;
-
-        /// <summary>Invoked when an enemy is spawned. Subscribers assign per-enemy state.</summary>
         public System.Action<EnemyView> EnemySpawned;
 
-        public EnemySpawnSystem(GameContext context)
+        public EnemySpawnSystem(GameContext context, HealthSystem healthSystem)
         {
             _context = context;
+            _healthSystem = healthSystem;
+            _enemyConfigs = new EnemyConfig[_context.Config.enemies.Max(e => e.id) + 1];
+
+            foreach (var cfg in _context.Config.enemies)
+            {
+                if (_enemyConfigs[cfg.id] != null)
+                {
+                    Debug.LogWarning($"[EnemySpawnSystem] Duplicate EnemyConfig id={cfg.id}");
+                }
+                _enemyConfigs[cfg.id] = cfg;
+            }
         }
 
         public void Initialize()
@@ -63,7 +72,7 @@ namespace CrimsonBoard
         /// <summary>Called by HealthSystem when an enemy's HP reaches zero.</summary>
         public void OnEnemyDied(EnemyView enemy)
         {
-            _activeEnemies.Remove(enemy);
+            _context.Board.UnregisterEnemy(enemy);
         }
 
         // ── Private helpers ─────────────────────────────────────────────────
@@ -81,21 +90,33 @@ namespace CrimsonBoard
         {
             var wave = CurrentWave;
 
-            int alive = _activeEnemies.Count;
+            int alive = _context.Board.ActiveEnemies.Count;
             if (alive >= wave.maxAliveEnemies) return;
 
             var batchRange = wave.spawnBatchSizeRange;
             int batch = _context.SharedRandom.Next(batchRange.x, batchRange.y + 1);
             batch = Mathf.Min(batch, wave.maxAliveEnemies - alive);
 
-            var border = _context.GameFieldSystem.GetBorderTiles();
-            Shuffle(border);
+            var shuffledIndexes = _context.TileMap.GetShuffledIndexes();
+            var playerCell = _context.Player.CurrentCell;
 
             int spawned = 0;
-            foreach (var cell in border)
+
+            for (var i = 0; i < shuffledIndexes.Length && spawned < batch; i++)
             {
-                if (spawned >= batch) break;
-                if (_context.OccupancyMap.IsOccupied(cell)) continue;
+                var cellIndex = shuffledIndexes[i];
+                var cell = _context.TileMap.IndexToCell(cellIndex);
+
+                if (_context.TileMap.IsOccupied(cell))
+                {
+                    continue;
+                }
+
+                var dist = Vector2Int.Distance(cell, playerCell);
+                if (dist < _context.Config.spawn.minDistanceFromPlayer)
+                {
+                    continue;
+                }
 
                 SpawnEnemyAt(cell, wave);
                 spawned++;
@@ -104,8 +125,9 @@ namespace CrimsonBoard
 
         private void SpawnEnemyAt(Vector2Int cell, WaveConfig wave)
         {
-            int enemyId = PickEnemyId(wave);
-            var cfg = System.Array.Find(_context.Config.enemies, e => e.id == enemyId);
+            var enemyId = PickEnemyId(wave);
+            var cfg = _enemyConfigs[enemyId]; // Assume configs are properly populated and indexed by ID; null check below just in case
+
             if (cfg == null)
             {
                 Debug.LogWarning($"[EnemySpawnSystem] No EnemyConfig for id={enemyId}");
@@ -115,9 +137,16 @@ namespace CrimsonBoard
             var enemy = _context.Pools.Enemies.Get();
             enemy.Setup(cfg);
             enemy.CurrentCell = cell;
-            enemy.transform.position = ChunkCoordConverter.TileToWorld(cell, _context.Config.board);
-            _context.OccupancyMap.Register(cell, enemy);
-            _activeEnemies.Add(enemy);
+            enemy.transform.position = _context.TileMap.CellToWorld(cell);
+            _context.TileMap.RegisterEntity(cell, enemy);
+            _context.Board.RegisterEnemy(enemy);
+
+            enemy.Health.OnDeath += () =>
+            {
+                if (_healthSystem != null)
+                    _healthSystem.OnEnemyDeath(enemy, enemy.CurrentCell);
+            };
+
             EnemySpawned?.Invoke(enemy);
         }
 
@@ -126,27 +155,28 @@ namespace CrimsonBoard
         /// </summary>
         public static int PickEnemyId(EnemySpawnEntry[] entries, System.Random rng)
         {
-            float total = 0f;
-            foreach (var entry in entries) total += entry.weight;
-            float roll = (float)(rng.NextDouble() * total);
-            float acc = 0f;
-            foreach (var entry in entries)
+            var total = 0f;
+
+            for (var index = 0; index < entries.Length; index++)
             {
+                var entry = entries[index];
+                total += entry.weight;
+            }
+
+            var roll = (float)(rng.NextDouble() * total);
+            var acc = 0f;
+
+            for (var index = 0; index < entries.Length; index++)
+            {
+                var entry = entries[index];
                 acc += entry.weight;
+
                 if (roll < acc) return entry.enemyId;
             }
-            return entries[entries.Length - 1].enemyId;
+
+            return entries[^1].enemyId;
         }
 
         private int PickEnemyId(WaveConfig wave) => PickEnemyId(wave.enemyTypes, _context.SharedRandom);
-
-        private void Shuffle<T>(List<T> list)
-        {
-            for (int i = list.Count - 1; i > 0; i--)
-            {
-                int j = _context.SharedRandom.Next(i + 1);
-                (list[i], list[j]) = (list[j], list[i]);
-            }
-        }
     }
 }

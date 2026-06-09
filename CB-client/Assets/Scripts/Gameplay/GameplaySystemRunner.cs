@@ -18,8 +18,11 @@ namespace CrimsonBoard
 
         public void Initialize()
         {
-            foreach (var system in _systems)
+            for (var index = 0; index < _systems.Count; index++)
+            {
+                var system = _systems[index];
                 system.Initialize();
+            }
         }
 
         public void Tick(float deltaTime)

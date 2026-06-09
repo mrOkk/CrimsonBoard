@@ -12,6 +12,7 @@ namespace CrimsonBoard
         private readonly Dictionary<EnemyType, IMoveStrategy> _strategies;
 
         private float _beatTimer;
+        private readonly List<EnemyView> _tempKeys = new();
 
         public EnemyMovementSystem(GameContext context, GridMovementSystem gridMovement)
         {
@@ -35,25 +36,31 @@ namespace CrimsonBoard
             float prevTimer = _beatTimer;
             _beatTimer += deltaTime;
 
-            var keys = new List<EnemyView>(_states.Keys);
+            _tempKeys.Clear();
+            _tempKeys.AddRange(_states.Keys);
 
-            foreach (var enemy in keys)
+            for (var index = 0; index < _tempKeys.Count; index++)
             {
+                var enemy = _tempKeys[index];
+
                 if (!_states.TryGetValue(enemy, out var state)) continue;
 
                 float triggerTime = state.phaseOffset * beatDuration;
+
                 if (!CrossedThreshold(prevTimer, _beatTimer, triggerTime, beatDuration)) continue;
 
                 if (state.cooldownTicksLeft > 0)
                 {
                     state.cooldownTicksLeft--;
                     _states[enemy] = state;
+
                     continue;
                 }
 
                 if (!_strategies.TryGetValue(enemy.Config.enemyType, out var strategy)) continue;
 
                 var dir = strategy.GetMoveDirection(enemy, _context, _context.SharedRandom);
+
                 if (dir.HasValue)
                 {
                     _gridMovement.TryMove(enemy, dir.Value);
@@ -90,7 +97,10 @@ namespace CrimsonBoard
         private static bool CrossedThreshold(float prev, float next, float threshold, float period)
         {
             if (next < period)
+            {
                 return prev < threshold && next >= threshold;
+            }
+
             // Wrapped around
             float wrapped = next - period;
             return prev < threshold || wrapped >= threshold;

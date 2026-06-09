@@ -30,14 +30,16 @@ namespace CrimsonBoard
         public override void Tick(float deltaTime)
         {
             var ctx = GameContext.Instance;
-            if (ctx?.Player == null) return;
+            if (ctx?.Player == null)
+            {
+                return;
+            }
 
-            _healthText.text = $"{ctx.Player.Health.CurrentHp:0} / {ctx.Player.Health.MaxHp:0}";
+            _healthText.SetText("{0:0} / {1:0}", ctx.Player.Health.CurrentHp, ctx.Player.Health.MaxHp);
             _ammoText.text = "\u221e";
-            _scoreText.text = ctx.Stats.Score.ToString();
-
+            _scoreText.SetText("{0}", ctx.Stats.Score);
             var t = ctx.Stats.ElapsedBattleTime;
-            _timeText.text = $"{(int)t / 60:00}:{(int)t % 60:00}";
+            _timeText.SetText("{0:00}:{1:00}", (int)t / 60, (int)t % 60);
 
             var weapon = ctx.Player.WeaponLocator.GetComponentInChildren<WeaponView>();
             _weaponText.text = weapon != null ? weapon.name : "\u2014";

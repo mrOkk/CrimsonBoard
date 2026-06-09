@@ -4,6 +4,8 @@ namespace CrimsonBoard
 {
     public class EntityView : MonoBehaviour
     {
+        private enum HopPhase { Idle, Windup, Hop, Knockback }
+
         [SerializeField] private MeshFilter _meshFilter;
         [SerializeField] private Rigidbody _rigidbody;
         [SerializeField] private Collider _collider;
@@ -14,14 +16,18 @@ namespace CrimsonBoard
 
         public Vector2Int CurrentCell { get; set; }
         public bool IsMoving => _hopPhase != HopPhase.Idle;
+        public bool IsKnockback => _knockbackActive;
 
-        private enum HopPhase { Idle, Windup, Hop }
         private HopPhase _hopPhase = HopPhase.Idle;
         private Vector3 _hopFrom;
         private Vector3 _hopTo;
         private Vector3 _windupOffset;
         private float _hopTimer;
         private HopConfig _hopConfig;
+
+        private bool _knockbackActive;
+        private Vector3 _knockbackVelocity;
+        private Vector2Int _knockbackTargetCell;
 
         public void StartHop(Vector2Int dir, Vector3 from, Vector3 to, HopConfig config)
         {
@@ -35,7 +41,10 @@ namespace CrimsonBoard
 
         public void TickHop(float dt)
         {
-            if (_hopPhase == HopPhase.Idle) return;
+            if (_hopPhase == HopPhase.Idle)
+            {
+                return;
+            }
 
             _hopTimer += dt;
 
@@ -64,6 +73,46 @@ namespace CrimsonBoard
                     _hopPhase = HopPhase.Idle;
                 }
             }
+        }
+
+        public void StartKnockback(Vector2Int fromCell, Vector2Int toCell, KnockbackConfig config, BoardConfig boardConfig)
+        {
+            _knockbackActive = true;
+            _hopPhase = HopPhase.Knockback;
+            _knockbackTargetCell = toCell;
+            var tileMap = GameContext.Instance.TileMap;
+            var fromPos = tileMap.CellToWorld(fromCell);
+            var toPos = tileMap.CellToWorld(toCell);
+            _knockbackVelocity = (toPos - fromPos).normalized * config.initialSpeed;
+        }
+
+        public void TickKnockback(float dt, Vector2Int? inputDir, KnockbackConfig config, BoardConfig boardConfig)
+        {
+            if (!_knockbackActive)
+            {
+                return;
+            }
+
+            if (inputDir.HasValue)
+            {
+                var inputWorld = new Vector3(inputDir.Value.x, 0f, inputDir.Value.y);
+                _knockbackVelocity += inputWorld * (config.playerInfluence * dt);
+            }
+
+            transform.position += _knockbackVelocity * dt;
+
+            _knockbackVelocity -= _knockbackVelocity.normalized * (config.friction * dt);
+            if (_knockbackVelocity.magnitude < 0.1f)
+            {
+                var targetPos = GameContext.Instance.TileMap.CellToWorld(_knockbackTargetCell);
+                transform.position = targetPos;
+                _knockbackActive = false;
+            }
+        }
+
+        public void CancelKnockback()
+        {
+            _knockbackActive = false;
         }
     }
 }

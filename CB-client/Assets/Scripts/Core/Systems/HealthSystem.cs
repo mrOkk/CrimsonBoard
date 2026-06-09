@@ -41,6 +41,7 @@ namespace CrimsonBoard
         /// <param name="playerCell">Current cell of the player.</param>
         public void ApplyDamageToPlayer(EnemyView enemy, Vector2Int enemyDir, Vector2Int playerCell)
         {
+            // return; // TODO: re-enable when enemy movement is implemented
             _context.Player.Health.TakeDamage(enemy.Config.damage);
 
             if (_context.Player.Health.IsDead)
@@ -49,15 +50,14 @@ namespace CrimsonBoard
                 return;
             }
 
-            var targetCell = KnockbackResolver.Resolve(playerCell, enemyDir, _context.OccupancyMap);
+            var targetCell = KnockbackResolver.Resolve(playerCell, enemyDir, _context.TileMap);
             if (targetCell.HasValue)
             {
-                _context.OccupancyMap.Unregister(playerCell);
+                _context.TileMap.UnregisterEntity(playerCell);
                 _context.Player.CurrentCell = targetCell.Value;
-                _context.Player.transform.position = ChunkCoordConverter.TileToWorld(targetCell.Value, _context.Config.board);
-                _context.OccupancyMap.Register(targetCell.Value, _context.Player);
+                _context.TileMap.RegisterEntity(targetCell.Value, _context.Player);
+                _context.Player.StartKnockback(playerCell, targetCell.Value, _context.Config.knockback, _context.Config.board);
             }
-            // else: all cells occupied — only damage applied, player stays
         }
 
         /// <summary>
@@ -66,36 +66,45 @@ namespace CrimsonBoard
         public void OnEnemyDeath(EnemyView enemy, Vector2Int enemyCell)
         {
             EnemyDeathCallback?.Invoke(enemy);
-            DissolveService.DissolveAndReturn(enemy, enemyCell, _context.OccupancyMap, _context.Pools);
+            DissolveService.DissolveAndReturn(enemy, enemyCell, _context.TileMap, _context.Pools);
             TryDropWeapon(enemyCell);
         }
 
         private void TryDropWeapon(Vector2Int enemyCell)
         {
             var weapons = _context.Config.weapons;
-            float totalWeight = 0f;
-            foreach (var w in weapons)
-                if (w.dropChance > 0f) totalWeight += w.dropChance;
-            if (totalWeight <= 0f) return;
+            var totalWeight = 0f;
 
-            float roll = (float)(_context.SharedRandom.NextDouble() * totalWeight);
-            float acc = 0f;
-            WeaponConfig chosen = null;
-            foreach (var w in weapons)
+            for (var index = 0; index < weapons.Length; index++)
             {
-                if (w.dropChance <= 0f) continue;
-                acc += w.dropChance;
-                if (roll < acc) { chosen = w; break; }
+                var w = weapons[index];
+                if (w.dropChance > 0f) totalWeight += w.dropChance;
             }
-            if (chosen == null) return;
 
-            var pool = _context.Pools.GetWeaponPool(chosen.id);
-            if (pool == null) return;
+            if (totalWeight <= 0f)
+            {
+                return;
+            }
 
-            var weaponView = pool.Get();
-            var worldPos = ChunkCoordConverter.TileToWorld(enemyCell, _context.Config.board);
-            weaponView.SetDroppedMode(worldPos);
-            WeaponDropped?.Invoke(weaponView);
+            var roll = (float)(_context.SharedRandom.NextDouble() * totalWeight);
+            var acc = 0f;
+
+            for (var index = 0; index < weapons.Length; index++)
+            {
+                var w = weapons[index];
+
+                if (w.dropChance <= 0f)
+                {
+                    continue;
+                }
+
+                acc += w.dropChance;
+
+                if (roll < acc)
+                {
+                    break;
+                }
+            }
         }
     }
 }
