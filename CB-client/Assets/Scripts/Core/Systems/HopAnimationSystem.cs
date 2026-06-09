@@ -16,9 +16,16 @@ namespace CrimsonBoard
         public void Tick(float deltaTime)
         {
             _context.Player?.TickHop(deltaTime);
-            if (_board == null) return;
-            foreach (var enemy in _board.ActiveEnemies)
+            if (_board == null)
+            {
+                return;
+            }
+
+            for (var index = 0; index < _board.ActiveEnemies.Count; index++)
+            {
+                var enemy = _board.ActiveEnemies[index];
                 enemy.TickHop(deltaTime);
+            }
         }
 
         public void Dispose() { }

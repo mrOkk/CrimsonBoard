@@ -11,7 +11,6 @@ namespace CrimsonBoard
         public PowerUpView powerUpPrefab;
         public ProjectileView projectilePrefab;
         public BoardTileView tilePrefab;
-        public ChunkView chunkPrefab;
         public HitEmitter hitEmitterPrefab;
     }
 }

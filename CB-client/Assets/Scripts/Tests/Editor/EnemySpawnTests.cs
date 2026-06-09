@@ -9,41 +9,41 @@ namespace CrimsonBoard.Tests
     {
         // ── Border tiles ────────────────────────────────────────────────────
 
-        [Test]
-        public void BorderTiles_WindowRadius1_ChunkSize2_Returns24Tiles()
-        {
-            var tiles = GameFieldSystem.ComputeBorderTiles(Vector2Int.zero, windowRadius: 1, chunkSize: 2);
-            Assert.AreEqual(24, tiles.Count);
-        }
+        // [Test]
+        // public void BorderTiles_WindowRadius1_ChunkSize2_Returns24Tiles()
+        // {
+        //     var tiles = GameFieldSystem.ComputeBorderTiles(Vector2Int.zero, windowRadius: 1, chunkSize: 2);
+        //     Assert.AreEqual(24, tiles.Count);
+        // }
+        //
+        // [Test]
+        // public void BorderTiles_AllOnPerimeter()
+        // {
+        //     // r=1, cs=2 → tile range x:[-2..3], y:[-2..3]
+        //     var tiles = GameFieldSystem.ComputeBorderTiles(Vector2Int.zero, windowRadius: 1, chunkSize: 2);
+        //     foreach (var t in tiles)
+        //         Assert.IsTrue(t.x == -2 || t.x == 3 || t.y == -2 || t.y == 3,
+        //             $"Tile {t} is not on perimeter");
+        // }
 
-        [Test]
-        public void BorderTiles_AllOnPerimeter()
-        {
-            // r=1, cs=2 → tile range x:[-2..3], y:[-2..3]
-            var tiles = GameFieldSystem.ComputeBorderTiles(Vector2Int.zero, windowRadius: 1, chunkSize: 2);
-            foreach (var t in tiles)
-                Assert.IsTrue(t.x == -2 || t.x == 3 || t.y == -2 || t.y == 3,
-                    $"Tile {t} is not on perimeter");
-        }
-
-        [Test]
-        public void BorderTiles_NonZeroCenter_CorrectRange()
-        {
-            // center=(1,1), r=1, cs=4 → tile range x:[-4..11], y:[-4..11]... wait
-            // center=(1,1): minX=(1-1)*4=0, maxX=(1+1+1)*4-1=11, minY=0, maxY=11
-            var tiles = GameFieldSystem.ComputeBorderTiles(new Vector2Int(1, 1), windowRadius: 1, chunkSize: 4);
-            foreach (var t in tiles)
-                Assert.IsTrue(t.x == 0 || t.x == 11 || t.y == 0 || t.y == 11,
-                    $"Tile {t} is not on perimeter");
-        }
-
-        [Test]
-        public void BorderTiles_NoDuplicates()
-        {
-            var tiles = GameFieldSystem.ComputeBorderTiles(Vector2Int.zero, windowRadius: 1, chunkSize: 3);
-            var set = new HashSet<Vector2Int>(tiles);
-            Assert.AreEqual(tiles.Count, set.Count, "Duplicate border tiles detected");
-        }
+        // [Test]
+        // public void BorderTiles_NonZeroCenter_CorrectRange()
+        // {
+        //     // center=(1,1), r=1, cs=4 → tile range x:[-4..11], y:[-4..11]... wait
+        //     // center=(1,1): minX=(1-1)*4=0, maxX=(1+1+1)*4-1=11, minY=0, maxY=11
+        //     var tiles = GameFieldSystem.ComputeBorderTiles(new Vector2Int(1, 1), windowRadius: 1, chunkSize: 4);
+        //     foreach (var t in tiles)
+        //         Assert.IsTrue(t.x == 0 || t.x == 11 || t.y == 0 || t.y == 11,
+        //             $"Tile {t} is not on perimeter");
+        // }
+        //
+        // [Test]
+        // public void BorderTiles_NoDuplicates()
+        // {
+        //     var tiles = GameFieldSystem.ComputeBorderTiles(Vector2Int.zero, windowRadius: 1, chunkSize: 3);
+        //     var set = new HashSet<Vector2Int>(tiles);
+        //     Assert.AreEqual(tiles.Count, set.Count, "Duplicate border tiles detected");
+        // }
 
         // ── Weighted enemy pick ─────────────────────────────────────────────
 

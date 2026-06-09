@@ -13,8 +13,8 @@ namespace CrimsonBoard
         private int? _activeWeaponId;
         private bool _isSwitching;
         private float _shotTimer;
-        private UniTask _switchTask;
-        private CancellationTokenSource _switchCts;
+        // private UniTask _switchTask;
+        // private CancellationTokenSource _switchCts;
         private Transform _weaponLocator;
         private bool _initialized;
 
@@ -35,24 +35,40 @@ namespace CrimsonBoard
 
         public void Tick(float deltaTime)
         {
-            if (_isSwitching) return;
+            if (_isSwitching)
+            {
+                return;
+            }
 
             EnsureWeaponsAttached();
             UpdateActiveWeapon();
 
             var activeId = _context.Inventory.ActiveWeaponId;
-            if (activeId == null) return;
+            if (activeId == null)
+            {
+                return;
+            }
 
             var cfg = GetWeaponConfig(activeId.Value);
-            if (cfg == null) return;
+            if (cfg == null)
+            {
+                return;
+            }
 
             HideAllWeaponsExcept(activeId.Value);
 
-            if (!CanShoot(cfg)) return;
+            if (!CanShoot(cfg))
+            {
+                return;
+            }
 
             var nearest = FindNearestEnemyInRange(cfg.range);
-            if (nearest == null) return;
+            if (nearest == null)
+            {
+                return;
+            }
 
+            return;
             RotateTowardsEnemy(nearest, cfg.rotationSpeed, deltaTime);
 
             _shotTimer -= deltaTime;
@@ -65,9 +81,9 @@ namespace CrimsonBoard
 
         public void Dispose()
         {
-            _switchCts?.Cancel();
-            _switchCts?.Dispose();
-            _switchCts = null;
+            // _switchCts?.Cancel();
+            // _switchCts?.Dispose();
+            // _switchCts = null;
 
             foreach (var kv in _equippedWeapons)
             {
@@ -82,8 +98,10 @@ namespace CrimsonBoard
 
         private void EnsureWeaponsAttached()
         {
-            foreach (var wid in _context.Inventory.WeaponIds)
+            for (var index = 0; index < _context.Inventory.WeaponIds.Count; index++)
             {
+                var wid = _context.Inventory.WeaponIds[index];
+
                 if (!_attachedIds.Contains(wid))
                 {
                     AttachWeapon(wid);
@@ -102,7 +120,7 @@ namespace CrimsonBoard
                 ? _weaponLocator.InverseTransformPoint(wv.PlayerAttachPoint.position)
                 : Vector3.zero;
             wv.transform.localRotation = Quaternion.identity;
-            wv.SetEquippedMode();
+            // wv.SetEquippedMode();
 
             _equippedWeapons[weaponId] = wv;
             _attachedIds.Add(weaponId);
@@ -111,11 +129,14 @@ namespace CrimsonBoard
         private void UpdateActiveWeapon()
         {
             var newActive = _context.Inventory.ActiveWeaponId;
-            if (newActive == _activeWeaponId) return;
+            if (newActive == _activeWeaponId)
+            {
+                return;
+            }
 
-            _switchCts?.Cancel();
-            _switchCts = new CancellationTokenSource();
-            _switchTask = SwitchWeaponRoutine(_activeWeaponId, newActive, _switchCts.Token);
+            // _switchCts?.Cancel();
+            // _switchCts = new CancellationTokenSource();
+            // _switchTask = SwitchWeaponRoutine(_activeWeaponId, newActive, _switchCts.Token);
             _activeWeaponId = newActive;
         }
 
@@ -205,10 +226,14 @@ namespace CrimsonBoard
             var playerPos = _context.Player.transform.position;
             var board = _context.Board;
 
-            foreach (var enemy in board.ActiveEnemies)
+            for (var index = 0; index < board.ActiveEnemies.Count; index++)
             {
+                var enemy = board.ActiveEnemies[index];
+
                 if (enemy == null || enemy.Health.IsDead) continue;
+
                 float dist = Vector3.SqrMagnitude(playerPos - enemy.transform.position);
+
                 if (dist <= nearestDist)
                 {
                     nearestDist = dist;
@@ -232,10 +257,16 @@ namespace CrimsonBoard
 
         private void TryFireShot(WeaponConfig cfg, EnemyView target)
         {
-            if (!_equippedWeapons.TryGetValue(cfg.id, out var wv)) return;
+            if (!_equippedWeapons.TryGetValue(cfg.id, out var wv))
+            {
+                return;
+            }
 
             var muzzle = wv.MuzzlePoint;
-            if (muzzle == null) return;
+            if (muzzle == null)
+            {
+                return;
+            }
 
             var dir = (target.transform.position - muzzle.position);
             dir.y = 0f;
@@ -248,20 +279,34 @@ namespace CrimsonBoard
             proj.Launch(dir, 30f, cfg.damage, cfg.maxTargetsPerBullet, cfg.range, cfg.projectileRadius);
 
             if (!cfg.infiniteAmmo)
+            {
                 _context.Inventory.AddAmmo(cfg.id, -1);
+            }
         }
 
         private Vector3 ApplySpread(Vector3 dir, float spread)
         {
-            if (spread <= 0f) return dir;
-            float angle = Random.Range(-spread, spread);
+            if (spread <= 0f)
+            {
+                return dir;
+            }
+
+            var angle = Random.Range(-spread, spread);
             return Quaternion.Euler(0f, angle, 0f) * dir;
         }
 
         private WeaponConfig GetWeaponConfig(int weaponId)
         {
-            foreach (var w in _context.Config.weapons)
-                if (w.id == weaponId) return w;
+            for (var index = 0; index < _context.Config.weapons.Length; index++)
+            {
+                var w = _context.Config.weapons[index];
+
+                if (w.id == weaponId)
+                {
+                    return w;
+                }
+            }
+
             return null;
         }
     }

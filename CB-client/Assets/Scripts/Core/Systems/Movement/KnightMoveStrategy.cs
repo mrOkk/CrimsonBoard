@@ -18,11 +18,15 @@ namespace CrimsonBoard
             int myRank = enemy.Config.rank;
 
             // Early landing: if player is on any intermediate cell, step toward it
-            foreach (var lMove in LMoves)
+            for (var index = 0; index < LMoves.Length; index++)
             {
+                var lMove = LMoves[index];
                 var intermediates = GetIntermediateCells(enemy.CurrentCell, lMove);
-                foreach (var iCell in intermediates)
+
+                for (var i = 0; i < intermediates.Count; i++)
                 {
+                    var iCell = intermediates[i];
+
                     if (iCell == playerCell)
                         return GetStepToward(enemy.CurrentCell, iCell);
                 }
@@ -32,8 +36,9 @@ namespace CrimsonBoard
             Vector2Int? best = null;
             int bestDist = int.MaxValue;
 
-            foreach (var lMove in LMoves)
+            for (var index = 0; index < LMoves.Length; index++)
             {
+                var lMove = LMoves[index];
                 var target = enemy.CurrentCell + lMove;
                 var occupant = ctx.TileMap.GetEntity(target);
 
@@ -49,21 +54,30 @@ namespace CrimsonBoard
                 {
                     // Equal or higher rank — try fallback to last free intermediate cell
                     var fallback = GetLastFreeIntermediate(enemy.CurrentCell, lMove, ctx.TileMap);
+
                     if (fallback.HasValue)
                     {
                         int fd = Manhattan(fallback.Value, playerCell);
+
                         if (fd < bestDist)
                         {
                             bestDist = fd;
                             best = GetStepToward(enemy.CurrentCell, fallback.Value);
                         }
                     }
+
                     continue;
                 }
 
                 int dist = Manhattan(target, playerCell);
-                if (dist < bestDist) { bestDist = dist; best = lMove; }
+
+                if (dist < bestDist)
+                {
+                    bestDist = dist;
+                    best = lMove;
+                }
             }
+
             return best;
         }
 
@@ -92,8 +106,13 @@ namespace CrimsonBoard
         {
             var cells = GetIntermediateCells(from, lMove);
             Vector2Int? last = null;
-            foreach (var c in cells)
+
+            for (var index = 0; index < cells.Count; index++)
+            {
+                var c = cells[index];
                 if (!map.IsOccupied(c)) last = c;
+            }
+
             return last;
         }
 

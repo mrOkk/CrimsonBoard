@@ -15,15 +15,19 @@ namespace CrimsonBoard
             Enemies = new ObjectPool<EnemyView>(prefabs.enemyPrefab, PoolConstants.Enemies);
 
             var weapons = new Dictionary<int, ObjectPool<WeaponView>>();
-            foreach (var entry in prefabs.weaponPrefabs)
+
+            for (var index = 0; index < prefabs.weaponPrefabs.Length; index++)
             {
-                int id = entry.weaponId;
+                var entry = prefabs.weaponPrefabs[index];
+                var id = entry.weaponId;
+
                 weapons[id] = new ObjectPool<WeaponView>(
                     entry.prefab,
                     PoolConstants.WeaponsPerType,
                     w => w.SetWeaponId(id)
                 );
             }
+
             Weapons = weapons;
 
             Projectiles = new ObjectPool<ProjectileView>(prefabs.projectilePrefab, PoolConstants.Projectiles);

@@ -89,3 +89,30 @@ var position = transform.position;
 int damage = CalculateDamage();
 float healthRatio = currentHealth / maxHealth;
 ```
+
+## Loops
+
+Use `for` loop instead of `foreach` where possible:
+
+```csharp
+for (var i = 0; i < items.Count; i++)
+{
+    Process(items[i]);
+}
+```
+
+`foreach` allocates enumerator on each iteration unless collection is an array.
+
+## Performance
+
+Avoid allocations in Update/Tick. Cache temporary collections:
+
+```csharp
+private readonly List<int> _tempIndices = new();
+
+public void Tick()
+{
+    _tempIndices.Clear();
+    // use _tempIndices instead of allocating new list
+}
+```

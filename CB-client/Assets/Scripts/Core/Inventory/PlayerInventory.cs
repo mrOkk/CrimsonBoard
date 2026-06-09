@@ -78,9 +78,21 @@ namespace CrimsonBoard
         private WeaponConfig GetWeaponConfig(int weaponId)
         {
             var ctx = GameContext.Instance;
-            if (ctx == null || ctx.Config == null) return null;
-            foreach (var w in ctx.Config.weapons)
-                if (w.id == weaponId) return w;
+            if (ctx == null || ctx.Config == null)
+            {
+                return null;
+            }
+
+            for (var index = 0; index < ctx.Config.weapons.Length; index++)
+            {
+                var w = ctx.Config.weapons[index];
+
+                if (w.id == weaponId)
+                {
+                    return w;
+                }
+            }
+
             return null;
         }
     }

@@ -4,6 +4,7 @@ namespace CrimsonBoard
 {
     public struct TileData
     {
+        public BoardTileView TileView;
         public EntityView Occupant;
         public WeaponView DroppedWeapon;
 

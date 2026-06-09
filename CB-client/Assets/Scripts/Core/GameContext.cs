@@ -27,7 +27,7 @@ namespace CrimsonBoard
         {
             Instance = this;
             Config = config;
-            TileMap = new TileMap();
+            TileMap = new TileMap(config);
             SharedRandom = new System.Random(config.spawn.randomSeed);
         }
 

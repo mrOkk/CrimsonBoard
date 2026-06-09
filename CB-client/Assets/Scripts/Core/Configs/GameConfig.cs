@@ -12,7 +12,9 @@ namespace CrimsonBoard
         public BoardConfig board;
         public PrefabsConfig prefabs;
         public HopConfig hop;
+        public KnockbackConfig knockback;
         public SpawnConfig spawn;
+        public CameraConfig camera;
 
 #if UNITY_EDITOR
         private static GameConfig _editorInstance;

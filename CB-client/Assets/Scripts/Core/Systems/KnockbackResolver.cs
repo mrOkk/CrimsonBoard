@@ -22,17 +22,27 @@ namespace CrimsonBoard
         public static Vector2Int? Resolve(Vector2Int playerPos, Vector2Int enemyDir, TileMap map)
         {
             // Primary: opposite of enemy movement direction
-            var primary = playerPos - enemyDir;
-            if (!map.IsOccupied(primary))
+            var primary = enemyDir;
+            if (!map.IsOccupied(enemyDir))
+            {
                 return primary;
+            }
 
             // Fallback: fixed priority order, skip primary and current position
-            foreach (var dir in FallbackDirs)
+            for (var index = 0; index < FallbackDirs.Length; index++)
             {
+                var dir = FallbackDirs[index];
                 var candidate = playerPos + dir;
-                if (candidate == primary) continue;
+
+                if (candidate == primary)
+                {
+                    continue;
+                }
+
                 if (!map.IsOccupied(candidate))
+                {
                     return candidate;
+                }
             }
 
             return null; // All occupied — no knockback, only damage

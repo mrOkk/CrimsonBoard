@@ -15,7 +15,7 @@ MonoBehaviour:
   player:
     mesh: {fileID: 344591689352541397, guid: efe9a4f73c1398d498fc4a9b8d58691a, type: 3}
     health: 5
-    movesPerBeat: 3
+    movesPerBeat: 5
     movementInputDelay: 0.1
     inputBufferWindow: 0.15
     startingInventory:
@@ -68,6 +68,7 @@ MonoBehaviour:
     holsterTime: 0.3
     drawTime: 0.3
     maxTargetsPerBullet: 1
+    projectileRadius: 0.2
   - id: 1
     name: HeavyPistol
     damage: 3
@@ -81,6 +82,7 @@ MonoBehaviour:
     holsterTime: 0.3
     drawTime: 0.3
     maxTargetsPerBullet: 1
+    projectileRadius: 0.2
   - id: 2
     name: Shotgun
     damage: 1
@@ -94,6 +96,7 @@ MonoBehaviour:
     holsterTime: 0.3
     drawTime: 0.3
     maxTargetsPerBullet: 1
+    projectileRadius: 0.2
   - id: 3
     name: AssaultRifle
     damage: 3
@@ -107,6 +110,7 @@ MonoBehaviour:
     holsterTime: 0.3
     drawTime: 0.3
     maxTargetsPerBullet: 1
+    projectileRadius: 0.2
   - id: 4
     name: SniperRifle
     damage: 10
@@ -120,6 +124,7 @@ MonoBehaviour:
     holsterTime: 0.3
     drawTime: 0.3
     maxTargetsPerBullet: 1
+    projectileRadius: 0.2
   - id: 5
     name: MachineGun
     damage: 2
@@ -133,6 +138,7 @@ MonoBehaviour:
     holsterTime: 0.3
     drawTime: 0.3
     maxTargetsPerBullet: 1
+    projectileRadius: 0.2
   timing:
     beatDuration: 1
     phaseDuration: 0
@@ -141,9 +147,10 @@ MonoBehaviour:
       type: 3}
     lightTile: {fileID: -1240651360386231720, guid: 4d9af5bfe81a5df4186eff7acc434450,
       type: 3}
-    tileSize: {x: 1, y: 1}
-    chunkSize: 16
-    windowRadius: 1
+    sideTile: {fileID: 0}
+    cornerTile: {fileID: 0}
+    tileSize: {x: 1.5, y: 1.5}
+    boardSize: {x: 30, y: 30}
   prefabs:
     playerPrefab: {fileID: 418534059972708883, guid: 94daf7c5c6a7cf444a91b46d370bdfee,
       type: 3}
@@ -173,8 +180,6 @@ MonoBehaviour:
       type: 3}
     tilePrefab: {fileID: 3019201125444322298, guid: c694ecf58e0ddf548a2248e64007f742,
       type: 3}
-    chunkPrefab: {fileID: 1363234183109922341, guid: ab23866500c549143bafdb40fc8327f3,
-      type: 3}
     hitEmitterPrefab: {fileID: 7140017113492776802, guid: 630fe26d75db7de4db72c609e595d6ab,
       type: 3}
   hop:
@@ -182,9 +187,14 @@ MonoBehaviour:
     hopDuration: 0.15
     windupAmplitude: 0.1
     windupDuration: 0.05
+  knockback:
+    initialSpeed: 8
+    friction: 12
+    playerInfluence: 4
   spawn:
     waveInterval: 60
     randomSeed: 0
+    minDistanceFromPlayer: 2
     waves:
     - maxAliveEnemies: 5
       spawnFrequencyRangeSec: {x: 1, y: 3}
@@ -192,3 +202,8 @@ MonoBehaviour:
       enemyTypes:
       - enemyId: 0
         weight: 1
+  camera:
+    CameraAngle: 60
+    CameraDistance: 30
+    CameraFov: 20
+    IsDebugMode: 1

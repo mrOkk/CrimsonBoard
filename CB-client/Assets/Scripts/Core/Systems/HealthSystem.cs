@@ -41,6 +41,7 @@ namespace CrimsonBoard
         /// <param name="playerCell">Current cell of the player.</param>
         public void ApplyDamageToPlayer(EnemyView enemy, Vector2Int enemyDir, Vector2Int playerCell)
         {
+            // return; // TODO: re-enable when enemy movement is implemented
             _context.Player.Health.TakeDamage(enemy.Config.damage);
 
             if (_context.Player.Health.IsDead)
@@ -54,10 +55,9 @@ namespace CrimsonBoard
             {
                 _context.TileMap.UnregisterEntity(playerCell);
                 _context.Player.CurrentCell = targetCell.Value;
-                _context.Player.transform.position = ChunkCoordConverter.TileToWorld(targetCell.Value, _context.Config.board);
                 _context.TileMap.RegisterEntity(targetCell.Value, _context.Player);
+                _context.Player.StartKnockback(playerCell, targetCell.Value, _context.Config.knockback, _context.Config.board);
             }
-            // else: all cells occupied — only damage applied, player stays
         }
 
         /// <summary>
@@ -73,31 +73,38 @@ namespace CrimsonBoard
         private void TryDropWeapon(Vector2Int enemyCell)
         {
             var weapons = _context.Config.weapons;
-            float totalWeight = 0f;
-            foreach (var w in weapons)
-                if (w.dropChance > 0f) totalWeight += w.dropChance;
-            if (totalWeight <= 0f) return;
+            var totalWeight = 0f;
 
-            float roll = (float)(_context.SharedRandom.NextDouble() * totalWeight);
-            float acc = 0f;
-            WeaponConfig chosen = null;
-            foreach (var w in weapons)
+            for (var index = 0; index < weapons.Length; index++)
             {
-                if (w.dropChance <= 0f) continue;
-                acc += w.dropChance;
-                if (roll < acc) { chosen = w; break; }
+                var w = weapons[index];
+                if (w.dropChance > 0f) totalWeight += w.dropChance;
             }
-            if (chosen == null) return;
 
-            var pool = _context.Pools.GetWeaponPool(chosen.id);
-            if (pool == null) return;
+            if (totalWeight <= 0f)
+            {
+                return;
+            }
 
-            var weaponView = pool.Get();
-            weaponView.SetDroppedMode(enemyCell, _context.Config.board);
-            weaponView.CurrentCell = enemyCell;
-            _context.TileMap.RegisterWeapon(enemyCell, weaponView);
-            _context.Board.NotifyWeaponDropped(weaponView);
-            WeaponDropped?.Invoke(weaponView);
+            var roll = (float)(_context.SharedRandom.NextDouble() * totalWeight);
+            var acc = 0f;
+
+            for (var index = 0; index < weapons.Length; index++)
+            {
+                var w = weapons[index];
+
+                if (w.dropChance <= 0f)
+                {
+                    continue;
+                }
+
+                acc += w.dropChance;
+
+                if (roll < acc)
+                {
+                    break;
+                }
+            }
         }
     }
 }

@@ -8,7 +8,6 @@ namespace CrimsonBoard
         private readonly GameStateMachine _fsm;
         private readonly bool _autoStart;
         private CameraFollowSystem _cameraFollowSystem;
-        private GameFieldSystem _gameFieldSystem;
 
         public TapToStartState(GameContext context, GameStateMachine fsm, bool autoStart = false)
         {
@@ -21,8 +20,7 @@ namespace CrimsonBoard
         {
             Debug.Log("[TapToStartState] Enter");
 
-            _gameFieldSystem = new GameFieldSystem(_context);
-            _gameFieldSystem.Initialize();
+            _context.TileMap.Spawn();
             _context.Board = new GameBoard();
 
             new PlayerSpawnSystem(_context).Initialize();
@@ -32,12 +30,12 @@ namespace CrimsonBoard
 
             if (_autoStart)
             {
-                _fsm.ChangeState(new GameplayState(_context, _fsm, _gameFieldSystem));
+                _fsm.ChangeState(new GameplayState(_context, _fsm));
                 return;
             }
 
             var view = _context.UiRoot.GetView<PreBattleView>();
-            view.OnPlayerInput = () => _fsm.ChangeState(new GameplayState(_context, _fsm, _gameFieldSystem));
+            view.OnPlayerInput = () => _fsm.ChangeState(new GameplayState(_context, _fsm));
             _context.UiRoot.Show<PreBattleView>();
         }
 

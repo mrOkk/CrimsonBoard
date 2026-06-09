@@ -25,6 +25,12 @@ namespace CrimsonBoard
         public MoveResult TryMove(EntityView entity, Vector2Int dir)
         {
             var targetCell = entity.CurrentCell + dir;
+
+            if (!_context.TileMap.IsValidCell(targetCell))
+            {
+                return MoveResult.Blocked;
+            }
+
             var tileData = _context.TileMap.GetTile(targetCell);
 
             if (tileData.IsOccupied)
@@ -41,7 +47,7 @@ namespace CrimsonBoard
             _context.TileMap.UnregisterEntity(entity.CurrentCell);
             entity.CurrentCell = targetCell;
             _context.TileMap.RegisterEntity(targetCell, entity);
-            var toPos = ChunkCoordConverter.TileToWorld(targetCell, _context.Config.board);
+            var toPos = _context.TileMap.CellToWorld(targetCell);
             entity.StartHop(dir, fromPos, toPos, _context.Config.hop);
             return MoveResult.Moved;
         }

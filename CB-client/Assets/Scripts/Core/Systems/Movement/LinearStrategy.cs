@@ -15,24 +15,45 @@ namespace CrimsonBoard
         {
             var playerCell = ctx.Player?.CurrentCell ?? Vector2Int.zero;
             Vector2Int? bestDir = null;
-            int bestDist = int.MaxValue;
+            var bestDist = int.MaxValue;
 
-            foreach (var dir in directions)
+            for (var index = 0; index < directions.Length; index++)
             {
-                Vector2Int reached = enemy.CurrentCell;
-                for (int step = 1; step <= maxSteps; step++)
+                var dir = directions[index];
+                var reached = enemy.CurrentCell;
+
+                for (var step = 1; step <= maxSteps; step++)
                 {
                     var next = enemy.CurrentCell + dir * step;
                     var occupant = ctx.TileMap.GetEntity(next);
-                    if (occupant != null && !(occupant is PlayerView)) break; // blocked by non-player
-                    reached = next;
-                    if (occupant is PlayerView) break; // stop at player cell
-                }
-                if (reached == enemy.CurrentCell) continue; // no movement possible this way
 
-                int dist = Mathf.Abs(reached.x - playerCell.x) + Mathf.Abs(reached.y - playerCell.y);
-                if (dist < bestDist) { bestDist = dist; bestDir = dir; }
+                    if (occupant != null && !(occupant is PlayerView))
+                    {
+                        break; // blocked by non-player
+                    }
+
+                    reached = next;
+
+                    if (occupant is PlayerView)
+                    {
+                        break; // stop at player cell
+                    }
+                }
+
+                if (reached == enemy.CurrentCell)
+                {
+                    continue; // no movement possible this way
+                }
+
+                var dist = Mathf.Abs(reached.x - playerCell.x) + Mathf.Abs(reached.y - playerCell.y);
+
+                if (dist < bestDist)
+                {
+                    bestDist = dist;
+                    bestDir = dir;
+                }
             }
+
             return bestDir;
         }
     }
