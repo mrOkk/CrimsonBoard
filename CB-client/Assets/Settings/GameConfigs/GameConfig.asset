@@ -149,7 +149,7 @@ MonoBehaviour:
       type: 3}
     sideTile: {fileID: 0}
     cornerTile: {fileID: 0}
-    tileSize: {x: 1.5, y: 1.5}
+    tileSize: {x: 1, y: 1}
     boardSize: {x: 30, y: 30}
   prefabs:
     playerPrefab: {fileID: 418534059972708883, guid: 94daf7c5c6a7cf444a91b46d370bdfee,
